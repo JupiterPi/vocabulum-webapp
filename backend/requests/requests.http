@@ -1,3 +1,5 @@
 ### /api/ping
 GET {{host}}/api/ping
-Accept: text/plain
+
+### /test/portion
+GET {{host}}/test/portion

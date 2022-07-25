@@ -27,6 +27,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>jupiterpi.vocabulum</groupId>
+			<artifactId>core</artifactId>
+			<version>0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
