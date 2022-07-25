@@ -10,6 +10,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {RouterModule} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {MatRippleModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatListModule,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
