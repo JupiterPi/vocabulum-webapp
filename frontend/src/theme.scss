@@ -1,0 +1,92 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
+$vk-red-palette: (
+  50: #fce9e8,
+  100: #ffccbe,
+  200: #ffab94,
+  300: #ff8869,
+  400: #ff6c49,
+  500: #ff502a,
+  600: #ff4a26,
+  700: #f14321,
+  800: #e33c1c,
+  900: #ca2e13,
+  A100: #ffccbe,
+  A200: #ffab94,
+  A400: #ff6c49,
+  A700: #f14321,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+$vk-blue-palette: (
+  50: #e1f3fd,
+  100: #b4e2f8,
+  200: #84d0f1,
+  300: #58bee7,
+  400: #3db2de,
+  500: #34a6d4,
+  600: #2c97c1,
+  700: #2083a6,
+  800: #16708d,
+  900: #014f61,
+  A100: #b4e2f8,
+  A200: #84d0f1,
+  A400: #3db2de,
+  A700: #2083a6,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+$vk-primary: mat.define-palette($vk-blue-palette, 800, 600, 900, 400);
+/*$vk-accent:  mat.define-palette(mat.$yellow-palette, A200, A100, A400);*/
+$vk-accent:  mat.define-palette($vk-red-palette, 700);
+
+$vk-theme: mat.define-light-theme((
+  color: (
+    primary: $vk-primary,
+    accent: $vk-accent
+  )
+));
+
+@include mat.all-component-themes($vk-theme);
