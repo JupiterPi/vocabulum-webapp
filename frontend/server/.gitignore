@@ -1,0 +1,8 @@
+.idea
+node_modules
+
+dist
+out*
+
+mongodb_connect_url.txt
+views.txt
