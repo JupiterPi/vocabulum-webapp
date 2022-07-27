@@ -11,25 +11,27 @@ import {RouterModule} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
     AppComponent,
     PortionsOverviewComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([
-      {path: "", component: PortionsOverviewComponent}
-    ]),
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    MatListModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatRippleModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot([
+            {path: "", component: PortionsOverviewComponent}
+        ]),
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        MatListModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatTooltipModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

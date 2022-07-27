@@ -31,7 +31,7 @@ mat-toolbar {
 }
 
 .logo-icon {
-  height: 60%;
+  height: 35px;
   margin-right: 15px;
 }
 
@@ -43,4 +43,77 @@ mat-toolbar {
 #filler {
   height: 30%;
   /*background-color: darkslategrey;*/
+}
+
+/*
+#toolbar-navigation-container {
+  position: relative;
+  left: 50%;
+  !*transform: translateX(-50%);*!
+}*/
+
+/*mat-toolbar {
+  display: flex;
+}*/
+
+/* toolbar sections */
+
+#toolbar-container {
+  display: flex;
+  width: 100vw;
+}
+
+.toolbar-section {
+  width: 33%;
+}
+
+#toolbar-section-title {
+  display: flex;
+  align-items: center;
+}
+
+#toolbar-section-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tab-button {
+  width: 45px;
+  height: 45px;
+  background-color: white;
+  //border: #d0d0d0 1px solid;
+  border: none;
+  padding: 5px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: #014f61;
+}
+.tab-button.current-tab {
+  //background-color: #f44336;
+  //border: 2px solid #f44336;
+  color: #f44336;
+}
+
+#toolbar-sections-spacer {
+  display: none;
+}
+@media screen and (max-width: 600px) {
+  .toolbar-section {
+    width: auto;
+  }
+
+  #toolbar-container {
+    gap: 15px;
+  }
+
+  #toolbar-sections-spacer {
+    display: inline-block;
+    flex: 1 1 auto;
+  }
+
+  .tab-button {
+    width: 40px;
+    height: 40px;
+  }
 }

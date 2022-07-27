@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #eeeeee !important;
+  height: 100vh;
 }
 
 .mat-drawer-container {
