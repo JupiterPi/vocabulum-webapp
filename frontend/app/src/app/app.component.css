@@ -82,7 +82,7 @@ mat-toolbar {
   width: 45px;
   height: 45px;
   background-color: white;
-  //border: #d0d0d0 1px solid;
+  /*border: #d0d0d0 1px solid;*/
   border: none;
   padding: 5px;
   border-radius: 15px;
@@ -90,8 +90,8 @@ mat-toolbar {
   color: #014f61;
 }
 .tab-button.current-tab {
-  //background-color: #f44336;
-  //border: 2px solid #f44336;
+  /*background-color: #f44336;
+  border: 2px solid #f44336;*/
   color: #f44336;
 }
 

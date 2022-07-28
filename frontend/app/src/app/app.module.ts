@@ -12,16 +12,23 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { VocabularyViewComponent } from './vocabulary-view/vocabulary-view.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PortionsOverviewComponent
+    PortionsOverviewComponent,
+    VocabularyViewComponent,
+    SearchComponent
   ],
     imports: [
         BrowserModule,
         RouterModule.forRoot([
-            {path: "", component: PortionsOverviewComponent}
+          {path: "", component: PortionsOverviewComponent},
+          {path: "dictionary", component: PortionsOverviewComponent},
+          {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
+          {path: "search", component: SearchComponent}
         ]),
         BrowserAnimationsModule,
         MatSidenavModule,

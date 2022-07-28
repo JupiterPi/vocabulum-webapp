@@ -1,0 +1,34 @@
+<div id="outer-container">
+  <div id="container">
+
+    <div id="kind">
+      <span>{{vocabulary.kind}}</span>
+    </div>
+
+    <div id="base-forms">
+      <!--<span>{{vocabulary.base_forms}}</span>-->
+      <span>voluptas, voluptatis f.</span>
+    </div>
+
+    <div id="translations">
+      <div class="translation" *ngFor="let translation of vocabulary.translations" [class.important]="translation.important">{{translation.translation}}</div>
+    </div>
+
+    <div id="meta-outer-container">
+      <div class="meta-container" *ngFor="let meta of vocabulary.meta">
+        <span class="meta-name">{{meta.name}}</span>
+        <span class="meta-value">{{meta.value}}</span>
+      </div>
+    </div>
+
+    <div id="actions-container">
+      <a class="action" mat-ripple routerLink="/search" [queryParams]="{q: vocabulary.base_form}">
+        Identify form
+      </a>
+      <a class="action" mat-ripple>
+        Generate form
+      </a>
+    </div>
+
+  </div>
+</div>

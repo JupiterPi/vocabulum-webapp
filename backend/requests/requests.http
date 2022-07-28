@@ -3,3 +3,6 @@ GET {{host}}/api/ping
 
 ### /test/portion
 GET {{host}}/test/portion
+
+### /test/vocabulary/:base_form
+GET {{host}}/test/vocabulary/sol
