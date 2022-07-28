@@ -1,5 +1,9 @@
 <div id="container">
 
+  <div id="search-button-container">
+    <a class="button" routerLink="/search" mat-ripple>Search</a>
+  </div>
+
   <div class="portion-container" *ngFor="let portion of portions; let i = index">
 
     <div class="portion-header" mat-ripple (click)="toggleExpand(i)" [class.expanded]="isExpanded(i)">
@@ -13,7 +17,7 @@
     <ng-container *ngIf="isExpanded(i)">
       <div class="blocks-container">
         <div class="block" *ngFor="let block of portion.vocabularyBlocks">
-          <div class="block-item" *ngFor="let vocabulary of block" mat-ripple>
+          <div class="block-item" *ngFor="let vocabulary of block" mat-ripple (click)="openVocabularyPage(vocabulary)">
             <div class="vocabulary-inner-container vocabulary-latin-container">
               <span class="vocabulary-base-form">{{vocabulary.base_form}}</span>
             </div>

@@ -42,8 +42,23 @@ snack-bar-container.error {
   --t-casl: "CASL" 0;
   --t-wght: "wght" 500;
   --t-wght-bolder: "wght" 700;
+  --t-wght-lighter: 300;
   --t-slnt: "slnt" 0;
   --t-slnt-slight: "slnt" -6;
   --t-CRSV: "CRSV" 1;
   /*font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt), var(--t-CRSV);*/
+}
+
+a, a:hover, a:visited, a:active {
+  color: unset;
+  text-decoration: none;
+}
+
+a.button {
+  background-color: white;
+  border: #d0d0d0 1px solid;
+  border-radius: 15px;
+  padding: 10px 15px;
+  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght-bolder), var(--t-slnt), var(--t-CRSV);
+  font-size: 15px;
 }

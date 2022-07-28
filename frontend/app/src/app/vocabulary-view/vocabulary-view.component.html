@@ -6,8 +6,7 @@
     </div>
 
     <div id="base-forms">
-      <!--<span>{{vocabulary.base_forms}}</span>-->
-      <span>voluptas, voluptatis f.</span>
+      <span>{{vocabulary.definition}}</span>
     </div>
 
     <div id="translations">
@@ -22,10 +21,10 @@
     </div>
 
     <div id="actions-container">
-      <a class="action" mat-ripple routerLink="/search" [queryParams]="{q: vocabulary.base_form}">
+      <a class="button" mat-ripple routerLink="/search" [queryParams]="{q: vocabulary.base_form}">
         Identify form
       </a>
-      <a class="action" mat-ripple>
+      <a class="button" mat-ripple>
         Generate form
       </a>
     </div>

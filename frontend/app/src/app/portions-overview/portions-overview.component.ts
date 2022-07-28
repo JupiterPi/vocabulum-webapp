@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-portions-overview',
   templateUrl: './portions-overview.component.html',
   styleUrls: ['./portions-overview.component.css']
 })
-export class PortionsOverviewComponent {
+export class PortionsOverviewComponent implements OnInit {
   portions = [
     {
       "name": "1",
@@ -230,6 +231,15 @@ export class PortionsOverviewComponent {
     }
   ];
 
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    for (let i = 0; i < this.portions.length; i++) {
+      this.expandedPortions.push(i);
+    }
+  }
+
+
   expandedPortions: number[] = [];
   isExpanded(portion: number) {
     return this.expandedPortions.includes(portion);
@@ -240,5 +250,9 @@ export class PortionsOverviewComponent {
     } else {
       this.expandedPortions.push(portion);
     }
+  }
+
+  openVocabularyPage(vocabulary: {base_form: string}) {
+    this.router.navigate(["dictionary", vocabulary.base_form]);
   }
 }

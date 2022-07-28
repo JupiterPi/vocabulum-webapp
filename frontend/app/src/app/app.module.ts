@@ -14,6 +14,7 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { VocabularyViewComponent } from './vocabulary-view/vocabulary-view.component';
 import { SearchComponent } from './search/search.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -22,23 +23,24 @@ import { SearchComponent } from './search/search.component';
     VocabularyViewComponent,
     SearchComponent
   ],
-    imports: [
-        BrowserModule,
-        RouterModule.forRoot([
-          {path: "", component: PortionsOverviewComponent},
-          {path: "dictionary", component: PortionsOverviewComponent},
-          {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
-          {path: "search", component: SearchComponent}
-        ]),
-        BrowserAnimationsModule,
-        MatSidenavModule,
-        MatListModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-        MatRippleModule,
-        MatTooltipModule
-    ],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot([
+      {path: "", component: PortionsOverviewComponent},
+      {path: "dictionary", component: PortionsOverviewComponent},
+      {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
+      {path: "search", component: SearchComponent}
+    ]),
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatRippleModule,
+    MatTooltipModule,
+    FormsModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

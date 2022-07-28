@@ -1,3 +1,23 @@
-<p>search works!</p>
+<div id="container">
+  <div id="inner-container">
 
-Query: {{query}}
+    <div id="search-bar-container">
+      <input id="search-bar" placeholder="Search ..." (ngModelChange)="updateChange($event)" [(ngModel)]="query">
+    </div>
+
+    <div id="search-results">
+      <div class="search-result-container" *ngFor="let result of results" mat-ripple (click)="openVocabularyPage(result.base_form)">
+
+        <div class="result-found-form">
+          <span *ngFor="let part of result.found_parts" [class.in-query]="part.in_query">{{part.str}}</span>
+        </div>
+        <br>
+        <div class="result-form">{{result.form}} <span class="muted">of</span></div>
+        <div class="result-word">{{result.definition}}</div>
+        <div class="result-portion"><span class="muted">in portion</span> {{result.portion}}</div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

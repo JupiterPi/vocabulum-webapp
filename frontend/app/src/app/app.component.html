@@ -10,15 +10,15 @@
     <div id="toolbar-sections-spacer"></div>
 
     <div class="toolbar-section" id="toolbar-section-tabs">
-      <button class="tab-button" [class.current-tab]="true" mat-ripple matTooltip="Dictionary">
+      <a class="tab-button" [class.current-tab]="true" mat-ripple matTooltip="Dictionary" routerLink="dictionary">
         <mat-icon>menu_book</mat-icon>
-      </button>
-      <button class="tab-button" [class.current-tab]="false" mat-ripple matTooltip="Trainer">
+      </a>
+      <a class="tab-button" [class.current-tab]="false" mat-ripple matTooltip="Trainer">
         <mat-icon>quiz</mat-icon>
-      </button>
-      <button class="tab-button" [class.current-tab]="false" mat-ripple matTooltip="Translation Assistance">
+      </a>
+      <a class="tab-button" [class.current-tab]="false" mat-ripple matTooltip="Translation Assistance">
         <mat-icon>laptop</mat-icon>
-      </button>
+      </a>
     </div>
 
     <div class="toolbar-section"></div>

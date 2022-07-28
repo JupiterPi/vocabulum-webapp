@@ -7,6 +7,12 @@
   padding-bottom: 20px;
 }
 
+#search-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .portion-container {
   background-color: white;
   border: #d0d0d0 1px solid;
@@ -58,6 +64,8 @@
   justify-content: space-between;
   gap: 30px;
 
+  cursor: pointer;
+
   transition: background-color 100ms ease-in-out;
 }
 .block-item:hover {
@@ -80,6 +88,11 @@
 .block-item:last-child {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+}
+
+
+.vocabulary-translation:not(.important) {
+  display: none;
 }
 
 .translation-quotation-marks {

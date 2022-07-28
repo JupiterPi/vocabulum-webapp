@@ -23,7 +23,7 @@ export class VocabularyViewComponent implements OnInit {
     ],
     "kind": "Noun",
     "base_form": "sol",
-    "base_forms": "sol, solis m.",
+    "definition": "sol, solis m.",
     "meta": [
       {
         "name": "Deklinationsschema",
