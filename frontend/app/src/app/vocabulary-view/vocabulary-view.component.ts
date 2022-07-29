@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {DataService, Vocabulary} from "../data/data.service";
 
 @Component({
   selector: 'app-vocabulary-view',
@@ -7,52 +8,25 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./vocabulary-view.component.css']
 })
 export class VocabularyViewComponent implements OnInit {
-  str: string = "not set";
+  /*vocabulary: Vocabulary = {
+    portion: "",
+    translations: [],
+    kind: "",
+    base_form: "",
+    definition: "",
+    meta: []
+  };*/
+  vocabulary?: Vocabulary;
 
-  vocabulary = {
-    "portion": "1",
-    "translations": [
-      {
-        "important": true,
-        "translation": "die Sonne"
-      },
-      {
-        "important": false,
-        "translation": "der Stern"
-      }
-    ],
-    "kind": "Noun",
-    "base_form": "sol",
-    "definition": "sol, solis m.",
-    "meta": [
-      {
-        "name": "Deklinationsschema",
-        "value": "kons. Dekl."
-      },
-      {
-        "name": "Meta 1",
-        "value": "Something"
-      },
-      {
-        "name": "Meta 2",
-        "value": "Something else"
-      },
-      {
-        "name": "Meta 3",
-        "value": "Something different"
-      },
-      {
-        "name": "Meta 4",
-        "value": "Some other thing"
-      }
-    ]
-  };
-
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.str = params["vocabulary"];
+      const vocabulary = params["vocabulary"];
+
+      this.dataService.getVocabulary(vocabulary).subscribe((vocabulary) => {
+        this.vocabulary = vocabulary;
+      });
     });
   }
 }

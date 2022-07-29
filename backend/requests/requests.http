@@ -1,8 +1,11 @@
-### /api/ping
-GET {{host}}/api/ping
+### OPTIONS test /x/ping
+OPTIONS {{host}}/x/ping
+
+### /x/ping
+GET {{host}}/x/ping
 
 ### /test/portion
-GET {{host}}/test/portion
+GET {{host}}/api/portion
 
 ### /test/vocabulary/:base_form
-GET {{host}}/test/vocabulary/sol
+GET {{host}}/api/vocabulary/sol

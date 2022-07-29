@@ -9,7 +9,7 @@
       <div class="search-result-container" *ngFor="let result of results" mat-ripple (click)="openVocabularyPage(result.base_form)">
 
         <div class="result-found-form">
-          <span *ngFor="let part of result.found_parts" [class.in-query]="part.in_query">{{part.str}}</span>
+          <span *ngFor="let part of result.foundParts" [class.in-query]="part.inQuery">{{part.str}}</span>
         </div>
         <br>
         <div class="result-form">{{result.form}} <span class="muted">of</span></div>

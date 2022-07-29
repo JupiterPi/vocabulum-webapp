@@ -17,11 +17,16 @@ import jupiterpi.vocabulum.core.wordbase.WordbaseManager;
 
 import java.util.Map;
 
-public class TestService {
-    private static TestService instance = null;
-    public static TestService get() throws LoadingDataException, ParserException, DeclinedFormDoesNotExistException, I18nException, LexerException, VerbFormDoesNotExistException {
+public class CoreService {
+    private static CoreService instance = null;
+    public static CoreService get() {
         if (instance == null) {
-            instance = new TestService();
+            try {
+                instance = new CoreService();
+            } catch (LoadingDataException | ParserException | DeclinedFormDoesNotExistException | I18nException |
+                     LexerException | VerbFormDoesNotExistException e) {
+                e.printStackTrace();
+            }
         }
         return instance;
     }
@@ -33,7 +38,7 @@ public class TestService {
     public PortionManager portionManager;
     public WordbaseManager wordbaseManager;
 
-    public TestService() throws LoadingDataException, ParserException, DeclinedFormDoesNotExistException, I18nException, LexerException, VerbFormDoesNotExistException {
+    public CoreService() throws LoadingDataException, ParserException, DeclinedFormDoesNotExistException, I18nException, LexerException, VerbFormDoesNotExistException {
         DeclensionClasses.loadDeclensionSchemas();
         ConjugationClasses.loadConjugationSchemas();
 

@@ -1,8 +1,14 @@
+const fs = require("fs");
 const express = require("express");
 const app = express();
 const port = 63108;
 
 app.use(express.json());
+
+/*const config = JSON.parse(fs.readFileSync("config.json"));
+app.get("/backendHost", (req, res) => {
+    res.status(200).send(config["backendHost"]);
+});*/
 
 // --------
 const _app_folder = "dist/vocabulum-webapp-pwa";

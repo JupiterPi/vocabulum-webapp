@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PortionDTO {
     private String name;
-    private List<List<VocabularyDTO>> vocabularyBlocks;
+    private List<List<PreviewVocabularyDTO>> vocabularyBlocks;
 
     public static PortionDTO fromPortion(Portion portion) {
         PortionDTO dto = new PortionDTO();
@@ -16,9 +16,9 @@ public class PortionDTO {
 
         dto.vocabularyBlocks = new ArrayList<>();
         for (List<Vocabulary> block : portion.getVocabularyBlocks()) {
-            List<VocabularyDTO> vocabularies = new ArrayList<>();
+            List<PreviewVocabularyDTO> vocabularies = new ArrayList<>();
             for (Vocabulary vocabulary : block) {
-                vocabularies.add(VocabularyDTO.fromVocabulary(vocabulary));
+                vocabularies.add(PreviewVocabularyDTO.fromVocabulary(vocabulary));
             }
             dto.vocabularyBlocks.add(vocabularies);
         }
@@ -26,21 +26,13 @@ public class PortionDTO {
         return dto;
     }
 
-    // getters, setters
+    // getters
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<List<VocabularyDTO>> getVocabularyBlocks() {
+    public List<List<PreviewVocabularyDTO>> getVocabularyBlocks() {
         return vocabularyBlocks;
-    }
-
-    public void setVocabularyBlocks(List<List<VocabularyDTO>> vocabularyBlocks) {
-        this.vocabularyBlocks = vocabularyBlocks;
     }
 }

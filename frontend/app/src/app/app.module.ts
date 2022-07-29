@@ -15,6 +15,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { VocabularyViewComponent } from './vocabulary-view/vocabulary-view.component';
 import { SearchComponent } from './search/search.component';
 import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -26,11 +27,12 @@ import {FormsModule} from "@angular/forms";
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-      {path: "", component: PortionsOverviewComponent},
+      {path: "", redirectTo: "/dictionary", pathMatch: "full"},
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent}
     ]),
+    HttpClientModule,
     BrowserAnimationsModule,
     MatSidenavModule,
     MatListModule,
