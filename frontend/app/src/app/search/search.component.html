@@ -2,7 +2,7 @@
   <div id="inner-container">
 
     <div id="search-bar-container">
-      <input id="search-bar" placeholder="Search ..." (ngModelChange)="updateChange($event)" [(ngModel)]="query">
+      <input id="search-bar" placeholder="Suchen ..." (ngModelChange)="updateChange($event)" [(ngModel)]="query">
     </div>
 
     <div id="search-results">
@@ -12,9 +12,9 @@
           <span *ngFor="let part of result.foundParts" [class.in-query]="part.inQuery">{{part.str}}</span>
         </div>
         <br>
-        <div class="result-form">{{result.form}} <span class="muted">of</span></div>
+        <div class="result-form">{{result.form}} <span class="muted">von</span></div>
         <div class="result-word">{{result.definition}}</div>
-        <div class="result-portion"><span class="muted">in portion</span> {{result.portion}}</div>
+        <div class="result-portion"><span class="muted">in Lektion</span> {{result.portion}}</div>
 
       </div>
     </div>

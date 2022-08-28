@@ -1,13 +1,13 @@
 <div id="container">
 
   <div id="search-button-container">
-    <a class="button" routerLink="/search" mat-ripple>Search</a>
+    <a class="button" routerLink="/search" mat-ripple>Suche</a>
   </div>
 
   <div class="portion-container" *ngFor="let portion of portions; let i = index">
 
     <div class="portion-header" mat-ripple (click)="toggleExpand(i)" [class.expanded]="isExpanded(i)">
-      <span class="portion-name">Portion {{portion.name}}</span>
+      <span class="portion-name">Lektion {{portion.name}}</span>
       <div class="portion-dropdown-arrow">
         <mat-icon *ngIf="!isExpanded(i)">expand_more</mat-icon>
         <mat-icon *ngIf="isExpanded(i)">expand_less</mat-icon>
