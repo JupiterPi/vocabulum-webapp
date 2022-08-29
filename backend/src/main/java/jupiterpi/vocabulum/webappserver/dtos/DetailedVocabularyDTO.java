@@ -2,7 +2,7 @@ package jupiterpi.vocabulum.webappserver.dtos;
 
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 import jupiterpi.vocabulum.core.vocabularies.translations.VocabularyTranslation;
-import jupiterpi.vocabulum.webappserver.test.CoreService;
+import jupiterpi.vocabulum.webappserver.controller.CoreService;
 
 import java.util.ArrayList;
 import java.util.List;

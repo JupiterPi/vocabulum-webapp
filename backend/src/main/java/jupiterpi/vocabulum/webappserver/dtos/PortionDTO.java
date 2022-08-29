@@ -1,6 +1,6 @@
 package jupiterpi.vocabulum.webappserver.dtos;
 
-import jupiterpi.vocabulum.core.portions.Portion;
+import jupiterpi.vocabulum.core.db.portions.Portion;
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 
 import java.util.ArrayList;

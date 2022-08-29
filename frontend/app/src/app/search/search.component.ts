@@ -17,12 +17,18 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.query = params["q"];
+      this.updateChange(this.query);
     });
   }
 
   updateChange(query: string) {
-    const url = this.router.createUrlTree([], {relativeTo: this.route, queryParams: {q: query}});
-    this.location.replaceState(url.toString());
+    if (query == "") {
+      const url = this.router.createUrlTree([], {relativeTo: this.route});
+      this.location.replaceState(url.toString());
+    } else {
+      const url = this.router.createUrlTree([], {relativeTo: this.route, queryParams: {q: query}});
+      this.location.replaceState(url.toString());
+    }
     // https://stackoverflow.com/a/46486677/13164753
 
     if (query != "") {

@@ -6,15 +6,22 @@
     </div>
 
     <div id="search-results">
-      <div class="search-result-container" *ngFor="let result of results" mat-ripple (click)="openVocabularyPage(result.base_form)">
+      <div class="search-result-container" *ngFor="let result of results" mat-ripple (click)="openVocabularyPage(result.vocabulary.base_form)">
 
         <div class="result-found-form">
-          <span *ngFor="let part of result.foundParts" [class.in-query]="part.inQuery">{{part.str}}</span>
+          <span>{{result.matchedForm.substring(0, result.matchStart)}}</span>
+          <span class="in-query">{{result.matchedForm.substring(result.matchStart, result.matchEnd)}}</span>
+          <span>{{result.matchedForm.substring(result.matchEnd)}}</span>
         </div>
+        <div class="result-portion"><span class="muted">in Lektion</span> {{result.vocabulary.portion}}</div>
+        <ng-container *ngIf="!result.inflexible">
         <br>
-        <div class="result-form">{{result.form}} <span class="muted">von</span></div>
-        <div class="result-word">{{result.definition}}</div>
-        <div class="result-portion"><span class="muted">in Lektion</span> {{result.portion}}</div>
+        <div class="result-form">{{result.inForm}}
+          <span class="muted" *ngIf="result.additionalFormsCount > 0">(+{{result.additionalFormsCount}}) </span>
+          <span class="muted">von</span>
+        </div>
+        <div class="result-word">{{result.vocabulary.definition}}</div>
+        </ng-container>
 
       </div>
     </div>

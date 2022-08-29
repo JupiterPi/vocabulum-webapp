@@ -1,7 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Router} from "@angular/router";
 
 export type Portion = {
   name: string,
@@ -32,15 +31,23 @@ export type Vocabulary = {
 };
 
 export type SearchResult = {
-  foundParts: {
-    str: string,
-    inQuery: boolean
-  }[],
-  definition: string,
-  base_form: string,
-  form: string,
-  portion: string
-};
+  matchedForm: string;
+  matchStart: number;
+  matchEnd: number;
+  inForm: string;
+  additionalFormsCount: number;
+  vocabulary: {
+    portion: string,
+    translations: {
+      important: boolean,
+      translation: string
+    }[],
+    kind: string,
+    base_form: string,
+    definition: string
+  },
+  inflexible: boolean
+}
 
 @Injectable({
   providedIn: 'root'
@@ -322,42 +329,84 @@ export class DataService {
   };
   devSearchResults: SearchResult[] = [
     {
-      foundParts: [
-        {
-          str: "word",
-          inQuery: true
-        },
-        {
-          str: "em",
-          inQuery: false
-        }
-      ],
-      definition: "word, wordis m.",
-      base_form: "word",
-      form: "Akk. Sg.",
-      portion: "34"
+      matchedForm: "wordem",
+      matchStart: 0,
+      matchEnd: 4,
+      inForm: "Akk. Sg.",
+      additionalFormsCount: 4,
+      vocabulary: {
+        portion: "34",
+        translations: [
+          {
+            important: true,
+            translation: "das Wort"
+          },
+          {
+            important: false,
+            translation: "der Satz"
+          }
+        ],
+        kind: "noun",
+        base_form: "word",
+        definition: "word, wordis m."
+      },
+      inflexible: false
     },
     {
-      foundParts: [
-        {
-          str: "word",
-          inQuery: true
-        },
-        {
-          str: "isterissimi",
-          inQuery: false
-        }
-      ],
-      definition: "wordister, wordistera, wordisterum",
-      base_form: "wordister",
-      form: "Nom. Pl. m. Superl.",
-      portion: "34"
+      matchedForm: "circumwordo",
+      matchStart: 6,
+      matchEnd: 10,
+      inForm: "1. Pers. Sg.",
+      additionalFormsCount: 1,
+      vocabulary: {
+        portion: "34",
+        translations: [
+          {
+            important: true,
+            translation: "wörtern"
+          },
+          {
+            important: false,
+            translation: "verlauten"
+          }
+        ],
+        kind: "verb",
+        base_form: "circumwordere",
+        definition: "circumwordere, circumwordo, circumworsi, circumwortum"
+      },
+      inflexible: false
+    },
+    {
+      matchedForm: "wordy",
+      matchStart: 0,
+      matchEnd: 4,
+      inForm: "",
+      additionalFormsCount: 0,
+      vocabulary: {
+        portion: "34",
+        translations: [
+          {
+            important: true,
+            translation: "wörtlich"
+          },
+          {
+            important: false,
+            translation: "worthaftig"
+          }
+        ],
+        kind: "inflexible",
+        base_form: "wordy",
+        definition: "wordy"
+      },
+      inflexible: true
     }
   ];
 
+  devMode = false;
+
   // GET /portion
   getPortions() {
-    if (isDevMode()) {
+    if (isDevMode() && this.devMode) {
       return new Observable<Portion[]>((observer) => {
         observer.next(this.devPortions);
         observer.complete();
@@ -369,7 +418,7 @@ export class DataService {
 
   // GET /vocabulary/:base_form
   getVocabulary(base_form: string) {
-    if (isDevMode()) {
+    if (isDevMode() && this.devMode) {
       return new Observable<Vocabulary>((observer) => {
         observer.next(this.devVocabulary);
         observer.complete();
@@ -381,7 +430,7 @@ export class DataService {
 
   // GET /search/:query
   getSearchResults(query: string) {
-    if (isDevMode()) {
+    if (isDevMode() && this.devMode) {
       return new Observable<SearchResult[]>((observer) => {
         observer.next(this.devSearchResults);
         observer.complete();
