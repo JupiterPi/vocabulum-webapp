@@ -1,0 +1,18 @@
+<div id="outer-container">
+
+  <div id="container">
+
+    <div class="message-container" [class.user-message-container]="block.senderIsUser" *ngFor="let block of messages">
+      <div class="message-icon-container" *ngIf="!block.senderIsUser">
+        <img src="assets/logo/vocabulum_logo_circle.png">
+      </div>
+      <div class="message-messages-container">
+        <div class="message-bubble" *ngFor="let message of block.messages">
+          {{message}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

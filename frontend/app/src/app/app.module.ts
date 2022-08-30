@@ -16,13 +16,15 @@ import { VocabularyViewComponent } from './vocabulary-view/vocabulary-view.compo
 import { SearchComponent } from './search/search.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import { ChatViewComponent } from './chat-view/chat-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PortionsOverviewComponent,
     VocabularyViewComponent,
-    SearchComponent
+    SearchComponent,
+    ChatViewComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import {HttpClientModule} from "@angular/common/http";
       {path: "", redirectTo: "/dictionary", pathMatch: "full"},
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
-      {path: "search", component: SearchComponent}
+      {path: "search", component: SearchComponent},
+      {path: "chatTest", component: ChatViewComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,

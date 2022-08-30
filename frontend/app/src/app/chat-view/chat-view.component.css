@@ -1,0 +1,77 @@
+#outer-container {
+  margin: 50px;
+  width: 800px;
+  padding: 15px;
+  border: 1px solid black;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 5px;
+}
+
+.message-container {
+  //background-color: rebeccapurple;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.message-container.user-message-container {
+  flex-direction: row-reverse;
+}
+
+.message-icon-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message-icon-container img {
+  height: 46px;
+  width: 46px;
+  border: #d0d0d0 1px solid;
+  border-radius: 23px;
+}
+
+.message-messages-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 5px;
+}
+.user-message-container .message-messages-container {
+  align-items: end;
+}
+
+.message-bubble {
+  height: 50px;
+  background-color: white;
+  border: #d0d0d0 1px solid;
+  border-radius: 20px;
+  padding: 0 20px 0 15px;
+
+  display: flex;
+  align-items: center;
+}
+.user-message-container .message-bubble {
+  padding: 0 15px 0 20px;
+}
+
+.message-container:not(.user-message-container) .message-bubble:not(:first-child) {
+  border-top-left-radius: 5px;
+}
+.message-container:not(.user-message-container) .message-bubble:not(:last-child) {
+  border-bottom-left-radius: 5px;
+}
+
+.user-message-container .message-bubble:not(:first-child) {
+  border-top-right-radius: 5px;
+}
+.user-message-container .message-bubble:not(:last-child) {
+  border-bottom-right-radius: 5px;
+}
