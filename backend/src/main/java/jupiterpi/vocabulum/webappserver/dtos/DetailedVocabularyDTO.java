@@ -1,6 +1,10 @@
 package jupiterpi.vocabulum.webappserver.dtos;
 
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
+import jupiterpi.vocabulum.core.vocabularies.conjugated.Verb;
+import jupiterpi.vocabulum.core.vocabularies.declined.adjectives.Adjective;
+import jupiterpi.vocabulum.core.vocabularies.declined.nouns.Noun;
+import jupiterpi.vocabulum.core.vocabularies.inflexible.Inflexible;
 import jupiterpi.vocabulum.core.vocabularies.translations.VocabularyTranslation;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 
@@ -27,10 +31,26 @@ public class DetailedVocabularyDTO {
             dto.translations.add(VocabularyTranslationDTO.fromVocabularyTranslation(translation));
         }
 
-        dto.meta = new ArrayList<>();
-        //TODO implement meta
+        dto.meta = generateMeta(vocabulary);
 
         return dto;
+    }
+
+    private static List<MetaItem> generateMeta(Vocabulary vocabulary) {
+        List<MetaItem> meta = new ArrayList<>();
+        meta.add(new MetaItem("Lektion", vocabulary.getPortion()));
+        Vocabulary.Kind kind = vocabulary.getKind();
+        if (kind == Vocabulary.Kind.NOUN) {
+            Noun noun = (Noun) vocabulary;
+            meta.add(new MetaItem("Deklinationsschema", noun.getDeclensionSchema() + "-Dekl."));
+        } else if (kind == Vocabulary.Kind.ADJECTIVE) {
+            Adjective adjective = (Adjective) vocabulary;
+        } else if (kind == Vocabulary.Kind.VERB) {
+            Verb verb = (Verb) vocabulary;
+        } else if (kind == Vocabulary.Kind.INFLEXIBLE) {
+            Inflexible inflexible = (Inflexible) vocabulary;
+        }
+        return meta;
     }
 
     private static class MetaItem {
