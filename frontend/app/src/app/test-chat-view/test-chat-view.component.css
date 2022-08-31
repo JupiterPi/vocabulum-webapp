@@ -1,0 +1,17 @@
+#outer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-height: calc(100vh - 64px);
+}
+
+#container {
+  padding: 0 5px;
+  width: 800px;
+}
+
+@media screen and (max-width: 900px) {
+  #outer-container {
+    align-items: stretch;
+  }
+}

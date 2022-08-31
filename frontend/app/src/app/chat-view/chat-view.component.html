@@ -1,8 +1,8 @@
-<div id="outer-container">
+<div id="container">
 
-  <div id="container">
+  <div id="messages-container" #messagesContainer>
 
-    <div class="message-block-container" [class.user-message-block-container]="block.senderIsUser" *ngFor="let block of messages">
+    <div class="message-block-container" [class.user]="block.senderIsUser" *ngFor="let block of messages">
       <div class="message-icon-container" *ngIf="!block.senderIsUser">
         <img src="assets/logo/vocabulum_logo_circle.png">
       </div>
@@ -13,6 +13,13 @@
       </div>
     </div>
 
+  </div>
+
+  <div id="input-container">
+    <input id="chat-input" (keyup.enter)="submitInput()" [(ngModel)]="chatInput" placeholder="Chat ...">
+    <button id="chat-send-button" (click)="submitInput()" [class.muted]="chatInput==''">
+      <mat-icon>send</mat-icon>
+    </button>
   </div>
 
 </div>

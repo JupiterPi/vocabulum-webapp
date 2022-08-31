@@ -26,4 +26,11 @@ export class TestChatViewComponent {
     });
     console.log(this.messages);
   }
+
+  takeUserInput(message: string) {
+    this.message = message;
+    this.senderIsUser = true;
+    this.forceNewBlock = false;
+    this.sendMessage();
+  }
 }

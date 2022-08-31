@@ -1,4 +1,14 @@
-import {Component, DoCheck, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 
 export type MessageBlock = {
   senderIsUser: boolean,
@@ -18,7 +28,8 @@ export type Message = {
 })
 export class ChatViewComponent implements DoCheck {
   @Input() inputMessages: Message[] = [];
-  @Input() test?: string;
+  chatInput: string = "";
+  @Output() sendInput = new EventEmitter<string>();
 
   messages: MessageBlock[] = [
     {
@@ -55,8 +66,32 @@ export class ChatViewComponent implements DoCheck {
         "Nice to meet you, user.",
         "What do you think of this design?"
       ]
+    },
+    {
+      senderIsUser: false,
+      messages: [
+        "This is some really, really long chat message to test what the design does when one message has to span over multiple lines."
+      ]
+    },
+    {
+      senderIsUser: true,
+      messages: [
+        "This is some really, really long chat message to test what the design does when one message has to span over multiple lines."
+      ]
+    },
+    {
+      senderIsUser: false,
+      messages: [
+        "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?",
+        "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?",
+        "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?",
+        "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?",
+        "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?", "So, what do you think of the design?"
+      ]
     }
   ];
+
+  @ViewChild("messagesContainer") messagesContainer?: ElementRef;
 
   oldInputMessagesLength = 0;
   ngDoCheck() {
@@ -66,6 +101,12 @@ export class ChatViewComponent implements DoCheck {
         this.appendMessage(message.message, message.senderIsUser, message.forceNewBlock);
       }
       this.oldInputMessagesLength = this.inputMessages.length;
+
+      const id = setInterval(() => {
+        const scrollElement = this.messagesContainer?.nativeElement;
+        scrollElement.scrollTop = scrollElement.scrollHeight + scrollElement.clientHeight;
+        clearInterval(id);
+      }, 1);
     }
   }
 
@@ -85,5 +126,12 @@ export class ChatViewComponent implements DoCheck {
       senderIsUser: senderIsUser,
       messages: [message]
     });
+  }
+
+  submitInput() {
+    if (this.chatInput != "") {
+      this.sendInput.emit(this.chatInput);
+      this.chatInput = "";
+    }
   }
 }

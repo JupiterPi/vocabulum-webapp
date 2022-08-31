@@ -10,7 +10,7 @@ body {
   height: 100vh;
 }
 
-body, button {
+body, button, input {
   font-family: 'Recursive', sans-serif;
   font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt), var(--t-CRSV);
 }

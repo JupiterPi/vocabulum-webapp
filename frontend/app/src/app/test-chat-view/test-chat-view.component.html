@@ -1,4 +1,4 @@
-<p>test-chat-view works!</p>
+<!--<p>test-chat-view works!</p>
 
 <label>Message:</label>
 <input [(ngModel)]="message">
@@ -17,6 +17,10 @@
   <br>
 </ng-container>
 
-<button (click)="sendMessage()">send</button>
+<button (click)="sendMessage()">send</button>-->
 
-<app-chat-view [inputMessages]="messages" test="hi"></app-chat-view>
+<div id="outer-container">
+  <div id="container">
+    <app-chat-view [inputMessages]="messages" (sendInput)="takeUserInput($event)"></app-chat-view>
+  </div>
+</div>
