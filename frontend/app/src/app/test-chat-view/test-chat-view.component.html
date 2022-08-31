@@ -1,0 +1,22 @@
+<p>test-chat-view works!</p>
+
+<label>Message:</label>
+<input [(ngModel)]="message">
+
+<br>
+
+<label>Sender is user:</label>
+<input type="checkbox" [(ngModel)]="senderIsUser">
+
+<br>
+
+<ng-container *ngIf="!senderIsUser">
+  <label>Force new block:</label>
+  <input type="checkbox" [(ngModel)]="forceNewBlock">
+
+  <br>
+</ng-container>
+
+<button (click)="sendMessage()">send</button>
+
+<app-chat-view [inputMessages]="messages" test="hi"></app-chat-view>

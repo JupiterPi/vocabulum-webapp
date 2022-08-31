@@ -17,6 +17,7 @@ import { SearchComponent } from './search/search.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { ChatViewComponent } from './chat-view/chat-view.component';
+import { TestChatViewComponent } from './test-chat-view/test-chat-view.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ChatViewComponent } from './chat-view/chat-view.component';
     PortionsOverviewComponent,
     VocabularyViewComponent,
     SearchComponent,
-    ChatViewComponent
+    ChatViewComponent,
+    TestChatViewComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,7 @@ import { ChatViewComponent } from './chat-view/chat-view.component';
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},
-      {path: "chatTest", component: ChatViewComponent}
+      {path: "chatTest", component: TestChatViewComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,

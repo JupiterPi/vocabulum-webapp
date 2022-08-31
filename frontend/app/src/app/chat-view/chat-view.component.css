@@ -12,14 +12,14 @@
   gap: 5px;
 }
 
-.message-container {
+.message-block-container {
   //background-color: rebeccapurple;
 
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
-.message-container.user-message-container {
+.message-block-container.user-message-block-container {
   flex-direction: row-reverse;
 }
 
@@ -44,7 +44,7 @@
   align-items: start;
   gap: 5px;
 }
-.user-message-container .message-messages-container {
+.user-message-block-container .message-messages-container {
   align-items: end;
 }
 
@@ -53,25 +53,28 @@
   background-color: white;
   border: #d0d0d0 1px solid;
   border-radius: 20px;
-  padding: 0 20px 0 15px;
+  padding: 0 17px 0 15px;
 
   display: flex;
   align-items: center;
 }
-.user-message-container .message-bubble {
-  padding: 0 15px 0 20px;
+.user-message-block-container .message-bubble {
+  padding: 0 15px 0 17px;
 }
+/*.user-message-block-container .message-bubble:only-child, .message-bubble:only-child {
+  padding: 0 17px 0 17px;
+}*/
 
-.message-container:not(.user-message-container) .message-bubble:not(:first-child) {
+.message-block-container:not(.user-message-block-container) .message-bubble:not(:first-child) {
   border-top-left-radius: 5px;
 }
-.message-container:not(.user-message-container) .message-bubble:not(:last-child) {
+.message-block-container:not(.user-message-block-container) .message-bubble:not(:last-child) {
   border-bottom-left-radius: 5px;
 }
 
-.user-message-container .message-bubble:not(:first-child) {
+.user-message-block-container .message-bubble:not(:first-child) {
   border-top-right-radius: 5px;
 }
-.user-message-container .message-bubble:not(:last-child) {
+.user-message-block-container .message-bubble:not(:last-child) {
   border-bottom-right-radius: 5px;
 }
