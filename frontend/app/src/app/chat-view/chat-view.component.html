@@ -7,8 +7,8 @@
         <img src="assets/logo/vocabulum_logo_circle.png">
       </div>
       <div class="message-messages-container">
-        <div class="message-bubble" *ngFor="let message of block.messages">
-          {{message}}
+        <div class="message-bubble" *ngFor="let message of block.messages" [innerHTML]="message" style="white-space: pre-wrap">
+          <span class="green">test <b>bbbb</b></span>
         </div>
       </div>
     </div>

@@ -1,14 +1,4 @@
-import {
-  Component,
-  DoCheck,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {Component, DoCheck, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 
 export type MessageBlock = {
   senderIsUser: boolean,
@@ -24,7 +14,8 @@ export type Message = {
 @Component({
   selector: 'app-chat-view',
   templateUrl: './chat-view.component.html',
-  styleUrls: ['./chat-view.component.css']
+  styleUrls: ['./chat-view.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChatViewComponent implements DoCheck {
   @Input() inputMessages: Message[] = [];
@@ -129,7 +120,7 @@ export class ChatViewComponent implements DoCheck {
   }
 
   submitInput() {
-    if (this.chatInput != "") {
+    if (!/^\s*$/.test(this.chatInput)) {
       this.sendInput.emit(this.chatInput);
       this.chatInput = "";
     }

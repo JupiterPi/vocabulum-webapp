@@ -1,36 +1,49 @@
-import { Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Message} from "../chat-view/chat-view.component";
+import {BotMessage, SessionService} from "../data/session.service";
 
 @Component({
   selector: 'app-test-chat-view',
   templateUrl: './test-chat-view.component.html',
   styleUrls: ['./test-chat-view.component.css']
 })
-export class TestChatViewComponent {
+export class TestChatViewComponent implements OnInit {
   messages: Message[] = [];
 
-  message: string = "";
-  senderIsUser: boolean = false;
-  forceNewBlock: boolean = false;
-
-  sendMessage() {
-    this.messages.push({
-      message: this.message,
-      senderIsUser: this.senderIsUser,
-      forceNewBlock: this.forceNewBlock
-    });
-    console.log("sending message", {
-      message: this.message,
-      senderIsUser: this.senderIsUser,
-      forceNewBlock: this.forceNewBlock
-    });
-    console.log(this.messages);
-  }
+  constructor(private sessions: SessionService) {}
 
   takeUserInput(message: string) {
-    this.message = message;
-    this.senderIsUser = true;
-    this.forceNewBlock = false;
-    this.sendMessage();
+    this.messages.push({
+      message,
+      senderIsUser: true,
+      forceNewBlock: false
+    });
+    if (this.sessionId != "") {
+      this.sessions.sendUserInput(this.sessionId, message).subscribe(messages => this.appendMessages(messages));
+    }
+  }
+
+  appendMessages(messages: BotMessage[]) {
+    for (let message of messages) {
+      let messageStr = "";
+      for (const part of message.messageParts) {
+        const classNames = (part.bold ? "bold " : "") + part.color;
+        messageStr += "<span style='color: red' class='" + classNames + "'>" + part.message + "</span>";
+      }
+      this.messages.push({
+        message: messageStr,
+        senderIsUser: false,
+        forceNewBlock: message.forceNewBlock
+      });
+    }
+  }
+
+  sessionId: string = "";
+
+  ngOnInit(): void {
+    this.sessions.createSession().subscribe(id => {
+      this.sessionId = id;
+      this.sessions.startSession(id).subscribe(messages => this.appendMessages(messages));
+    });
   }
 }

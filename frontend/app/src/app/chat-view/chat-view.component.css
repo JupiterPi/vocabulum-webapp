@@ -56,9 +56,6 @@
   border-radius: 20px;
   padding: 15px 15px;
   line-height: 23px;
-
-  display: flex;
-  align-items: center;
 }
 .message-block-container:not(.user) .message-bubble {
   padding-right: 17px;
@@ -81,6 +78,24 @@
 }
 .message-block-container.user .message-bubble:not(:last-child) {
   border-bottom-right-radius: 5px;
+}
+
+/* inline styles */
+
+.bold {
+  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght-bolder), var(--t-slnt), var(--t-CRSV);
+}
+.default {
+  color: black;
+}
+.green {
+  color: green;
+}
+.orange {
+  color: orange;
+}
+.red {
+  color: red;
 }
 
 /* input */

@@ -27,10 +27,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class CoreController {
-    private CoreService coreService;
-
     public CoreController() {
-        coreService = CoreService.get();
+        CoreService.get();
     }
 
     @GetMapping("/portion")
