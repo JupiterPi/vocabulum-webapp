@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Message} from "../chat-view/chat-view.component";
+import {Button, Message} from "../chat-view/chat-view.component";
 import {BotMessage, SessionService} from "../data/session.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-test-chat-view',
@@ -9,8 +10,9 @@ import {BotMessage, SessionService} from "../data/session.service";
 })
 export class TestChatViewComponent implements OnInit {
   messages: Message[] = [];
+  buttons: Button[] = [];
 
-  constructor(private sessions: SessionService) {}
+  constructor(private sessions: SessionService, private router: Router) {}
 
   takeUserInput(message: string) {
     this.messages.push({
@@ -23,18 +25,43 @@ export class TestChatViewComponent implements OnInit {
     }
   }
 
+  takeButtonAction(action: string) {
+    if (this.sessionId != "") {
+      this.sessions.sendButtonAction(this.sessionId, action).subscribe(messages => this.appendMessages(messages));
+    }
+  }
+
   appendMessages(messages: BotMessage[]) {
     for (let message of messages) {
-      let messageStr = "";
-      for (const part of message.messageParts) {
-        const classNames = (part.bold ? "bold " : "") + part.color;
-        messageStr += "<span style='color: red' class='" + classNames + "'>" + part.message + "</span>";
+      if (message.exit) {
+        this.router.navigate(["dictionary"]);
+        return;
       }
-      this.messages.push({
-        message: messageStr,
-        senderIsUser: false,
-        forceNewBlock: message.forceNewBlock
-      });
+
+      if (message.hasButtons) {
+
+        this.buttons = [];
+        for (let button of message.buttons) {
+          this.buttons.push({
+            label: button.label,
+            action: button.action
+          });
+        }
+
+      } else {
+
+        let messageStr = "";
+        for (const part of message.messageParts) {
+          const classNames = (part.bold ? "bold " : "") + part.color;
+          messageStr += "<span style='color: red' class='" + classNames + "'>" + part.message + "</span>";
+        }
+        this.messages.push({
+          message: messageStr,
+          senderIsUser: false,
+          forceNewBlock: message.forceNewBlock
+        });
+
+      }
     }
   }
 

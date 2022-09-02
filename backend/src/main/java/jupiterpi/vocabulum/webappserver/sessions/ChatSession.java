@@ -17,21 +17,30 @@ public class ChatSession {
         session = new Session(Database.get().getPortions().getPortion("A"));
     }
 
-    public List<MessageDTO> start() {
+    //TODO implement richer texts
+
+    public List<MessageDTO> start(boolean isRestart) {
         try {
-            session.start();
+            if (isRestart) {
+                session.restart();
+            } else {
+                session.start();
+            }
             Vocabulary vocabulary = session.getNextVocabulary();
             currentVocabulary = vocabulary;
 
-            return List.of(
-                    new MessageDTO("Hi, willkommen zu deiner Abfrage!"),
-                    new MessageDTO("Ich sage dir immer das lateinische Wort und du schreibst die deutschen Bedeutungen zurück."),
-                    new MessageDTO("Alles klar? Los geht's!"),
-                    new MessageDTO(
-                            new MessageDTO.MessagePartDTO("Die erste Vokabel: "),
-                            new MessageDTO.MessagePartDTO(vocabulary.getBaseForm(), true, "default")
-                    )
-            );
+            List<MessageDTO> messages = new ArrayList<>();
+            if (!isRestart) messages.addAll(List.of(
+                    MessageDTO.fromMessage("Hi, willkommen zu deiner Abfrage!"),
+                    MessageDTO.fromMessage("Ich sage dir immer das lateinische Wort und du schreibst die deutschen Bedeutungen zurück."),
+                    MessageDTO.fromMessage("Alles klar? Los geht's!")
+            ));
+            messages.add(
+                    MessageDTO.fromMessageParts(false,
+                    new MessageDTO.MessagePartDTO("Die erste Vokabel: "),
+                    new MessageDTO.MessagePartDTO(vocabulary.getBaseForm(), true, "default")
+            ));
+            return messages;
         } catch (Session.SessionLifecycleException e) {
             return errorMessage(e);
         }
@@ -40,6 +49,7 @@ public class ChatSession {
     private Vocabulary currentVocabulary;
 
     public List<MessageDTO> handleUserInput(String input) {
+        System.out.println("handling input: " + input);
         try {
             List<MessageDTO> messages = new ArrayList<>();
 
@@ -54,7 +64,7 @@ public class ChatSession {
             boolean passed = score >= 0.5f;
             session.provideFeedback(currentVocabulary, passed);
 
-            messages.add(new MessageDTO(
+            messages.add(MessageDTO.fromMessageParts(false,
                     new MessageDTO.MessagePartDTO("Das ist "),
                     (passed
                             ? (score > 0.75f
@@ -69,13 +79,20 @@ public class ChatSession {
             if (session.isRoundDone()) {
                 messages.add(generateRoundFeedback(session.getResult()));
                 if (session.isAllDone()) {
-                    messages.add(new MessageDTO(
+                    messages.add(MessageDTO.fromMessageParts(false,
                             new MessageDTO.MessagePartDTO("Juhu! Jetzt hast du "),
                             new MessageDTO.MessagePartDTO("alle Vokabeln fertig", true, "default"),
-                            new MessageDTO.MessagePartDTO(". Herzlichen Glückwunsch.")
+                            new MessageDTO.MessagePartDTO(". Herzlichen Glückwunsch!")
+                    ));
+                    messages.add(MessageDTO.fromMessage(
+                            "Möchtest du die Abfrage beenden, oder alle Vokabeln nochmal wiederholen?"
+                    ));
+                    messages.add(MessageDTO.fromButtons(
+                            new MessageDTO.ButtonDTO("Wiederholen", BUTTON_RESTART),
+                            new MessageDTO.ButtonDTO("Beenden", BUTTON_EXIT)
                     ));
                 } else {
-                    messages.add(new MessageDTO(
+                    messages.add(MessageDTO.fromMessage(
                             "Dann werde ich jetzt die Vokabeln, die du letzte Runde noch falsch hattest, nochmal wiederholen."
                     ));
                 }
@@ -84,7 +101,7 @@ public class ChatSession {
             if (!session.isAllDone()) {
                 Vocabulary vocabulary = session.getNextVocabulary();
                 currentVocabulary = vocabulary;
-                messages.add(new MessageDTO(true,
+                messages.add(MessageDTO.fromMessageParts(true,
                         new MessageDTO.MessagePartDTO("Die nächste Vokabel: "),
                         new MessageDTO.MessagePartDTO(vocabulary.getBaseForm(), true, "default")
                 ));
@@ -94,6 +111,25 @@ public class ChatSession {
         } catch (Session.SessionLifecycleException e) {
             return errorMessage(e);
         }
+    }
+
+    private static final String BUTTON_RESTART = "restart";
+    private static final String BUTTON_EXIT = "exit";
+
+    public List<MessageDTO> handleButtonAction(String action) {
+        System.out.println("handling button action: " + action);
+        if (action.equals(BUTTON_RESTART)) {
+            List<MessageDTO> messages = new ArrayList<>();
+            messages.add(MessageDTO.fromMessageParts(true,
+                    new MessageDTO.MessagePartDTO("Alles klar, ich werde alle Vokabeln noch einmal wiederholen.")));
+            messages.addAll(start(true));
+            messages.add(MessageDTO.clearButtons());
+            return messages;
+        }
+        if (action.equals(BUTTON_EXIT)) {
+            return List.of(MessageDTO.exit());
+        }
+        return errorMessage(new Exception("Unknown button action: " + action));
     }
 
     private MessageDTO generateFullFeedback(Vocabulary vocabulary, List<TranslationSequence.ValidatedTranslation> validation) {
@@ -119,12 +155,12 @@ public class ChatSession {
         }
         items.remove(items.size()-1);
 
-        return new MessageDTO(items, false);
+        return new MessageDTO(items, false, false, List.of(), false);
     }
 
     private MessageDTO generateRoundFeedback(Session.Result result) {
         String score = Math.floor(result.getScore() * 100) + "%";
-        return new MessageDTO(
+        return MessageDTO.fromMessageParts(false,
                 new MessageDTO.MessagePartDTO("Du hast diese Runde Vokabeln durch, und "),
                 new MessageDTO.MessagePartDTO(score, true, "default"),
                 new MessageDTO.MessagePartDTO(" davon hast du richtig beantwortet.")
@@ -132,7 +168,7 @@ public class ChatSession {
     }
 
     private List<MessageDTO> errorMessage(Exception e) {
-        return List.of(new MessageDTO(
+        return List.of(MessageDTO.fromMessageParts(true,
                 new MessageDTO.MessagePartDTO("FEHLER! ", false, "red"),
                 new MessageDTO.MessagePartDTO(e.getClass().getSimpleName() + ": " + e.getMessage())
         ));

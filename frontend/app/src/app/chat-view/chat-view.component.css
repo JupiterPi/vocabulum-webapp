@@ -135,6 +135,17 @@
   color: #7c7c7c;
 }
 
+.input-button {
+  height: 50px;
+  background-color: white;
+  border: #d0d0d0 1px solid;
+  border-radius: 20px;
+  padding: 0 20px;
+  font-size: 16px;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
 /* scroll bar */
 
 ::-webkit-scrollbar {

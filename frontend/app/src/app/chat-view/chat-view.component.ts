@@ -11,6 +11,11 @@ export type Message = {
   forceNewBlock: boolean
 };
 
+export type Button = {
+  label: string,
+  action: string
+};
+
 @Component({
   selector: 'app-chat-view',
   templateUrl: './chat-view.component.html',
@@ -20,7 +25,9 @@ export type Message = {
 export class ChatViewComponent implements DoCheck {
   @Input() inputMessages: Message[] = [];
   chatInput: string = "";
+  @Input() buttons: Button[] = [];
   @Output() sendInput = new EventEmitter<string>();
+  @Output() sendButtonAction = new EventEmitter<string>();
 
   messages: MessageBlock[] = [
     {
@@ -124,5 +131,9 @@ export class ChatViewComponent implements DoCheck {
       this.sendInput.emit(this.chatInput);
       this.chatInput = "";
     }
+  }
+
+  submitAction(action: string) {
+    this.sendButtonAction.emit(action);
   }
 }

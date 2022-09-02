@@ -21,11 +21,15 @@ public class SessionController {
 
     @PostMapping("/{sessionId}/start")
     public List<MessageDTO> start(@PathVariable String sessionId) {
-        return sessions.getSession(sessionId).start();
+        return sessions.getSession(sessionId).start(false);
     }
 
     @PostMapping("/{sessionId}/input")
     public List<MessageDTO> handleUserInput(@PathVariable String sessionId, @RequestBody UserInputDTO userInput) {
-        return sessions.getSession(sessionId).handleUserInput(userInput.getInput());
+        if (userInput.getAction() == null || userInput.getAction().isEmpty()) {
+            return sessions.getSession(sessionId).handleUserInput(userInput.getInput());
+        } else {
+            return sessions.getSession(sessionId).handleButtonAction(userInput.getAction());
+        }
     }
 }

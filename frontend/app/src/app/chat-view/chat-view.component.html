@@ -7,19 +7,24 @@
         <img src="assets/logo/vocabulum_logo_circle.png">
       </div>
       <div class="message-messages-container">
-        <div class="message-bubble" *ngFor="let message of block.messages" [innerHTML]="message" style="white-space: pre-wrap">
-          <span class="green">test <b>bbbb</b></span>
-        </div>
+        <div class="message-bubble" *ngFor="let message of block.messages" [innerHTML]="message" style="white-space: pre-wrap"></div>
       </div>
     </div>
 
   </div>
 
   <div id="input-container">
-    <input id="chat-input" (keyup.enter)="submitInput()" [(ngModel)]="chatInput" placeholder="Chat ...">
-    <button id="chat-send-button" (click)="submitInput()" [class.muted]="chatInput==''">
-      <mat-icon>send</mat-icon>
-    </button>
+    <ng-container *ngIf="buttons.length == 0">
+      <input id="chat-input" (keyup.enter)="submitInput()" [(ngModel)]="chatInput" placeholder="Chat ...">
+      <button id="chat-send-button" (click)="submitInput()" [class.muted]="chatInput==''">
+        <mat-icon>send</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="buttons.length > 0">
+      <button class="input-button" *ngFor="let button of buttons" (click)="submitAction(button.action)" mat-ripple>
+        {{button.label}}
+      </button>
+    </ng-container>
   </div>
 
 </div>

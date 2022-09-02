@@ -1,5 +1,8 @@
 <div id="outer-container">
   <div id="container">
-    <app-chat-view [inputMessages]="messages" (sendInput)="takeUserInput($event)"></app-chat-view>
+    <app-chat-view
+      [inputMessages]="messages" [buttons]="buttons"
+      (sendInput)="takeUserInput($event)" (sendButtonAction)="takeButtonAction($event)"
+    ></app-chat-view>
   </div>
 </div>
