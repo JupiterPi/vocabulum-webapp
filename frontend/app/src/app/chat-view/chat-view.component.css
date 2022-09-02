@@ -123,16 +123,18 @@
   outline: none;
 }
 
-#chat-send-button {
+.chat-button {
   height: 50px;
   width: 50px;
   background-color: white;
   border: #d0d0d0 1px solid;
   border-radius: 25px;
   color: #4b4b4b;
+  cursor: pointer;
 }
-#chat-send-button.muted {
+.chat-button.muted {
   color: #7c7c7c;
+  cursor: auto;
 }
 
 .input-button {

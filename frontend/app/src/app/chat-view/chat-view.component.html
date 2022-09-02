@@ -15,13 +15,16 @@
 
   <div id="input-container">
     <ng-container *ngIf="buttons.length == 0">
+      <button class="chat-button" (click)="submitAction('exit')" mat-ripple>
+        <mat-icon>arrow_back_ios_new</mat-icon>
+      </button>
       <input id="chat-input" (keyup.enter)="submitInput()" [(ngModel)]="chatInput" placeholder="Chat ...">
-      <button id="chat-send-button" (click)="submitInput()" [class.muted]="chatInput==''">
+      <button class="chat-button" (click)="submitInput()" [class.muted]="chatInput==''" mat-ripple>
         <mat-icon>send</mat-icon>
       </button>
     </ng-container>
     <ng-container *ngIf="buttons.length > 0">
-      <button class="input-button" *ngFor="let button of buttons" (click)="submitAction(button.action)" mat-ripple>
+      <button class="input-button" *ngFor="let button of buttons" (click)="submitAction(button.action)">
         {{button.label}}
       </button>
     </ng-container>
