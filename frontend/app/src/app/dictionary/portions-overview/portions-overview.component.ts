@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {DataService, Portion} from "../data/data.service";
+import {DataService, Portion} from "../../data/data.service";
 
 @Component({
   selector: 'app-portions-overview',

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { PortionsOverviewComponent } from './portions-overview/portions-overview.component';
+import { PortionsOverviewComponent } from './dictionary/portions-overview/portions-overview.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
@@ -12,12 +12,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import { VocabularyViewComponent } from './vocabulary-view/vocabulary-view.component';
-import { SearchComponent } from './search/search.component';
+import { VocabularyViewComponent } from './dictionary/vocabulary-view/vocabulary-view.component';
+import { SearchComponent } from './dictionary/search/search.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import { ChatViewComponent } from './chat-view/chat-view.component';
-import { TestChatViewComponent } from './test-chat-view/test-chat-view.component';
+import { ChatViewComponent } from './trainer/chat-sessions/chat-view/chat-view.component';
+import { ChatTrainerSessionComponent } from './trainer/chat-sessions/chat-trainer-session/chat-trainer-session.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { TestChatViewComponent } from './test-chat-view/test-chat-view.component
     VocabularyViewComponent,
     SearchComponent,
     ChatViewComponent,
-    TestChatViewComponent
+    ChatTrainerSessionComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +35,7 @@ import { TestChatViewComponent } from './test-chat-view/test-chat-view.component
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},
-      {path: "chatTest", component: TestChatViewComponent}
+      {path: "chatTest", component: ChatTrainerSessionComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,

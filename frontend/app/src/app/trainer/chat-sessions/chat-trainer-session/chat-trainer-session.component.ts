@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Button, Message} from "../chat-view/chat-view.component";
-import {BotMessage, SessionService} from "../data/session.service";
+import {BotMessage, SessionService} from "../../../data/session.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-test-chat-view',
-  templateUrl: './test-chat-view.component.html',
-  styleUrls: ['./test-chat-view.component.css']
+  selector: 'app-chat-trainer-session',
+  templateUrl: './chat-trainer-session.component.html',
+  styleUrls: ['./chat-trainer-session.component.css']
 })
-export class TestChatViewComponent implements OnInit {
+export class ChatTrainerSessionComponent implements OnInit {
   messages: Message[] = [];
   buttons: Button[] = [];
 

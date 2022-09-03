@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {DataService, Vocabulary} from "../data/data.service";
+import {DataService, Vocabulary} from "../../data/data.service";
 
 @Component({
   selector: 'app-vocabulary-view',
