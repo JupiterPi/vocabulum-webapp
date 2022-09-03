@@ -18,6 +18,7 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { ChatViewComponent } from './trainer/chat-sessions/chat-view/chat-view.component';
 import { ChatTrainerSessionComponent } from './trainer/chat-sessions/chat-trainer-session/chat-trainer-session.component';
+import { TrainerLauncherComponent } from './trainer/trainer-launcher/trainer-launcher.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ChatTrainerSessionComponent } from './trainer/chat-sessions/chat-traine
     VocabularyViewComponent,
     SearchComponent,
     ChatViewComponent,
-    ChatTrainerSessionComponent
+    ChatTrainerSessionComponent,
+    TrainerLauncherComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,7 @@ import { ChatTrainerSessionComponent } from './trainer/chat-sessions/chat-traine
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},
-      {path: "chatTest", component: ChatTrainerSessionComponent}
+      {path: "trainer", component: TrainerLauncherComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,

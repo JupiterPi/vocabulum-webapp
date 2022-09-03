@@ -4,6 +4,11 @@ mat-drawer-container {
 
 /* ----- top bar ----- */
 
+a#home-link {
+  font-family: 'Recursive', sans-serif;
+  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt), var(--t-CRSV);
+}
+
 mat-toolbar {
   position: sticky;
   top: 0;
