@@ -37,7 +37,8 @@ import { TrainerLauncherComponent } from './trainer/trainer-launcher/trainer-lau
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},
-      {path: "trainer", component: TrainerLauncherComponent}
+      {path: "trainer", component: TrainerLauncherComponent},
+      {path: "trainer/chat", component: ChatTrainerSessionComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,

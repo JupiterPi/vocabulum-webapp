@@ -1,1 +1,40 @@
-<p>trainer-launcher works!</p>
+<div id="outer-container">
+  <div id="container">
+
+    <div id="mode-selection" class="options-container">
+      <div class="option" mat-ripple (click)="selectMode('cards')" [class.selected]="selectedMode == 'cards'">
+        <div class="mode-icon">
+          <mat-icon>quiz</mat-icon>
+        </div>
+        <div class="mode-title">
+          Karteikarten
+        </div>
+      </div>
+      <div class="option" mat-ripple (click)="selectMode('chat')" [class.selected]="selectedMode == 'chat'">
+        <div class="mode-icon">
+          <mat-icon>forum</mat-icon>
+        </div>
+        <div class="mode-title">
+          Chat
+        </div>
+      </div>
+    </div>
+
+    <div id="direction-selection" class="options-container">
+      <div class="option" mat-ripple (click)="selectDirection('lg')" [class.selected]="selectedDirection == 'lg'">
+        <div>Lat. → DE</div>
+      </div>
+      <div class="option" mat-ripple (click)="selectDirection('rand')" [class.selected]="selectedDirection == 'rand'">
+        <div>zufällig</div>
+      </div>
+      <div class="option" mat-ripple (click)="selectDirection('gl')" [class.selected]="selectedDirection == 'gl'">
+        <div>DE → Lat.</div>
+      </div>
+    </div>
+
+    <div id="start-button-container">
+      <button id="start-button" mat-ripple (click)="submitStart()" [disabled]="!checkReady()">Starten</button>
+    </div>
+
+  </div>
+</div>

@@ -13,7 +13,7 @@ export class AppComponent {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const navigationEnd = event as NavigationEnd;
-        const url = navigationEnd.url.substring(1);
+        const url = navigationEnd.urlAfterRedirects.substring(1);
         if (url.startsWith("dictionary") || url.startsWith("search")) {
           this.currentSection = "dictionary";
         }

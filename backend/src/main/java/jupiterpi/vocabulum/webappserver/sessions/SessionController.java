@@ -15,8 +15,8 @@ public class SessionController {
     private SessionService sessions = new SessionService();
 
     @PostMapping("/create")
-    public String createSession() {
-        return sessions.createSession();
+    public String createSession(@RequestBody SessionOptionsDTO options) {
+        return sessions.createSession(options.getDirection());
     }
 
     @PostMapping("/{sessionId}/start")

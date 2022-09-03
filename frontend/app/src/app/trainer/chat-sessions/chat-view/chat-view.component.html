@@ -1,4 +1,4 @@
-<div id="container">
+<div id="chat-view-component-container">
 
   <div id="messages-container" #messagesContainer>
 
@@ -24,7 +24,7 @@
       </button>
     </ng-container>
     <ng-container *ngIf="buttons.length > 0">
-      <button class="input-button" *ngFor="let button of buttons" (click)="submitAction(button.action)">
+      <button class="input-button" *ngFor="let button of buttons" (click)="submitAction(button.action)" mat-ripple>
         {{button.label}}
       </button>
     </ng-container>

@@ -7,9 +7,9 @@ import java.util.UUID;
 public class SessionService {
     private Map<String, ChatSession> sessions = new HashMap<>();
 
-    public String createSession() {
+    public String createSession(Direction direction) {
         String id = UUID.randomUUID().toString();
-        sessions.put(id, new ChatSession());
+        sessions.put(id, new ChatSession(direction));
         return id;
     }
 

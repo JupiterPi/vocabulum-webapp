@@ -12,9 +12,12 @@ import java.util.List;
 
 public class ChatSession {
     private Session session;
+    private Direction direction;
 
-    public ChatSession() {
+    public ChatSession(Direction direction) {
         session = new Session(Database.get().getPortions().getPortion("A"));
+        this.direction = direction;
+        //TODO implement directions
     }
 
     //TODO implement richer texts
@@ -31,7 +34,7 @@ public class ChatSession {
 
             List<MessageDTO> messages = new ArrayList<>();
             if (!isRestart) messages.addAll(List.of(
-                    MessageDTO.fromMessage("Hi, willkommen zu deiner Abfrage!"),
+                    MessageDTO.fromMessage("Hi, willkommen zu deiner Abfrage in " + direction + "!"), //TODO proper direction
                     MessageDTO.fromMessage("Ich sage dir immer das lateinische Wort und du schreibst die deutschen Bedeutungen zurück."),
                     MessageDTO.fromMessage("Alles klar? Los geht's!")
             ));

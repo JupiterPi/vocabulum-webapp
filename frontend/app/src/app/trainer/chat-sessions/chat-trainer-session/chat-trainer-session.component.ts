@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Button, Message} from "../chat-view/chat-view.component";
-import {BotMessage, SessionService} from "../../../data/session.service";
-import {Router} from "@angular/router";
+import {BotMessage, Direction, SessionService} from "../../../data/session.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-chat-trainer-session',
@@ -12,7 +12,20 @@ export class ChatTrainerSessionComponent implements OnInit {
   messages: Message[] = [];
   buttons: Button[] = [];
 
-  constructor(private sessions: SessionService, private router: Router) {}
+  constructor(private sessions: SessionService, private route: ActivatedRoute, private router: Router) {}
+
+  sessionId: string = "";
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const direction: Direction = params["direction"] || "lg";
+
+      this.sessions.createSession(direction).subscribe(id => {
+        this.sessionId = id;
+        this.sessions.startSession(id).subscribe(messages => this.appendMessages(messages));
+      });
+    });
+  }
 
   takeUserInput(message: string) {
     this.messages.push({
@@ -34,7 +47,7 @@ export class ChatTrainerSessionComponent implements OnInit {
   appendMessages(messages: BotMessage[]) {
     for (let message of messages) {
       if (message.exit) {
-        this.router.navigate(["dictionary"]);
+        this.router.navigate(["trainer"]);
         return;
       }
 
@@ -63,14 +76,5 @@ export class ChatTrainerSessionComponent implements OnInit {
 
       }
     }
-  }
-
-  sessionId: string = "";
-
-  ngOnInit(): void {
-    this.sessions.createSession().subscribe(id => {
-      this.sessionId = id;
-      this.sessions.startSession(id).subscribe(messages => this.appendMessages(messages));
-    });
   }
 }

@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {DataService} from "./data.service";
 
+export type Direction = "lg" | "rand" | "gl";
+type SessionOptions = {
+  direction: Direction
+};
+
 export type BotMessage = {
   messageParts: {
     message: string,
@@ -17,7 +22,7 @@ export type BotMessage = {
   exit: boolean
 };
 
-export type UserInput = {
+type UserInput = {
   input: string;
   action: string;
 };
@@ -29,8 +34,11 @@ export class SessionService {
   constructor(private http: HttpClient, private dataService: DataService) {}
 
   // POST /create
-  createSession() {
-    return this.http.post(this.dataService.backendRoot + "/api/session/create", null, {responseType: "text"});
+  createSession(direction: Direction) {
+    const options: SessionOptions = {
+      direction
+    };
+    return this.http.post(this.dataService.backendRoot + "/api/session/create", options, {responseType: "text"});
   }
 
   // POST /:id/start

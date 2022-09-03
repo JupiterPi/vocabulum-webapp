@@ -29,7 +29,8 @@ export class ChatViewComponent implements DoCheck {
   @Output() sendInput = new EventEmitter<string>();
   @Output() sendButtonAction = new EventEmitter<string>();
 
-  messages: MessageBlock[] = [
+  messages: MessageBlock[] = [];
+  devMessages: MessageBlock[] = [
     {
       senderIsUser: false,
       messages: [
