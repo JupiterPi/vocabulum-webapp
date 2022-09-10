@@ -1,5 +1,6 @@
 package jupiterpi.vocabulum.webappserver.controller;
 
+import jupiterpi.tools.files.TextFile;
 import jupiterpi.vocabulum.core.db.Database;
 import jupiterpi.vocabulum.core.db.LoadingDataException;
 import jupiterpi.vocabulum.core.i18n.I18n;
@@ -28,7 +29,9 @@ public class CoreService {
     public I18n i18n;
 
     public CoreService() throws LoadingDataException, ParserException, DeclinedFormDoesNotExistException, I18nException, LexerException, VerbFormDoesNotExistException {
-        Database.get().connectAndLoad("mongodb://localhost");
+        String connectUrl = new TextFile("mongodb_connect_url.txt").getLine(0);
+        System.out.println("connectUrl = " + connectUrl);
+        Database.get().connectAndLoad(connectUrl);
         Database.get().prepareWordbase();
         i18n = Database.get().getI18ns().de();
     }

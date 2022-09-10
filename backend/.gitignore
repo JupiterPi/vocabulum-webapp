@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+mongodb_connect_url.txt

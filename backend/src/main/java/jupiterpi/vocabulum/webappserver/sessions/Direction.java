@@ -17,4 +17,8 @@ public enum Direction {
     public String getCode() {
         return toString().toLowerCase();
     }
+
+    public enum ResolvedDirection {
+        LG, GL
+    }
 }

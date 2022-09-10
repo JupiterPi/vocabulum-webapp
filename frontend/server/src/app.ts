@@ -17,7 +17,7 @@ const _app_folder = "dist/vocabulum-webapp-pwa";
 // ->
 app.use(express.static("dist/vocabulum-webapp-pwa"));
 // ---- SERVE APPLICATION PATHS ---- //
-["/dictionary", "/dictionary/:vocabulary", "/search", "/trainer"].forEach(route => {
+["/dictionary", "/dictionary/:vocabulary", "/search", "/trainer", "/trainer/chat"].forEach(route => {
     app.get(route, function (req, res) {
         res.status(200).sendFile("/index.html", {root: _app_folder});
     });
