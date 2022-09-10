@@ -19,6 +19,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { ChatViewComponent } from './trainer/chat-sessions/chat-view/chat-view.component';
 import { ChatTrainerSessionComponent } from './trainer/chat-sessions/chat-trainer-session/chat-trainer-session.component';
 import { TrainerLauncherComponent } from './trainer/trainer-launcher/trainer-launcher.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { TrainerLauncherComponent } from './trainer/trainer-launcher/trainer-lau
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-      {path: "", redirectTo: "/dictionary", pathMatch: "full"},
+      /*{path: "", redirectTo: "/dictionary", pathMatch: "full"},*/
+      {path: "", component: PortionsOverviewComponent},
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},
@@ -49,7 +52,13 @@ import { TrainerLauncherComponent } from './trainer/trainer-launcher/trainer-lau
     MatButtonModule,
     MatRippleModule,
     MatTooltipModule,
-    FormsModule
+    FormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

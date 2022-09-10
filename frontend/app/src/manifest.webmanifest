@@ -1,0 +1,17 @@
+{
+  "name": "Vocabulum PWA",
+  "short_name": "Vocabulum",
+  "theme_color": "#2083a6",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/logo/vocabulum_logo_circle_lower-resolution.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}
