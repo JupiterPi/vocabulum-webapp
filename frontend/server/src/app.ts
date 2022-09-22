@@ -26,4 +26,5 @@ app.use(express.static("dist/vocabulum-webapp-pwa"));
 
 app.listen(port, () => {
     console.log(`Vocabulum Webapp PWA server listening on port ${port}`);
+    console.log(`http://localhost:${port}`);
 });
