@@ -1,0 +1,19 @@
+<div id="outer-container">
+  <div id="container">
+
+    <div id="header">Registrieren</div>
+
+    <input placeholder="Benutzername" [(ngModel)]="username">
+
+    <input placeholder="E-Mail" [(ngModel)]="email">
+
+    <input placeholder="Passwort" type="password" [(ngModel)]="password">
+
+    <input placeholder="Passwort wiederholen" type="password" [(ngModel)]="passwordRepeat" [class.invalid]="!passwordRepeatedCorrectly()">
+
+    <div id="login-container">
+      <button id="login" mat-ripple [disabled]="!ready()">Registrieren</button>
+    </div>
+
+  </div>
+</div>

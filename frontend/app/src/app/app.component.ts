@@ -9,7 +9,7 @@ import {NavigationEnd, Router} from "@angular/router";
 export class AppComponent {
   currentSection = "";
 
-  constructor(router: Router) {
+  constructor(private router: Router) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const navigationEnd = event as NavigationEnd;
@@ -22,13 +22,16 @@ export class AppComponent {
         }
       }
     });
-
-    /*setInterval(() => {
-      this.loggedIn = !this.loggedIn;
-    }, 1500);
-    //TODO remove*/
   }
 
-  loggedIn = true;
+  loggedIn = false;
   username = "JupiterPi";
+
+  authClicked() {
+    if (this.loggedIn) {
+      alert("showing user profile");
+    } else {
+      this.router.navigate(["login"]);
+    }
+  }
 }

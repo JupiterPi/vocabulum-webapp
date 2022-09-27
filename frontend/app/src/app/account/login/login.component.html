@@ -1,0 +1,17 @@
+<div id="outer-container">
+  <div id="container">
+
+    <div id="header">Anmelden</div>
+
+    <input placeholder="Benutzername / E-Mail" [(ngModel)]="username">
+
+    <input placeholder="Passwort" type="password" [(ngModel)]="password">
+
+    <div id="login-container">
+      <button id="login" mat-ripple [disabled]="!ready()">Anmelden</button>
+    </div>
+
+    <div class="footnote">Du hast noch kein Profil? <a routerLink="/register">Registriere</a> dich.</div>
+
+  </div>
+</div>

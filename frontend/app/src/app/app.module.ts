@@ -21,6 +21,8 @@ import { ChatTrainerSessionComponent } from './trainer/chat-sessions/chat-traine
 import { TrainerLauncherComponent } from './trainer/trainer-launcher/trainer-launcher.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { LoginComponent } from './account/login/login.component';
+import { RegisterComponent } from './account/register/register.component';
 
 @NgModule({
   declarations: [
@@ -30,13 +32,17 @@ import { environment } from '../environments/environment';
     SearchComponent,
     ChatViewComponent,
     ChatTrainerSessionComponent,
-    TrainerLauncherComponent
+    TrainerLauncherComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-      /*{path: "", redirectTo: "/dictionary", pathMatch: "full"},*/
-      {path: "", component: PortionsOverviewComponent},
+      {path: "", redirectTo: "/dictionary", pathMatch: "full"},
+      /*{path: "", component: PortionsOverviewComponent},*/
+      {path: "login", component: LoginComponent},
+      {path: "register", component: RegisterComponent},
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},
