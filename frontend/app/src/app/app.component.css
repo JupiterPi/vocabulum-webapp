@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   gap: 13px;
+  cursor: pointer;
 }
 
 #navbar-title-logo {

@@ -16,9 +16,12 @@ export class AppComponent {
         const url = navigationEnd.urlAfterRedirects.substring(1);
         if (url.startsWith("dictionary") || url.startsWith("search")) {
           this.currentSection = "dictionary";
-        }
-        if (url.startsWith("trainer")) {
+        } else if (url.startsWith("trainer")) {
           this.currentSection = "trainer";
+        } else if (url.startsWith("translationAssistance")) {
+          this.currentSection = "translationAssistance";
+        } else {
+          this.currentSection = "";
         }
       }
     });

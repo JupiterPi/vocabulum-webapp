@@ -1,7 +1,7 @@
 <div id="navbar">
-  <div id="navbar-title">
+  <div id="navbar-title" routerLink="">
     <img id="navbar-title-logo" src="/assets/logo/vocabulum_logo_circle.png">
-    <a id="navbar-title-link" routerLink="">Vocabulum</a>
+    <a id="navbar-title-link">Vocabulum</a>
   </div>
 
   <div id="navbar-tabs">
@@ -11,7 +11,7 @@
     <a class="tab-button" [class.current-tab]="currentSection == 'trainer'" mat-ripple matTooltip="Trainer" routerLink="trainer">
       <mat-icon>quiz</mat-icon>
     </a>
-    <a class="tab-button" [class.current-tab]="false" mat-ripple matTooltip="Translation Assistance">
+    <a class="tab-button" [class.current-tab]="currentSection == 'translationAssistance'" mat-ripple matTooltip="Translation Assistance" routerLink="translationAssistance">
       <mat-icon>laptop</mat-icon>
     </a>
   </div>

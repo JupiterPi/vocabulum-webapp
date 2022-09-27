@@ -1,0 +1,31 @@
+#container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 20px;
+}
+
+.ta-item-container {
+  background-color: white;
+  border: #d0d0d0 1px solid;
+  border-radius: 20px;
+  padding: 12px 20px 20px 20px;
+  min-width: 80px;
+  cursor: pointer;
+}
+
+.ta-item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.ta-item-forms-container {
+  margin-bottom: 10px;
+}
+
+.ta-item-of {
+  color: grey;
+}

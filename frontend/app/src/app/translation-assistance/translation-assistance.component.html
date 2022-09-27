@@ -1,0 +1,15 @@
+<div id="container">
+
+  <div class="ta-item-container" *ngFor="let item of items" mat-ripple (click)="showVocabulary(item.base_form)">
+    <div class="ta-item-title">{{item.title}}</div>
+    <div class="ta-item-forms-container">
+      <div class="ta-item-form" *ngFor="let form of item.forms">{{form}}</div>
+    </div>
+    <div class="ta-item-of" *ngIf="!item.inflexible">von</div>
+    <div class="ta-item-definition">{{item.definition}}</div>
+    <div class="ta-item-translations-container">
+      <div class="ta-item-translation" *ngFor="let translation of item.translations">{{translation}}</div>
+    </div>
+  </div>
+
+</div>

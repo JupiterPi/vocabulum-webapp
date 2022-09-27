@@ -23,6 +23,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
+import { TranslationAssistanceComponent } from './translation-assistance/translation-assistance.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RegisterComponent } from './account/register/register.component';
     ChatTrainerSessionComponent,
     TrainerLauncherComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    TranslationAssistanceComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ import { RegisterComponent } from './account/register/register.component';
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},
       {path: "trainer", component: TrainerLauncherComponent},
-      {path: "trainer/chat", component: ChatTrainerSessionComponent}
+      {path: "trainer/chat", component: ChatTrainerSessionComponent},
+      {path: "translationAssistance", component: TranslationAssistanceComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,
