@@ -1,29 +1,33 @@
-<mat-toolbar color="primary">
-  <div id="toolbar-container">
-
-    <!--<button mat-icon-button class="nav-left-button"><mat-icon>menu</mat-icon></button>-->
-    <div class="toolbar-section" id="toolbar-section-title">
-      <img src="/assets/logo/vocabulum_logo_circle.png" alt="Logo" class="logo-icon">
-      <a id="home-link">Vocabulum</a>
-    </div>
-
-    <div id="toolbar-sections-spacer"></div>
-
-    <div class="toolbar-section" id="toolbar-section-tabs">
-      <a class="tab-button" [class.current-tab]="currentSection == 'dictionary'" mat-ripple matTooltip="Vokabelverzeichnis" routerLink="dictionary">
-        <mat-icon>menu_book</mat-icon>
-      </a>
-      <a class="tab-button" [class.current-tab]="currentSection == 'trainer'" mat-ripple matTooltip="Trainer" routerLink="trainer">
-        <mat-icon>quiz</mat-icon>
-      </a>
-      <a class="tab-button" [class.current-tab]="false" mat-ripple matTooltip="Translation Assistance">
-        <mat-icon>laptop</mat-icon>
-      </a>
-    </div>
-
-    <div class="toolbar-section"></div>
-
+<div id="navbar">
+  <div id="navbar-title">
+    <img id="navbar-title-logo" src="/assets/logo/vocabulum_logo_circle.png">
+    <a id="navbar-title-link" routerLink="">Vocabulum</a>
   </div>
-</mat-toolbar>
+
+  <div id="navbar-tabs">
+    <a class="tab-button" [class.current-tab]="currentSection == 'dictionary'" mat-ripple matTooltip="Vokabelverzeichnis" routerLink="dictionary">
+      <mat-icon>menu_book</mat-icon>
+    </a>
+    <a class="tab-button" [class.current-tab]="currentSection == 'trainer'" mat-ripple matTooltip="Trainer" routerLink="trainer">
+      <mat-icon>quiz</mat-icon>
+    </a>
+    <a class="tab-button" [class.current-tab]="false" mat-ripple matTooltip="Translation Assistance">
+      <mat-icon>laptop</mat-icon>
+    </a>
+  </div>
+
+  <div id="navbar-user" mat-ripple>
+    <img id="navbar-user-icon" src="/assets/logo/vocabulum_logo_circle.png">
+    <div id="navbar-user-name">
+      <ng-container *ngIf="loggedIn">
+        <div id="navbar-user-name-description">Eingeloggt als</div>
+        <div id="navbar-user-name-name">{{username}}</div>
+      </ng-container>
+      <ng-container *ngIf="!loggedIn">
+        <div id="navbar-user-name-text">Nicht angemeldet</div>
+      </ng-container>
+    </div>
+  </div>
+</div>
 
 <router-outlet></router-outlet>

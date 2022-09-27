@@ -22,5 +22,13 @@ export class AppComponent {
         }
       }
     });
+
+    /*setInterval(() => {
+      this.loggedIn = !this.loggedIn;
+    }, 1500);
+    //TODO remove*/
   }
+
+  loggedIn = true;
+  username = "JupiterPi";
 }

@@ -52,7 +52,6 @@ public class ChatSession {
     private Vocabulary currentVocabulary;
 
     public List<MessageDTO> handleUserInput(String input) {
-        System.out.println("handling input: " + input);
         try {
             List<MessageDTO> messages = new ArrayList<>();
 

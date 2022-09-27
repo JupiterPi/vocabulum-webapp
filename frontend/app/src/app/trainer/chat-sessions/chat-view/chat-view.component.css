@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 10px;
   min-height: 500px;
-  max-height: calc(100vh - 64px - 2*5px);
+  max-height: calc(100vh - 64px - 2*5px - 10px); /* "-10px" added after changes to navbar */
 }
 
 #chat-view-component-container #messages-container {
