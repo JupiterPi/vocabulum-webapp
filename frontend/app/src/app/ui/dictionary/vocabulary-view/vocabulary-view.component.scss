@@ -1,3 +1,7 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
 #outer-container {
   display: flex;
   flex-direction: column;
@@ -7,9 +11,7 @@
 }
 
 #container {
-  background-color: white;
-  border: #d0d0d0 1px solid;
-  border-radius: 20px;
+  @include rounded-container;
   width: 800px;
 
   display: flex;
@@ -31,8 +33,7 @@
 
 #kind {
   font-size: 20px;
-  font-family: 'Recursive', monospace;
-  font-variation-settings: var(--m-mono), var(--m-casl), var(--m-wght), var(--m-slnt), var(--m-CRSV);
+  @include font-def-mono;
 }
 #kind span {
   background-color: #dedede;
@@ -43,7 +44,7 @@
 
 #base-forms {
   font-size: 60px;
-  font-family: 'Playfair Display', serif;
+  @include font-srf;
 }
 
 @media screen and (max-width: 500px) {
@@ -58,19 +59,17 @@
   flex-direction: row;
   gap: 5px;
 
-  font-family: 'Recursive', sans-serif;
-  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt), var(--t-CRSV);
+  @include font-def;
   font-size: 30px;
 }
 
 .translation:not(:last-child)::after {
   content: ", ";
-  font-family: 'Recursive', sans-serif;
-  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt), var(--t-CRSV);
+  @include font-def;
 }
 
 .translation.important {
-  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght-bolder), var(--t-slnt), var(--t-CRSV);
+  @include font-def-bolder;
 }
 
 @media screen and (max-width: 500px) {
@@ -98,8 +97,8 @@
 }
 
 .meta-name {
-  color: #525252;
-  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt-slight), var(--t-CRSV);
+  color: $clr-muted;
+  @include font-def-slight-slant;
 }
 
 

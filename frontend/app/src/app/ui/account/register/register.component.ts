@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['../login_register.css']
+  styleUrls: ['../login_register.scss']
 })
 export class RegisterComponent {
   username = ""

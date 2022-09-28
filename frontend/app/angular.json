@@ -29,7 +29,10 @@
             ],
             "styles": [
               "src/styles/theme.scss",
-              "src/styles/styles.css"
+              "src/styles/styles.scss",
+              "src/styles/_variables.scss",
+              "src/styles/_mixins.scss",
+              "src/styles/_fonts.scss"
             ],
             "scripts": [],
             "serviceWorker": true,
@@ -84,25 +87,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "vocabulum-webapp-pwa:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
-            ],
-            "styles": [
-              "src/styles/theme.scss",
-              "src/styles/styles.css"
-            ],
-            "scripts": []
           }
         }
       }

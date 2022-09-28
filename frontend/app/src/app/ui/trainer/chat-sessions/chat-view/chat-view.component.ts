@@ -19,7 +19,7 @@ export type Button = {
 @Component({
   selector: 'app-chat-view',
   templateUrl: './chat-view.component.html',
-  styleUrls: ['./chat-view.component.css'],
+  styleUrls: ['./chat-view.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ChatViewComponent implements DoCheck {

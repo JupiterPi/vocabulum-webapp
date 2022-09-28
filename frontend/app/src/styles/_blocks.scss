@@ -1,0 +1,34 @@
+@import "variables";
+
+/* --- layout blocks --- */
+
+/* container */
+
+@mixin container {
+  background-color: $clr-background-1;
+  border: $clr-background-1-border 1px solid;
+}
+
+/* rounder, container */
+
+$rounded-container-border-radius: 20px;
+
+@mixin rounded-container($border-radius: $rounded-container-border-radius) {
+  @include container;
+  border-radius: $border-radius;
+}
+
+/* primary button */
+
+@mixin primary-button {
+  background-color: $clr-background-1;
+  border: $clr-bold-border 1px solid;
+  border-radius: 100vw;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+@mixin primary-button-disabled {
+  cursor: not-allowed;
+  color: $clr-muted-alt;
+}

@@ -7,7 +7,7 @@ export type Mode = "cards" | "chat";
 @Component({
   selector: 'app-trainer-launcher',
   templateUrl: './trainer-launcher.component.html',
-  styleUrls: ['./trainer-launcher.component.css']
+  styleUrls: ['./trainer-launcher.component.scss']
 })
 export class TrainerLauncherComponent {
   selectedMode?: Mode;

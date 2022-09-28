@@ -5,7 +5,7 @@ import {DataService, Portion} from "../../../data/data.service";
 @Component({
   selector: 'app-portions-overview',
   templateUrl: './portions-overview.component.html',
-  styleUrls: ['./portions-overview.component.css']
+  styleUrls: ['./portions-overview.component.scss']
 })
 export class PortionsOverviewComponent implements OnInit {
   portions?: Portion[];

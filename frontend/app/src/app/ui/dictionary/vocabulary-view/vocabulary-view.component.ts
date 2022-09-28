@@ -5,7 +5,7 @@ import {DataService, Vocabulary} from "../../../data/data.service";
 @Component({
   selector: 'app-vocabulary-view',
   templateUrl: './vocabulary-view.component.html',
-  styleUrls: ['./vocabulary-view.component.css']
+  styleUrls: ['./vocabulary-view.component.scss']
 })
 export class VocabularyViewComponent implements OnInit {
   /*vocabulary: Vocabulary = {

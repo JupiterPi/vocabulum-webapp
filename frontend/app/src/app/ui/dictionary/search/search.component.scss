@@ -1,3 +1,7 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
 #container {
   display: flex;
   flex-direction: column;
@@ -18,18 +22,14 @@
 }
 
 #search-bar {
-  background-color: white;
-  border: #d0d0d0 1px solid;
-  border-radius: 20px;
+  @include rounded-container;
   padding: 30px;
   width: calc(100% - 2*30px);
 
-  font-family: 'Playfair Display', serif;
+  @include font-srf;
   font-size: 40px;
 }
-
 #search-bar:focus {
-  border: #d0d0d0 1px solid;
   outline: none;
 }
 
@@ -58,16 +58,14 @@
 }
 
 .search-result-container {
-  background-color: white;
-  border: #d0d0d0 1px solid;
-  border-radius: 20px;
+  @include rounded-container;
   padding: 20px;
   max-width: max-content;
   cursor: pointer;
 }
 
 .muted {
-  color: #525252;
+  color: $clr-muted;
 }
 
 .result-found-form, .result-word {
@@ -75,6 +73,6 @@
 }
 
 .result-found-form span:not(.in-query) {
-  color: #525252;
-  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght-lighter), var(--t-slnt), var(--t-CRSV);
+  color: $clr-muted;
+  @include font-def-lighter;
 }

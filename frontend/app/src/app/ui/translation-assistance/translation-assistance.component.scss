@@ -1,3 +1,7 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
 #container {
   display: flex;
   flex-direction: row;
@@ -8,16 +12,14 @@
 }
 
 .ta-item-container {
-  background-color: white;
-  border: #d0d0d0 1px solid;
-  border-radius: 20px;
+  @include rounded-container;
   padding: 12px 20px 20px 20px;
   min-width: 80px;
   cursor: pointer;
 }
 
 .ta-item-title {
-  font-family: 'Playfair Display', serif;
+  @include font-srf;
   font-size: 40px;
   margin-bottom: 10px;
 }
@@ -27,5 +29,5 @@
 }
 
 .ta-item-of {
-  color: grey;
+  color: $clr-muted-alt;
 }

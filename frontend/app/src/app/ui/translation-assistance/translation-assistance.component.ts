@@ -13,7 +13,7 @@ export type TAItem = {
 @Component({
   selector: 'app-translation-assistance',
   templateUrl: './translation-assistance.component.html',
-  styleUrls: ['./translation-assistance.component.css']
+  styleUrls: ['./translation-assistance.component.scss']
 })
 export class TranslationAssistanceComponent {
   items: TAItem[] = [

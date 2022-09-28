@@ -1,0 +1,58 @@
+@import "variables";
+
+/* --- def: Recursive --- */
+
+@import url('https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap');
+
+$font-def-def-mono: 0;
+$font-def-def-casl: 0;
+$font-def-def-wght: 500;
+$font-def-def-slnt: 0;
+$font-def-def-crsv: 1;
+
+@mixin font-def($mono: $font-def-def-mono, $casl: $font-def-def-casl, $wght: $font-def-def-wght, $slnt: $font-def-def-slnt, $crsv: $font-def-def-crsv) {
+  font-family: 'Recursive', sans-serif;
+  font-variation-settings: "MONO" $mono, "CASL" $casl, "wght" $wght, "slnt" $slnt, "CRSV" $crsv;
+}
+
+/* mono */
+
+$font-def-mono-mono: 1;
+$font-def-mono-wght: 676;
+
+@mixin font-def-mono {
+  @include font-def($mono: $font-def-mono-mono, $wght: $font-def-mono-wght);
+}
+
+/* bolder */
+
+$font-def-bolder-wght: 700;
+
+@mixin font-def-bolder {
+  @include font-def($wght: $font-def-bolder-wght);
+}
+
+/* lighter */
+
+$font-def-lighter-wght: 300;
+
+@mixin font-def-lighter {
+  @include font-def($wght: $font-def-lighter-wght);
+}
+
+/* slight slant */
+
+$font-def-slightslant-slnt: -6;
+
+@mixin font-def-slight-slant {
+  @include font-def($slnt: $font-def-slightslant-slnt);
+}
+
+
+/* --- srf: Playfair Display --- */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+
+@mixin font-srf {
+  font-family: 'Playfair Display', serif;
+}

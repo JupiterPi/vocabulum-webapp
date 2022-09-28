@@ -1,0 +1,41 @@
+@import "variables";
+@import "fonts";
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap');
+
+body {
+  margin: 0;
+  background-color: $clr-background-0 !important;
+  height: 100vh;
+}
+
+body, button, input {
+  /*font-family: 'Recursive', sans-serif;
+  font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt), var(--t-CRSV);*/
+  @include font-def;
+}
+
+/* style from signup-form.component.css */
+
+snack-bar-container.error {
+  background-color: #f44336;
+}
+
+.muted {
+  color: $clr-muted-alt;
+}
+
+a, a:hover, a:visited, a:active {
+  color: unset;
+  text-decoration: none;
+}
+
+a.button {
+  background-color: white;
+  border: #d0d0d0 1px solid;
+  border-radius: 15px;
+  padding: 10px 15px;
+  @include font-def-bolder;
+  font-size: 15px;
+}
