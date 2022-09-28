@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Direction} from "../../data/session.service";
+import {Direction} from "../../../data/session.service";
 
 export type Mode = "cards" | "chat";
 

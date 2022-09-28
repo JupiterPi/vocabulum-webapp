@@ -4,7 +4,7 @@
 
     <div class="message-block-container" [class.user]="block.senderIsUser" *ngFor="let block of messages">
       <div class="message-icon-container" *ngIf="!block.senderIsUser">
-        <img src="../../../../assets/logo/vocabulum_logo_circle.png">
+        <img src="../../../../../assets/logo/vocabulum_logo_circle.png">
       </div>
       <div class="message-messages-container">
         <div class="message-bubble" *ngFor="let message of block.messages" [innerHTML]="message" style="white-space: pre-wrap"></div>
