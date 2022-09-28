@@ -1,4 +1,5 @@
 @import "variables";
+@import "blocks";
 @import "fonts";
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
@@ -10,10 +11,11 @@ body {
   height: 100vh;
 }
 
-body, button, input {
+body, button, input, a {
   /*font-family: 'Recursive', sans-serif;
   font-variation-settings: var(--t-mono), var(--t-casl), var(--t-wght), var(--t-slnt), var(--t-CRSV);*/
   @include font-def;
+  color: $clr-text;
 }
 
 /* style from signup-form.component.css */
@@ -32,9 +34,7 @@ a, a:hover, a:visited, a:active {
 }
 
 a.button {
-  background-color: white;
-  border: #d0d0d0 1px solid;
-  border-radius: 15px;
+  @include rounded-container($border-radius: 15px);
   padding: 10px 15px;
   @include font-def-bolder;
   font-size: 15px;

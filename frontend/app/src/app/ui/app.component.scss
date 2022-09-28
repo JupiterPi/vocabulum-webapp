@@ -50,13 +50,14 @@ $navbar-content-height: $navbar-height - 25px;
   gap: 10px;
 }
 
+$tab-button-border-radius: 15px;
 .tab-button {
   width: $navbar-content-height - 10px;
   height: $navbar-content-height - 10px;
   background-color: $clr-on-secondary;
   border: none;
   padding: 5px;
-  border-radius: 15px;
+  border-radius: $tab-button-border-radius;
   cursor: pointer;
   color: $clr-secondary;
 
@@ -114,6 +115,10 @@ $navbar-user-name-description-fontsize: 10px;
   }
   #navbar-user-icon {
     margin-right: 8px;
+  }
+
+  #navbar-user {
+    border-radius: $tab-button-border-radius;
   }
 
   #navbar {

@@ -1,3 +1,5 @@
+/* ----- light theme ----- */
+
 /* --- theme colors --- */
 
 $clr-primary: rgb(241, 67, 33);
@@ -13,6 +15,8 @@ $clr-on-secondary: white;
 
 $clr-background-0: #eeeeee;
 
+$clr-background-on-1: #dedede;
+
 $clr-background-1: white;
 $clr-background-1-border: #d0d0d0;
 $clr-background-1-hover: #f3f3f3;
@@ -26,3 +30,38 @@ $clr-bold-border: black;
 
 $clr-muted: #525252;
 $clr-muted-alt: grey;
+
+
+
+/*!* ----- dark theme ----- *!
+
+!* --- theme colors --- *!
+
+$clr-primary: rgb(241, 67, 33);
+$clr-on-primary: #181818;
+
+$clr-primary-lighter: rgb(247, 135, 114);
+
+$clr-secondary: rgb(22, 112, 141);
+$clr-on-secondary: #181818;
+
+
+!* --- layout / basic colors --- *!
+
+$clr-background-0: #181818;
+
+$clr-background-on-1: #3d3d3d;
+
+$clr-background-1: #131313;
+$clr-background-1-border: #313131;
+$clr-background-1-hover: #1f1f1f;
+
+$clr-text: white;
+
+$clr-bold-border: white;
+
+
+!* --- other colors --- *!
+
+$clr-muted: #9f9f9f;
+$clr-muted-alt: #5e5e5e;*/

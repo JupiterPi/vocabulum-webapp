@@ -92,7 +92,7 @@
     @include font-def-bolder;
   }
   .default {
-    color: black;
+    color: $clr-text;
   }
   .green {
     color: green;
