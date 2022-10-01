@@ -1,0 +1,33 @@
+<div id="outer-container">
+  <div class="container" id="container-account">
+
+    <div class="container-header" id="greeting">Hi, {{userDetails.username}}!</div>
+
+    <div id="meta-outer-container">
+      <div class="meta-container">
+        <span class="meta-name">Benutzer seit</span>
+        <span class="meta-value">2020</span>
+      </div>
+      <div class="meta-container">
+        <span class="meta-name">E-Mail</span>
+        <span class="meta-value" id="email" (click)="showEmail()">
+          {{obfuscateEmail(userDetails.email)}}
+          <a><mat-icon>visibility</mat-icon></a>
+        </span>
+      </div>
+    </div>
+
+    <div id="actions-container">
+      <a class="button" mat-ripple (click)="changePassword()">
+        Passwort ändern
+      </a>
+    </div>
+
+  </div>
+
+  <!--<div class="container">
+
+    <div class="container-header">Verlauf</div>
+
+  </div>-->
+</div>

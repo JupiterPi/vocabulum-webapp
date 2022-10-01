@@ -2,6 +2,30 @@
 
 /* --- layout blocks --- */
 
+/* outer container */
+
+@mixin outer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+@mixin outer-container-sm {
+  align-items: stretch;
+}
+
+@mixin container-in-outer-container($width: 800px) {
+  width: $width;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 20px;
+}
+@mixin container-in-outer-container-sm {
+  width: auto;
+}
+
 /* container */
 
 @mixin container {

@@ -1,0 +1,77 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+/* layout */
+
+#outer-container {
+  @include outer-container;
+}
+
+.container {
+  @include rounded-container;
+  @include container-in-outer-container;
+}
+
+@media screen and (max-width: 900px) {
+  #outer-container {
+    @include outer-container-sm;
+  }
+
+  .container {
+    @include container-in-outer-container-sm;
+  }
+}
+
+/* contents */
+
+.container-header {
+  font-size: 40px;
+  @include font-srf;
+}
+.container-header#greeting {
+  font-size: 60px;
+}
+
+// copied from vocabulary-view.component.scss
+
+#meta-outer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 10px 0;
+}
+
+.meta-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.meta-name {
+  color: $clr-muted;
+  @include font-def-slight-slant;
+}
+
+
+#actions-container {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+#actions-container a {
+  cursor: pointer;
+}
+
+//
+
+#email {
+  cursor: pointer;
+}
+
+#email mat-icon {
+  font-size: 16px;
+  color: $clr-muted;
+}

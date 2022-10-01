@@ -24,6 +24,7 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './ui/account/login/login.component';
 import { RegisterComponent } from './ui/account/register/register.component';
 import { TranslationAssistanceComponent } from './ui/translation-assistance/translation-assistance.component';
+import { ProfileComponent } from './ui/account/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { TranslationAssistanceComponent } from './ui/translation-assistance/tran
     TrainerLauncherComponent,
     LoginComponent,
     RegisterComponent,
-    TranslationAssistanceComponent
+    TranslationAssistanceComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { TranslationAssistanceComponent } from './ui/translation-assistance/tran
       /*{path: "", component: PortionsOverviewComponent},*/
       {path: "login", component: LoginComponent},
       {path: "register", component: RegisterComponent},
+      {path: "my", component: ProfileComponent},
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
       {path: "search", component: SearchComponent},

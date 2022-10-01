@@ -21,7 +21,7 @@
     <div id="navbar-user-name">
       <ng-container *ngIf="loggedIn">
         <div id="navbar-user-name-description">Eingeloggt als</div>
-        <div id="navbar-user-name-name">{{username}}</div>
+        <div id="navbar-user-name-name">{{userDetails?.username}}</div>
       </ng-container>
       <ng-container *ngIf="!loggedIn">
         <div id="navbar-user-name-text">Nicht angemeldet</div>
