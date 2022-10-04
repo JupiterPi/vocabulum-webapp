@@ -1,4 +1,5 @@
 @import "variables";
+@import "fonts";
 
 /* --- layout blocks --- */
 
@@ -55,4 +56,42 @@ $rounded-container-border-radius: 20px;
 @mixin primary-button-disabled {
   cursor: not-allowed;
   color: $clr-muted-alt;
+}
+
+/* button */
+
+@mixin buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+@mixin button {
+  @include rounded-container($border-radius: 15px);
+  padding: 10px 15px;
+  @include font-def-bolder;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* meta */
+
+@mixin meta-outer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 10px 0;
+}
+
+@mixin meta-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@mixin meta-name {
+  color: $clr-muted;
+  @include font-def-slight-slant;
 }

@@ -34,8 +34,5 @@ a, a:hover, a:visited, a:active {
 }
 
 a.button {
-  @include rounded-container($border-radius: 15px);
-  padding: 10px 15px;
-  @include font-def-bolder;
-  font-size: 15px;
+  @include button;
 }

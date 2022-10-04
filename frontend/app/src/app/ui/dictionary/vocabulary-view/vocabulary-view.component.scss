@@ -78,29 +78,16 @@
   }
 }
 
-
 #meta-outer-container {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin: 10px 0;
+  @include meta-outer-container;
 }
-
 .meta-container {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+  @include meta-container;
 }
-
 .meta-name {
-  color: $clr-muted;
-  @include font-def-slight-slant;
+  @include meta-name;
 }
-
 
 #actions-container {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  flex-wrap: wrap;
+  @include buttons;
 }

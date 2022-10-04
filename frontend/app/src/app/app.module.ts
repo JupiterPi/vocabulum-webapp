@@ -25,6 +25,7 @@ import { LoginComponent } from './ui/account/login/login.component';
 import { RegisterComponent } from './ui/account/register/register.component';
 import { TranslationAssistanceComponent } from './ui/translation-assistance/translation-assistance.component';
 import { ProfileComponent } from './ui/account/profile/profile.component';
+import { HistoryComponent } from './ui/account/history/history.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ProfileComponent } from './ui/account/profile/profile.component';
     LoginComponent,
     RegisterComponent,
     TranslationAssistanceComponent,
-    ProfileComponent
+    ProfileComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

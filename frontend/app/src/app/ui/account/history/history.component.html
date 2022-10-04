@@ -1,0 +1,57 @@
+<div id="outer-container">
+
+  <div *ngFor="let block of sortedHistory">
+    <div class="container-header">{{formatTime(block.startTime)}}</div>
+    <div class="container">
+      <div class="item-container" *ngFor="let item of block.items" (click)="expandHistoryItem(item)" [class.expanded]="!item.showCondensed">
+        <ng-container *ngIf="item.showCondensed">
+
+          <div class="condensed-text-container">
+            <span>
+              {{formatMode(item.item.mode)}}
+            </span>
+            <span>
+              <span class="muted"> / </span>
+              {{formatDirection(item.item.direction, false)}}
+            </span>
+            <span>
+              <span class="muted"> / L. </span>
+              {{item.item.selection}}
+            </span>
+          </div>
+
+          <div class="condensed-buttons-container">
+            <a class="button">
+              <!--<mat-icon>expand_more</mat-icon>-->
+              <span class="arrow"></span>
+            </a>
+          </div>
+
+        </ng-container>
+        <ng-container *ngIf="!item.showCondensed">
+
+          <div class="expanded-text-container">
+            <div>
+              <span>{{formatMode(item.item.mode)}}</span>
+              <span class="muted">-Abfrage</span>
+            </div>
+            <div>
+              <span class="muted">in </span>
+              <span>{{formatDirection(item.item.direction, true)}}</span>
+            </div>
+            <div>
+              <span class="muted">von Lektion </span>
+              <span>{{item.item.selection}}</span>
+            </div>
+          </div>
+
+          <div class="expanded-buttons-container">
+            <a class="button" mat-ripple (click)="repeatHistoryItem(item.item)">Wiederholen</a>
+          </div>
+
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+</div>
