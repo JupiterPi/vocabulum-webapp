@@ -75,3 +75,41 @@
   font-size: 16px;
   color: $clr-muted;
 }
+
+/* history */
+
+#history-outer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.history-item-container {
+  @include container;
+  padding: 20px;
+
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+.history-item-container:hover {
+  background-color: $clr-background-1-hover;
+}
+
+.history-item-container + .history-item-container {
+  border-top: none;
+}
+
+.history-item-container:first-child {
+  border-top-left-radius: $rounded-container-border-radius;
+  border-top-right-radius: $rounded-container-border-radius;
+}
+
+.history-item-container:last-child {
+  border-bottom-left-radius: $rounded-container-border-radius;
+  border-bottom-right-radius: $rounded-container-border-radius;
+}
+
+.history-container-header {
+  text-align: center;
+  margin-bottom: 20px;
+}

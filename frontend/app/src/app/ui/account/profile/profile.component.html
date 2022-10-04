@@ -25,9 +25,24 @@
 
   </div>
 
-  <!--<div class="container">
+  <div class="container">
 
     <div class="container-header">Verlauf</div>
 
-  </div>-->
+    <div id="history-outer-container">
+      <div *ngFor="let block of sortedHistory">
+        <div class="history-container-header">{{formatTime(block.startTime)}}</div>
+        <div class="history-container">
+          <div class="history-item-container" *ngFor="let item of block.items" mat-ripple (click)="recallHistoryItem(item)">
+            <span>{{formatMode(item.mode)}}</span>
+            <span class="muted">-Abfrage in </span>
+            <span>{{formatDirection(item.direction)}}</span>
+            <span class="muted"> von Lektion </span>
+            <span>{{item.selection}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
