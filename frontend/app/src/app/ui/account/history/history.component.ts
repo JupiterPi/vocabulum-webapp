@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {HistoryItem, UserService} from "../../../data/user.service";
+import {min} from "rxjs";
 
 type HistoryBlock = {
   startTime: Date,
@@ -45,14 +46,83 @@ export class HistoryComponent {
     this.sortedHistory.push(block);
   }
 
-  formatTime(time: Date) {
-    if (time.getTime() == new Date(0).getTime()) {
-      return "Heute 15:36";
-    } else {
-      return "Heute 17:21";
-    }
-  }
+  formatDate(time: Date) {
+    const diffTime = new Date().getTime() - time.getTime();
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    const diffHours = diffTime / (1000 * 60 * 60);
+    const diffMinutes = diffTime / (1000 * 60);
+    const dayAfterTime = new Date(time.getTime() + (1000*60*60*24));
 
+    let timeOfDay = "";
+    if (time.getHours() < 12) {
+      timeOfDay = "Früh";
+    } else if (time.getHours() < 15) {
+      timeOfDay = "Mittag";
+    } else if (time.getHours() < 19) {
+      timeOfDay = "Nachmittag";
+    } else {
+      timeOfDay = "Abend";
+    }
+
+    if (
+      time.getDate() === new Date().getDate()
+      && time.getMonth() === new Date().getMonth()
+      && time.getFullYear() === new Date().getFullYear()
+    ) {
+      if (diffHours > 5.0) {
+        let minutesStr = time.getMinutes() + "";
+        if (minutesStr.length <= 1) minutesStr = "0" + minutesStr;
+        return `${time.getHours()}:${minutesStr}`;
+      } else {
+        if (diffHours > 4.0) {
+          return "Vor 4 Stunden";
+        } else if (diffHours > 3.0) {
+          return "Vor 3 Stunden";
+        } else if (diffHours > 2.0) {
+          return "Vor 3 Stunden";
+        } else if (diffHours > 1.0) {
+          return "Vor 1 Stunde";
+        } else if (diffMinutes > 45) {
+          return "Vor 45 Minuten";
+        } else if (diffMinutes > 30) {
+          return "Vor 30 Minuten";
+        } else if (diffMinutes > 20) {
+          return "Vor 20 Minuten";
+        } else if (diffMinutes > 15) {
+          return "Vor 15 Minuten";
+        } else if (diffMinutes > 10) {
+          return "Vor 10 Minuten";
+        } else if (diffMinutes > 5) {
+          return "Vor 5 Minuten";
+        } else {
+          return "Gerade eben";
+        }
+      }
+    } else if (
+      dayAfterTime.getDate() === new Date().getDate()
+      && dayAfterTime.getMonth() === new Date().getMonth()
+      && dayAfterTime.getFullYear() === new Date().getFullYear()
+    ) {
+      return "Gestern " + timeOfDay;
+    } else {
+      if (diffDays > 5) {
+        let yearStr = "";
+        if (time.getFullYear() != new Date().getFullYear()) yearStr = time.getFullYear() + "";
+        return `${time.getDate()}.${time.getMonth()+1}.${yearStr}`;
+      } else {
+        switch (time.getDay()) {
+          case 0: return "Sonntag " + timeOfDay;
+          case 1: return "Montag " + timeOfDay;
+          case 2: return "Dienstag " + timeOfDay;
+          case 3: return "Mittwoch " + timeOfDay;
+          case 4: return "Donnerstag " + timeOfDay;
+          case 5: return "Freitag " + timeOfDay;
+          case 6: return "Samstag " + timeOfDay;
+        }
+      }
+    }
+    return "";
+  }
 
   formatMode(mode: "cards" | "chat") {
     if (mode == "cards") {

@@ -1,7 +1,7 @@
 <div id="outer-container">
 
   <div *ngFor="let block of sortedHistory">
-    <div class="container-header">{{formatTime(block.startTime)}}</div>
+    <div class="container-header">{{formatDate(block.startTime)}}</div>
     <div class="container">
       <div class="item-container" *ngFor="let item of block.items" (click)="expandHistoryItem(item)" [class.expanded]="!item.showCondensed">
         <ng-container *ngIf="item.showCondensed">
