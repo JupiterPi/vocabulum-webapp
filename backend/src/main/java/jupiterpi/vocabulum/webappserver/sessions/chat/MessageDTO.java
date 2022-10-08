@@ -1,4 +1,4 @@
-package jupiterpi.vocabulum.webappserver.sessions;
+package jupiterpi.vocabulum.webappserver.sessions.chat;
 
 import java.util.List;
 

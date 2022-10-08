@@ -1,4 +1,4 @@
-package jupiterpi.vocabulum.webappserver.sessions;
+package jupiterpi.vocabulum.webappserver.sessions.chat;
 
 import jupiterpi.vocabulum.core.db.Database;
 import jupiterpi.vocabulum.core.sessions.Session;
@@ -6,6 +6,7 @@ import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 import jupiterpi.vocabulum.core.vocabularies.translations.TranslationSequence;
 import jupiterpi.vocabulum.core.vocabularies.translations.parts.container.InputMatchedPart;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
+import jupiterpi.vocabulum.webappserver.sessions.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.List;
 public class ChatSession {
     private Session session;
     private Direction direction;
-    private Direction.ResolvedDirection resolvedDirection;
 
     public ChatSession(Direction direction) {
         session = new Session(Database.get().getPortions().getPortion("A"));

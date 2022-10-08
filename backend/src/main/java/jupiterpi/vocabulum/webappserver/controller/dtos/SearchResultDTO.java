@@ -1,4 +1,4 @@
-package jupiterpi.vocabulum.webappserver.dtos;
+package jupiterpi.vocabulum.webappserver.controller.dtos;
 
 public class SearchResultDTO {
     private boolean isInflexible;

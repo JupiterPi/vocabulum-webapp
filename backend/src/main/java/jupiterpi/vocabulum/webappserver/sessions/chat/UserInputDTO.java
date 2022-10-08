@@ -1,4 +1,4 @@
-package jupiterpi.vocabulum.webappserver.sessions;
+package jupiterpi.vocabulum.webappserver.sessions.chat;
 
 public class UserInputDTO {
     private String input;

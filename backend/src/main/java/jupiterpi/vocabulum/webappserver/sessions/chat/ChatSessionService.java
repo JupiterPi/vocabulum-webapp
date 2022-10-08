@@ -1,10 +1,12 @@
-package jupiterpi.vocabulum.webappserver.sessions;
+package jupiterpi.vocabulum.webappserver.sessions.chat;
+
+import jupiterpi.vocabulum.webappserver.sessions.Direction;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class SessionService {
+public class ChatSessionService {
     private Map<String, ChatSession> sessions = new HashMap<>();
 
     public String createSession(Direction direction) {

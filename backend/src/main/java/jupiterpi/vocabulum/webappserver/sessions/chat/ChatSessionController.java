@@ -1,18 +1,19 @@
-package jupiterpi.vocabulum.webappserver.sessions;
+package jupiterpi.vocabulum.webappserver.sessions.chat;
 
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
+import jupiterpi.vocabulum.webappserver.sessions.SessionOptionsDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/session")
-public class SessionController {
-    public SessionController() {
+@RequestMapping("/api/session/chat")
+public class ChatSessionController {
+    public ChatSessionController() {
         CoreService.get();
     }
 
-    private SessionService sessions = new SessionService();
+    private ChatSessionService sessions = new ChatSessionService();
 
     @PostMapping("/create")
     public String createSession(@RequestBody SessionOptionsDTO options) {
