@@ -1,6 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {observable, Observable} from "rxjs";
 
 export type Portion = {
   name: string,
@@ -48,6 +48,16 @@ export type SearchResult = {
   },
   inflexible: boolean
 }
+
+export type TAItem = {
+  title: string,
+  punctuation: boolean,
+  inflexible: boolean,
+  forms: string[],
+  definition: string,
+  translations: string[],
+  base_form: string
+};
 
 @Injectable({
   providedIn: 'root'
@@ -401,6 +411,62 @@ export class DataService {
       inflexible: true
     }
   ];
+  devTAItems: TAItem[] = [
+    {
+      title: "Asini",
+      punctuation: false,
+      inflexible: false,
+      forms: ["Gen. Sg.", "Nom. Pl."],
+      definition: "asinus, asini m.",
+      translations: ["der Esel", "das Maultier"],
+      base_form: "asinus"
+    },
+    {
+      title: "stant",
+      punctuation: false,
+      inflexible: false,
+      forms: ["3. Pers. Pl. Präs."],
+      definition: "stare",
+      translations: ["stehen", "dastehen"],
+      base_form: "stare"
+    },
+    {
+      title: ",",
+      punctuation: true,
+      inflexible: false,
+      forms: [],
+      definition: "",
+      translations: [],
+      base_form: ""
+    },
+    {
+      title: "et",
+      punctuation: false,
+      inflexible: true,
+      forms: [],
+      definition: "et",
+      translations: ["und"],
+      base_form: "et"
+    },
+    {
+      title: "exspectant",
+      punctuation: false,
+      inflexible: false,
+      forms: ["3. Pers. Pl. Präs."],
+      definition: "exspectare",
+      translations: ["erwarten", "warten auf"],
+      base_form: "exspectare"
+    },
+    {
+      title: ".",
+      punctuation: true,
+      inflexible: false,
+      forms: [],
+      definition: "",
+      translations: [],
+      base_form: ""
+    }
+  ];
 
   devMode = false;
 
@@ -437,6 +503,18 @@ export class DataService {
       });
     } else {
       return this.http.get<SearchResult[]>(this.backendRoot + "/api/search/" + query);
+    }
+  }
+
+  // GET /ta/search/:query
+  getTAItems(query: string) {
+    if (isDevMode() && this.devMode) {
+      return new Observable<TAItem[]>((observer ) => {
+        observer.next(this.devTAItems);
+        observer.complete();
+      });
+    } else {
+      return this.http.get<TAItem[]>(this.backendRoot + "/api/ta/search/" + encodeURIComponent(query));
     }
   }
 }

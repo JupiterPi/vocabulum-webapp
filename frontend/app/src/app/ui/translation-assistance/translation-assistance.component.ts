@@ -1,14 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-
-export type TAItem = {
-  title: string,
-  inflexible: boolean,
-  forms: string[],
-  definition: string,
-  translations: string[],
-  base_form: string
-};
+import {DataService, TAItem} from "../../data/data.service";
 
 @Component({
   selector: 'app-translation-assistance',
@@ -16,42 +8,32 @@ export type TAItem = {
   styleUrls: ['./translation-assistance.component.scss']
 })
 export class TranslationAssistanceComponent {
-  items: TAItem[] = [
-    {
-      title: "Asini",
-      inflexible: false,
-      forms: ["Gen. Sg.", "Nom. Pl."],
-      definition: "asinus, asini m.",
-      translations: ["der Esel", "das Maultier"],
-      base_form: "asinus"
-    },
-    {
-      title: "stant",
-      inflexible: false,
-      forms: ["3. Pers. Pl. Präs."],
-      definition: "stare",
-      translations: ["stehen", "dastehen"],
-      base_form: "stare"
-    },
-    {
-      title: "et",
-      inflexible: true,
-      forms: [],
-      definition: "et",
-      translations: ["und"],
-      base_form: "et"
-    },
-    {
-      title: "exspectant",
-      inflexible: false,
-      forms: ["3. Pers. Pl. Präs."],
-      definition: "exspectare",
-      translations: ["erwarten", "warten auf"],
-      base_form: "exspectare"
-    }
-  ];
+  query: string = "";
+  ready: boolean = false;
+  error: boolean = false;
+  items: TAItem[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private data: DataService) {}
+
+  timerId?: number;
+  updateChange(query: string) {
+    this.ready = false;
+    this.error = false;
+    clearTimeout(this.timerId);
+
+    if (query === "") return;
+    this.timerId = setTimeout(() => {
+      this.data.getTAItems(query).subscribe({
+        next: (items) => {
+          this.items = items;
+          this.ready = true;
+        },
+        error: (err) => {
+          this.error = true;
+        }
+      });
+    }, 250);
+  }
 
   showVocabulary(base_form: string) {
     this.router.navigate(["dictionary", base_form]);
