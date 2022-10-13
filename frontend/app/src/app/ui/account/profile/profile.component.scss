@@ -72,3 +72,18 @@
     font-size: 45px;
   }
 }
+
+/* vkpro-container */
+
+.vkpro-container {
+  outline: $clr-vkpro solid 3px;
+  outline-offset: 4px;
+  animation: vkpro-pulse 3s infinite linear;
+}
+
+@keyframes vkpro-pulse {
+  50% {
+    outline-color: mix($clr-vkpro, white, 40%);
+    /*outline-offset: 5px;*/
+  }
+}

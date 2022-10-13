@@ -25,11 +25,13 @@
 
   </div>
 
+  <div class="container vkpro-container" *ngIf="!userDetails.proUser">
+    <div class="container-header">Vocabulum Pro</div>
+    <app-plans></app-plans>
+  </div>
+
   <div class="container">
-
     <div class="container-header">Verlauf</div>
-
     <app-history></app-history>
-
   </div>
 </div>

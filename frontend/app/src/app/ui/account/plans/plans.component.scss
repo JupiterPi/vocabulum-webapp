@@ -2,19 +2,16 @@
 @import "src/styles/fonts";
 @import "src/styles/blocks";
 
-#outer-container {
-  @include outer-container;
-}
-
 #container {
   display: flex;
   flex-direction: row;
   gap: 20px;
+  align-content: space-between;
 }
 
 .plan-container {
   @include rounded-container($rounded-container-border-radius * 1.5);
-  min-width: 250px;
+  width: 30%;
   max-height: 500px;
 
   display: flex;
@@ -72,7 +69,7 @@
 
 a.order-button {
   @include button;
-  background: linear-gradient(54deg, rgba(239,163,42,1) 0%, rgba(237,191,118,1) 90%);
+  background: $clr-vkpro-gradient;
   border: none;
   color: $clr-on-vkpro;
   text-align: center;
@@ -84,9 +81,10 @@ a.order-button {
   border-radius: 10px;
 }
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 900px) {
   #container {
     flex-direction: column;
+    align-items: center;
   }
 
   .plan-container {
@@ -95,15 +93,12 @@ a.order-button {
 }
 
 @media screen and (max-width: 500px) {
-  #outer-container {
-    align-items: stretch;
-  }
-
   #container {
     align-items: stretch;
   }
 
   .plan-container {
+    width: auto;
     min-width: 0;
   }
 }

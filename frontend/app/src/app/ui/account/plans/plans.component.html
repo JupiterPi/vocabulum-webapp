@@ -1,25 +1,21 @@
-<div id="outer-container">
+<div id="container">
 
-  <div id="container">
+  <div class="plan-container" *ngFor="let plan of plans">
+    <div class="plan-header">{{plan.name}}</div>
 
-    <div class="plan-container" *ngFor="let plan of plans">
-      <div class="plan-header">{{plan.name}}</div>
-
-      <div class="plan-price-container">
-        <div class="plan-price">{{plan.price}}</div>
-        <div class="plan-price-time">
-          /
-          <span>{{plan.time}}</span>
-        </div>
+    <div class="plan-price-container">
+      <div class="plan-price">{{plan.price}}</div>
+      <div class="plan-price-time">
+        /
+        <span>{{plan.time}}</span>
       </div>
-
-      <div class="plan-bullets-container">
-        <div class="plan-bullet plan-bullet" *ngFor="let bullet of plan.bullets">{{bullet}}</div>
-      </div>
-
-      <a class="order-button" mat-ripple>Kaufen</a>
     </div>
 
+    <div class="plan-bullets-container">
+      <div class="plan-bullet plan-bullet" *ngFor="let bullet of plan.bullets">{{bullet}}</div>
+    </div>
+
+    <a class="order-button" mat-ripple>Kaufen</a>
   </div>
 
 </div>

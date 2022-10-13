@@ -3,7 +3,8 @@ import {HttpClient} from "@angular/common/http";
 
 export type UserDetails = {
   username: string,
-  email: string
+  email: string,
+  proUser: boolean
 };
 
 export type HistoryItem = {
@@ -21,7 +22,8 @@ export class UserService {
 
   devUserDetails: UserDetails = {
     username: "JupiterPi",
-    email: "jupiterpi@vocabulum.de"
+    email: "jupiterpi@vocabulum.de",
+    proUser: false
   };
 
   devHistory: HistoryItem[] = [

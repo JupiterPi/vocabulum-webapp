@@ -13,7 +13,8 @@ export class ProfileComponent {
 
   userDetails: UserDetails = {
     username: "...",
-    email: "..."
+    email: "...",
+    proUser: false
   };
 
   obfuscateEmail(email: string) {
