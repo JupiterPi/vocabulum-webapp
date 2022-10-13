@@ -16,6 +16,7 @@ export class ProfileComponent {
     email: "...",
     proUser: false
   };
+  hasPro = false;
 
   obfuscateEmail(email: string) {
     const atIndex = email.lastIndexOf("@");

@@ -87,3 +87,46 @@
     /*outline-offset: 5px;*/
   }
 }
+
+/* vkpro-required */
+
+.container:has(.vkpro-required-container) {
+  position: relative;
+}
+
+.vkpro-required-container {
+  @include rounded-container;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(227, 227, 227, 0.8);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.vkpro-icon {
+  height: 60px;
+  width: 60px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.vkpro-text {
+  font-size: 130%;
+  padding: 0 50px;
+  text-align: center;
+
+  a {
+    @include font-def-bolder;
+    color: $clr-vkpro;
+  }
+}

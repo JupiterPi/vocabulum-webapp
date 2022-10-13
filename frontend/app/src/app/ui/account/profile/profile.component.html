@@ -17,6 +17,11 @@
       </div>
     </div>
 
+    <div>
+      <input [(ngModel)]="hasPro" type="checkbox">
+      <label>hasPro</label>
+    </div>
+
     <div id="actions-container">
       <a class="button" mat-ripple (click)="changePassword()">
         Passwort ändern
@@ -25,7 +30,7 @@
 
   </div>
 
-  <div class="container vkpro-container" *ngIf="!userDetails.proUser">
+  <div class="container vkpro-container" *ngIf="!hasPro">
     <div class="container-header">Vocabulum Pro</div>
     <app-plans></app-plans>
   </div>
@@ -33,5 +38,12 @@
   <div class="container">
     <div class="container-header">Verlauf</div>
     <app-history></app-history>
+    <div class="vkpro-required-container" *ngIf="!hasPro">
+      <div class="vkpro-icon">
+        <img src="/assets/logo/vkpro_logo_circle.png">
+      </div>
+      <div class="vkpro-text">Du benötigst Vocabulum Pro, um dieses Feature nutzen zu können!</div>
+      <div class="vkpro-text"><a routerLink="/my">Jetzt kaufen</a></div>
+    </div>
   </div>
 </div>
