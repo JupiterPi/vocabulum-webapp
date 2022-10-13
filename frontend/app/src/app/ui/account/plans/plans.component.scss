@@ -1,0 +1,109 @@
+@import "src/styles/variables";
+@import "src/styles/fonts";
+@import "src/styles/blocks";
+
+#outer-container {
+  @include outer-container;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.plan-container {
+  @include rounded-container($rounded-container-border-radius * 1.5);
+  min-width: 250px;
+  max-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  gap: 20px;
+}
+
+.plan-header {
+  font-size: 170%;
+  text-align: center;
+}
+
+.plan-price-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+
+  .plan-price {
+    font-size: 200%;
+    color: $clr-primary;
+    @include font-def-mono;
+  }
+
+  .plan-price-time {
+    font-size: 120%;
+    color: $clr-muted;
+    span {
+      color: $clr-secondary;
+    }
+  }
+}
+
+.plan-bullets-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .plan-bullet::before {
+    content: "+";
+    /*border: 1px solid $clr-text;*/
+    background-color: mix($clr-vkpro, white, 20%);
+    border-radius: 100px;
+    width: $font-size;
+    height: $font-size;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    @include font-def-mono;
+    color: #EFA32A;
+  }
+}
+
+a.order-button {
+  @include button;
+  background: linear-gradient(54deg, rgba(239,163,42,1) 0%, rgba(237,191,118,1) 90%);
+  border: none;
+  color: $clr-on-vkpro;
+  text-align: center;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 110%;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1050px) {
+  #container {
+    flex-direction: column;
+  }
+
+  .plan-container {
+    min-width: 350px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #outer-container {
+    align-items: stretch;
+  }
+
+  #container {
+    align-items: stretch;
+  }
+
+  .plan-container {
+    min-width: 0;
+  }
+}

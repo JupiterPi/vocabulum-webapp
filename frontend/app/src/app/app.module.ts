@@ -26,6 +26,7 @@ import { RegisterComponent } from './ui/account/register/register.component';
 import { TranslationAssistanceComponent } from './ui/translation-assistance/translation-assistance.component';
 import { ProfileComponent } from './ui/account/profile/profile.component';
 import { HistoryComponent } from './ui/account/history/history.component';
+import { PlansComponent } from './ui/account/plans/plans.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { HistoryComponent } from './ui/account/history/history.component';
     RegisterComponent,
     TranslationAssistanceComponent,
     ProfileComponent,
-    HistoryComponent
+    HistoryComponent,
+    PlansComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ import { HistoryComponent } from './ui/account/history/history.component';
       {path: "search", component: SearchComponent},
       {path: "trainer", component: TrainerLauncherComponent},
       {path: "trainer/chat", component: ChatTrainerSessionComponent},
-      {path: "translationAssistance", component: TranslationAssistanceComponent}
+      {path: "translationAssistance", component: TranslationAssistanceComponent},
+      {path: "tmp/plans", component: PlansComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,
