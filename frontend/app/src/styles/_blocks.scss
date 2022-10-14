@@ -75,6 +75,13 @@ $rounded-container-border-radius: 20px;
   cursor: pointer;
 }
 
+@mixin vkpro-button {
+  @include button;
+  background: $clr-vkpro-gradient;
+  border: none;
+  color: $clr-on-vkpro;
+}
+
 /* meta */
 
 @mixin meta-outer-container {

@@ -68,10 +68,7 @@
 }
 
 a.order-button {
-  @include button;
-  background: $clr-vkpro-gradient;
-  border: none;
-  color: $clr-on-vkpro;
+  @include vkpro-button;
   text-align: center;
   height: 30px;
   display: flex;

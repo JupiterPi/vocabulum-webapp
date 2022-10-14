@@ -1,27 +1,79 @@
 <div id="outer-container">
-  <div id="input-container">
-    <input id="input" placeholder="Gib hier deinen lateinischen Satz ein ..." [class.ready]="ready" [class.error]="error" (ngModelChange)="updateChange($event)" [(ngModel)]="query">
+
+  <div id="vkpro-container" *ngIf="!hasPro">
+    <div id="vkpro-icon">
+      <img src="/assets/logo/vkpro_logo_circle.png">
+    </div>
+    <div id="vkpro-text">
+      <p>
+        Die Translation Assistance ist ein Pro-Feature, das du hier testen kannst.
+      </p>
+      <p *ngIf="usesLeft > 0">
+        Diesen Monat {{usesLeft == 1 ? "ist" : "sind"}} noch <b>{{usesLeft}}</b> Benutzung{{usesLeft == 1 ? "" : "en"}} frei.
+      </p>
+      <p *ngIf="usesLeft == 0">
+        Diesen Monat sind keine Benutzungen mehr frei.
+      </p>
+      <div id="vkpro-button-container">
+        <a id="vkpro-button" routerLink="/my" mat-ripple>Jetzt Pro kaufen</a>
+      </div>
+    </div>
   </div>
 
-  <div id="ta-items-container">
+  <div id="ta-container">
 
-    <div class="ta-item-container" *ngFor="let item of items" mat-ripple (click)="!item.punctuation ? showVocabulary(item.base_form) : '';">
-      <div class="ta-item-title">{{item.title}}</div>
-      <ng-container *ngIf="!item.punctuation">
-        <div class="ta-item-forms-container">
-          <div class="ta-item-form" *ngFor="let form of item.forms">{{form}}</div>
-        </div>
-        <div class="ta-item-of" *ngIf="!item.inflexible">von</div>
-        <div class="ta-item-definition">{{item.definition}}</div>
-        <div class="ta-item-translations-container">
-          <div class="ta-item-translation" *ngFor="let translation of item.translations">
-            <span class="quotation-marks">&#8222;</span>
-            {{translation}}
-            <span class="quotation-marks">&#8223;</span>
+    <div id="input-container">
+      <input id="input" placeholder="Gib hier deinen lateinischen Satz ein ..." [class.ready]="ready" [class.error]="error" (ngModelChange)="updateChange($event)" [(ngModel)]="query">
+    </div>
+
+    <div id="ta-items-container">
+
+      <div class="ta-item-container" *ngFor="let item of items" mat-ripple (click)="!item.punctuation ? showVocabulary(item.base_form) : '';">
+        <div class="ta-item-title">{{item.title}}</div>
+        <ng-container *ngIf="!item.punctuation">
+          <div class="ta-item-forms-container">
+            <div class="ta-item-form" *ngFor="let form of item.forms">{{form}}</div>
           </div>
-        </div>
+          <div class="ta-item-of" *ngIf="!item.inflexible">von</div>
+          <div class="ta-item-definition">{{item.definition}}</div>
+          <div class="ta-item-translations-container">
+            <div class="ta-item-translation" *ngFor="let translation of item.translations">
+              <span class="quotation-marks">&#8222;</span>
+              {{translation}}
+              <span class="quotation-marks">&#8223;</span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+
+    <div class="vkpro-required-container" *ngIf="!hasPro">
+      <div class="vkpro-icon">
+        <img src="/assets/logo/vkpro_logo_circle.png">
+      </div>
+      <ng-container *ngIf="usesLeft > 0">
+        <div class="vkpro-text optional">Du benötigst Vocabulum Pro, um dieses Feature nutzen zu können!</div>
+        <div class="vkpro-text optional"><a routerLink="/my">Jetzt kaufen</a></div>
+        <div class="vkpro-text">Diesen Monat {{usesLeft == 1 ? "ist" : "sind"}} noch <b>{{usesLeft}}</b> Benutzung{{usesLeft == 1 ? "" : "en"}} frei.</div>
+        <div class="vkpro-text"><a>Jetzt benutzen</a></div>
+      </ng-container>
+      <ng-container *ngIf="usesLeft == 0">
+        <div class="vkpro-text">Du benötigst Vocabulum Pro, um dieses Feature nutzen zu können!</div>
+        <div class="vkpro-text">Diesen Monat sind keine Benutzungen mehr frei.</div>
+        <div class="vkpro-text"><a routerLink="/my">Jetzt Pro kaufen</a></div>
       </ng-container>
     </div>
 
   </div>
+</div>
+
+<br><br><br><br><br>
+<div>
+  <input [(ngModel)]="hasPro" type="checkbox">
+  <label>hasPro</label>
+</div>
+<div>
+  <input type="number" [(ngModel)]="usesLeft">
+  <label>usesLeft</label>
 </div>
