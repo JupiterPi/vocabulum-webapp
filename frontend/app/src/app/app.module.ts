@@ -27,6 +27,7 @@ import { TranslationAssistanceComponent } from './ui/translation-assistance/tran
 import { ProfileComponent } from './ui/account/profile/profile.component';
 import { HistoryComponent } from './ui/account/history/history.component';
 import { PlansComponent } from './ui/account/plans/plans.component';
+import { CardsTrainerSessionComponent } from './ui/trainer/cards-trainer-session/cards-trainer-session.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { PlansComponent } from './ui/account/plans/plans.component';
     TranslationAssistanceComponent,
     ProfileComponent,
     HistoryComponent,
-    PlansComponent
+    PlansComponent,
+    CardsTrainerSessionComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,7 @@ import { PlansComponent } from './ui/account/plans/plans.component';
       {path: "search", component: SearchComponent},
       {path: "trainer", component: TrainerLauncherComponent},
       {path: "trainer/chat", component: ChatTrainerSessionComponent},
+      {path: "trainer/cards", component: CardsTrainerSessionComponent},
       {path: "translationAssistance", component: TranslationAssistanceComponent},
       {path: "tmp/plans", component: PlansComponent}
     ]),

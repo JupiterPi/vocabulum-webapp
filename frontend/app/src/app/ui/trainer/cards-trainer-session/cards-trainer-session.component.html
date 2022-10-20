@@ -1,0 +1,33 @@
+<div id="outer-container">
+  <div id="container">
+
+    <div id="back-button-container">
+      <button id="back-button" mat-ripple>
+        <mat-icon>arrow_back_ios_new</mat-icon>
+      </button>
+    </div>
+
+    <div id="card" mat-ripple style="cursor: pointer" (click)="showSolution()">
+      <div class="card-text question">amor, amoris m.</div>
+      <div class="card-text solution" *ngIf="solutionShown">die Liebe</div>
+      <div class="card-text card-text-hidden-container" *ngIf="!solutionShown">
+        <div class="card-text-hidden-block length-2"></div>
+        <div class="card-text-hidden-block length-1"></div>
+        <div class="card-text-hidden-block length-3"></div>
+      </div>
+    </div>
+
+    <div id="actions-container" *ngIf="solutionShown">
+      <button class="action-button action-bad" mat-ripple title="Das wusste ich nicht." (click)="submitSentiment('bad')">
+        <mat-icon>sentiment_very_dissatisfied</mat-icon>
+      </button>
+      <button class="action-button action-passable" mat-ripple title="Das wusste ich ungefähr." (click)="submitSentiment('passable')">
+        <mat-icon>sentiment_neutral</mat-icon>
+      </button>
+      <button class="action-button action-good" mat-ripple title="Das wusste ich."  (click)="submitSentiment('good')">
+        <mat-icon>sentiment_very_satisfied</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,132 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+#outer-container {
+  @include outer-container;
+}
+
+#container {
+  width: 500px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+@media screen and (max-width: 550px) {
+  #outer-container {
+    align-items: stretch;
+    padding: 10px;
+  }
+
+  #container {
+    margin: 0;
+    width: auto;
+  }
+}
+
+#back-button {
+  height: 50px;
+  width: 50px;
+  @include rounded-container($border-radius: 25px);
+  color: #4b4b4b;
+  cursor: pointer;
+
+  .muted {
+    color: #7c7c7c;
+    cursor: auto;
+  }
+}
+
+#card {
+  height: 300px;
+  @include rounded-container;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+  .card-text {
+    font-size: 120%;
+  }
+
+  .card-text.card-text-hidden-container {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+
+    .card-text-hidden-block::after {
+      height: 16px;
+      background-color: #e5e5e5;
+      border-radius: 10px;
+      color: transparent;
+
+      animation-name: hidden-text-block-pulse;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+    .card-text-hidden-block.length-1::after {
+      content: "----";
+    }
+    .card-text-hidden-block.length-2::after {
+      content: "------";
+    }
+    .card-text-hidden-block.length-3::after {
+      content: "--------";
+    }
+    .card-text-hidden-block:nth-child(1)::after {
+      animation-delay: 0ms;
+    }
+    .card-text-hidden-block:nth-child(2)::after {
+      animation-delay: 500ms;
+    }
+    .card-text-hidden-block:nth-child(3)::after {
+      animation-delay: 1000ms;
+    }
+  }
+  @keyframes hidden-text-block-pulse {
+    0%, 60% {
+      background-color: #e5e5e5;
+    }
+    30% {
+      background-color: #f6f6f6;
+    }
+  }
+}
+
+#actions-container {
+  height: 50px;
+
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+
+  .action-button {
+    flex-grow: 1;
+    @include button;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    mat-icon {
+      height: 32px;
+      width: 32px;
+      font-size: 32px;
+      font-variation-settings: "wght" 700;
+    }
+  }
+  .action-button.action-bad {
+    color: red;
+  }
+  .action-button.action-passable {
+    color: orange;
+  }
+  .action-button.action-good {
+    color: green;
+  }
+}
