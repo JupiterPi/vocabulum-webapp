@@ -4,7 +4,7 @@
     <div id="mode-selection" class="options-container">
       <div class="option" mat-ripple (click)="selectMode('cards')" [class.selected]="selectedMode == 'cards'">
         <div class="mode-icon">
-          <mat-icon>quiz</mat-icon>
+          <fa-icon icon="window-restore" size="xl"></fa-icon>
         </div>
         <div class="mode-title">
           Karteikarten
@@ -12,7 +12,7 @@
       </div>
       <div class="option" mat-ripple (click)="selectMode('chat')" [class.selected]="selectedMode == 'chat'">
         <div class="mode-icon">
-          <mat-icon>forum</mat-icon>
+          <fa-icon icon="comments" size="xl"></fa-icon>
         </div>
         <div class="mode-title">
           Chat

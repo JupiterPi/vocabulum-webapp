@@ -12,7 +12,10 @@
         <span class="meta-name">E-Mail</span>
         <span class="meta-value" id="email" (click)="showEmail()">
           {{obfuscateEmail(userDetails.email)}}
-          <a><mat-icon>visibility</mat-icon></a>
+          <a>
+            <!--<mat-icon>visibility</mat-icon>-->
+            <fa-icon icon="eye" size="sm"></fa-icon>
+          </a>
         </span>
       </div>
     </div>

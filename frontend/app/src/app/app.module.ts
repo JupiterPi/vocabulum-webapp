@@ -28,6 +28,15 @@ import { ProfileComponent } from './ui/account/profile/profile.component';
 import { HistoryComponent } from './ui/account/history/history.component';
 import { PlansComponent } from './ui/account/plans/plans.component';
 import { CardsTrainerSessionComponent } from './ui/trainer/cards-trainer-session/cards-trainer-session.component';
+import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {
+  faBook,
+  faChevronLeft,
+  faComments,
+  faDisplay, faEye, faFire,
+  faPaperPlane,
+  faWindowRestore
+} from "@fortawesome/free-solid-svg-icons";
 
 @NgModule({
   declarations: [
@@ -78,9 +87,16 @@ import { CardsTrainerSessionComponent } from './ui/trainer/cards-trainer-session
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(fontawesome: FaIconLibrary) {
+    fontawesome.addIcons(
+      faBook, faComments, faDisplay, faWindowRestore, faChevronLeft, faPaperPlane, faEye
+    );
+  }
+}
