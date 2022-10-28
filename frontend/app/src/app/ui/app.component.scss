@@ -5,12 +5,39 @@
 $navbar-height: 75px;
 $navbar-content-height: $navbar-height - 25px;
 
-#navbar {
+$header-clr: #f8a190;
+
+#fake-header {
+  background-color: $header-clr;
+  width: 100%;
+  height: 30px;
+  display: none;
+}
+
+#content-separator {
+  border: 1px $clr-background-1-border;
+  background-color: $clr-background-0;
+  position: relative;
+  top: -15px;
+  height: 15px;
+  margin-bottom: -15px;
+  z-index: 1001;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+
+  display: none;
+}
+
+:has(#navbar) {
   position: sticky;
   top: 0;
   z-index: 1000;
+  background-color: $header-clr;
   height: $navbar-height;
-  background: $clr-primary;
+}
+
+#navbar {
+  height: $navbar-height;
   background: linear-gradient(54deg, $clr-primary 0%, $clr-primary-lighter 65%, $clr-secondary 90%);
 
   display: flex;
@@ -23,6 +50,27 @@ $navbar-content-height: $navbar-height - 25px;
 @media screen and (max-width: 1000px) {
   #navbar {
     background: linear-gradient(54deg, $clr-primary 0%, $clr-primary-lighter 55%, $clr-secondary 90%);
+  }
+}
+
+@media screen and (display-mode: standalone) {
+  :has(#navbar) {
+    height: $navbar-height + 15px;
+  }
+
+  #navbar {
+    padding: 0 20px 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  #content-separator {
+    display: block;
+  }
+
+  #router-outlet {
+    position: relative;
+    top: -15px;
   }
 }
 

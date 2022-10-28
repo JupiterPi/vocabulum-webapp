@@ -1,34 +1,39 @@
-<div id="navbar">
-  <div id="navbar-title" routerLink="">
-    <img id="navbar-title-logo" src="/assets/logo/vocabulum_logo_circle.png">
-    <!--<img id="navbar-title-logo" src="/assets/logo/vkpro_logo_circle.png">-->
-    <a id="navbar-title-link">Vocabulum</a>
-  </div>
+<div>
+  <div id="navbar">
+    <div id="navbar-title" routerLink="">
+      <img id="navbar-title-logo" src="/assets/logo/vocabulum_logo_circle.png">
+      <!--<img id="navbar-title-logo" src="/assets/logo/vkpro_logo_circle.png">-->
+      <a id="navbar-title-link">Vocabulum</a>
+    </div>
 
-  <div id="navbar-tabs">
-    <a class="tab-button" [class.current-tab]="currentSection == 'dictionary'" mat-ripple matTooltip="Vokabelverzeichnis" routerLink="dictionary">
-      <fa-icon icon="book" size="lg"></fa-icon>
-    </a>
-    <a class="tab-button" [class.current-tab]="currentSection == 'trainer'" mat-ripple matTooltip="Trainer" routerLink="trainer">
-      <fa-icon icon="comments" size="lg"></fa-icon>
-    </a>
-    <a class="tab-button" [class.current-tab]="currentSection == 'translationAssistance'" mat-ripple matTooltip="Translation Assistance" routerLink="translationAssistance">
-      <fa-icon icon="display" size="lg"></fa-icon>
-    </a>
-  </div>
+    <div id="navbar-tabs">
+      <a class="tab-button" [class.current-tab]="currentSection == 'dictionary'" mat-ripple matTooltip="Vokabelverzeichnis" routerLink="dictionary">
+        <fa-icon icon="book" size="lg"></fa-icon>
+      </a>
+      <a class="tab-button" [class.current-tab]="currentSection == 'trainer'" mat-ripple matTooltip="Trainer" routerLink="trainer">
+        <fa-icon icon="comments" size="lg"></fa-icon>
+      </a>
+      <a class="tab-button" [class.current-tab]="currentSection == 'translationAssistance'" mat-ripple matTooltip="Translation Assistance" routerLink="translationAssistance">
+        <fa-icon icon="display" size="lg"></fa-icon>
+      </a>
+    </div>
 
-  <div id="navbar-user" matRipple matRippleColor="rgba(140, 140, 140, 0.2)" (click)="authClicked()">
-    <img id="navbar-user-icon" src="/assets/logo/vocabulum_logo_circle.png">
-    <div id="navbar-user-name">
-      <ng-container *ngIf="loggedIn">
-        <div id="navbar-user-name-description">Eingeloggt als</div>
-        <div id="navbar-user-name-name">{{userDetails?.username}}</div>
-      </ng-container>
-      <ng-container *ngIf="!loggedIn">
-        <div id="navbar-user-name-text">Nicht angemeldet</div>
-      </ng-container>
+    <div id="navbar-user" matRipple matRippleColor="rgba(140, 140, 140, 0.2)" (click)="authClicked()">
+      <img id="navbar-user-icon" src="/assets/logo/vocabulum_logo_circle.png">
+      <div id="navbar-user-name">
+        <ng-container *ngIf="loggedIn">
+          <div id="navbar-user-name-description">Eingeloggt als</div>
+          <div id="navbar-user-name-name">{{userDetails?.username}}</div>
+        </ng-container>
+        <ng-container *ngIf="!loggedIn">
+          <div id="navbar-user-name-text">Nicht angemeldet</div>
+        </ng-container>
+      </div>
     </div>
   </div>
+  <div id="content-separator"></div>
 </div>
 
-<router-outlet></router-outlet>
+<div id="router-outlet">
+  <router-outlet></router-outlet>
+</div>
