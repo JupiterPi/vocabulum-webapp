@@ -4,7 +4,8 @@ import {DataService} from "./data.service";
 
 export type Direction = "lg" | "rand" | "gl";
 type SessionOptions = {
-  direction: Direction
+  direction: Direction,
+  selection: string
 };
 
 export type BotMessage = {
@@ -34,16 +35,16 @@ export class SessionService {
   constructor(private http: HttpClient, private dataService: DataService) {}
 
   // POST /create
-  createSession(direction: Direction) {
+  createSession(direction: Direction, selection: string) {
     const options: SessionOptions = {
-      direction
+      direction, selection
     };
-    return this.http.post(this.dataService.backendRoot + "/api/session/create", options, {responseType: "text"});
+    return this.http.post(this.dataService.backendRoot + "/api/session/chat/create", options, {responseType: "text"});
   }
 
   // POST /:id/start
   startSession(id: string) {
-    return this.http.post<BotMessage[]>(this.dataService.backendRoot + "/api/session/" + id + "/start", null);
+    return this.http.post<BotMessage[]>(this.dataService.backendRoot + "/api/session/chat/" + id + "/start", null);
   }
 
   // POST /:id/input
@@ -52,7 +53,7 @@ export class SessionService {
       input,
       action: ""
     };
-    return this.http.post<BotMessage[]>(this.dataService.backendRoot + "/api/session/" + id + "/input", userInput, {
+    return this.http.post<BotMessage[]>(this.dataService.backendRoot + "/api/session/chat/" + id + "/input", userInput, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
@@ -65,7 +66,7 @@ export class SessionService {
       input: "",
       action
     };
-    return this.http.post<BotMessage[]>(this.dataService.backendRoot + "/api/session/" + id + "/input", userInput, {
+    return this.http.post<BotMessage[]>(this.dataService.backendRoot + "/api/session/chat/" + id + "/input", userInput, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })

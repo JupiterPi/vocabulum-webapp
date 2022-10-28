@@ -4,9 +4,8 @@ import jupiterpi.vocabulum.core.sessions.SessionConfiguration;
 import jupiterpi.vocabulum.core.sessions.selection.PortionBasedVocabularySelection;
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelections;
+import jupiterpi.vocabulum.core.util.Attachments;
 import org.bson.Document;
-
-//TODO finish
 
 public class WebappSessionConfiguration extends SessionConfiguration {
     private Mode mode;
@@ -18,12 +17,30 @@ public class WebappSessionConfiguration extends SessionConfiguration {
         this.direction = direction;
     }
 
+    public WebappSessionConfiguration(Attachments attachments) {
+        super(attachments);
+        Document attachment = attachments.consumeAttachment("webapp");
+        attachment.getString("selection");
+    }
+
     @Override
-    protected Document getCustomDataDocument() {
+    protected Attachments generateAttachments() {
         Document document = new Document();
         document.put("mode", mode.toString().toLowerCase());
         document.put("direction", direction.toString().toLowerCase());
-        return document;
+        Attachments attachments = super.generateAttachments();
+        attachments.addAttachment("webapp", document);
+        return attachments;
+    }
+
+    /* getters */
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     /* dto */
