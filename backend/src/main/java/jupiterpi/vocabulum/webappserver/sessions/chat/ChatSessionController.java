@@ -1,7 +1,9 @@
 package jupiterpi.vocabulum.webappserver.sessions.chat;
 
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
+import jupiterpi.vocabulum.webappserver.sessions.Mode;
 import jupiterpi.vocabulum.webappserver.sessions.SessionOptionsDTO;
+import jupiterpi.vocabulum.webappserver.sessions.WebappSessionConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +19,8 @@ public class ChatSessionController {
 
     @PostMapping("/create")
     public String createSession(@RequestBody SessionOptionsDTO options) {
-        return sessions.createSession(options.getDirection());
+        WebappSessionConfiguration sessionConfiguration = WebappSessionConfiguration.fromDTO(Mode.CHAT, options);
+        return sessions.createSession(sessionConfiguration.getDirection(), sessionConfiguration.getSelection());
     }
 
     @PostMapping("/{sessionId}/start")

@@ -19,8 +19,9 @@ export class ChatTrainerSessionComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const direction: Direction = params["direction"] || "lg";
+      const selection: string = params["selection"] || "1";
 
-      this.sessions.createSession(direction).subscribe(id => {
+      this.sessions.createSession(direction, selection).subscribe(id => {
         this.sessionId = id;
         this.sessions.startSession(id).subscribe(messages => this.appendMessages(messages));
       });
