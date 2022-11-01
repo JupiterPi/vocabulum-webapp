@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Button, Message} from "../chat-view/chat-view.component";
-import {BotMessage, Direction, SessionService} from "../../../../data/session.service";
+import {BotMessage, Direction, ChatSessionService} from "../../../../data/session.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -12,14 +12,14 @@ export class ChatTrainerSessionComponent implements OnInit {
   messages: Message[] = [];
   buttons: Button[] = [];
 
-  constructor(private sessions: SessionService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private sessions: ChatSessionService, private route: ActivatedRoute, private router: Router) {}
 
   sessionId: string = "";
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const direction: Direction = params["direction"] || "lg";
-      const selection: string = params["selection"] || "1";
+      const selection: string = params["selection"] || "\"A\"";
 
       this.sessions.createSession(direction, selection).subscribe(id => {
         this.sessionId = id;

@@ -7,11 +7,12 @@ import jupiterpi.vocabulum.core.vocabularies.translations.TranslationSequence;
 import jupiterpi.vocabulum.core.vocabularies.translations.parts.container.InputMatchedPart;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import jupiterpi.vocabulum.webappserver.sessions.Direction;
+import jupiterpi.vocabulum.webappserver.sessions.WebappSession;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatSession {
+public class ChatSession implements WebappSession {
     private Session session;
     private Direction direction;
 
@@ -112,18 +113,6 @@ public class ChatSession {
             return messages;
         } catch (Session.SessionLifecycleException e) {
             return errorMessage(e);
-        }
-    }
-
-    private Direction.ResolvedDirection resolveDirection() {
-        if (direction == Direction.RAND) {
-            return Math.random() > 0.5 ? Direction.ResolvedDirection.LG : Direction.ResolvedDirection.GL;
-        } else {
-            return switch (direction) {
-                case LG -> Direction.ResolvedDirection.LG;
-                case GL -> Direction.ResolvedDirection.GL;
-                default -> null;
-            };
         }
     }
 

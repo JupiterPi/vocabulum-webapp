@@ -18,7 +18,29 @@ public enum Direction {
         return toString().toLowerCase();
     }
 
+    public ResolvedDirection resolveRandom() {
+        if (this == Direction.RAND) {
+            return Math.random() > 0.5 ? Direction.ResolvedDirection.LG : Direction.ResolvedDirection.GL;
+        } else {
+            return switch (this) {
+                case LG -> Direction.ResolvedDirection.LG;
+                case GL -> Direction.ResolvedDirection.GL;
+                default -> null;
+            };
+        }
+    }
+
     public enum ResolvedDirection {
-        LG, GL
+        LG, GL;
+
+        @JsonCreator
+        public static ResolvedDirection decode(String value) {
+            return ResolvedDirection.valueOf(value.toUpperCase());
+        }
+
+        @JsonValue
+        public String getCode() {
+            return toString().toLowerCase();
+        }
     }
 }

@@ -28,3 +28,7 @@ app.listen(port, () => {
     console.log(`Vocabulum Webapp PWA server listening on port ${port}`);
     console.log(`http://localhost:${port}`);
 });
+
+setInterval(() => {
+    console.log(new Date());
+}, 30 * 1000);

@@ -2,22 +2,27 @@
   <div id="container">
 
     <div id="back-button-container">
-      <button id="back-button" mat-ripple>
+      <button id="back-button" mat-ripple (click)="exit()">
         <mat-icon>arrow_back_ios_new</mat-icon>
       </button>
     </div>
 
-    <div id="card" mat-ripple style="cursor: pointer" (click)="showSolution()">
-      <div class="card-text question">amor, amoris m.</div>
-      <div class="card-text solution" *ngIf="solutionShown">die Liebe</div>
-      <div class="card-text card-text-hidden-container" *ngIf="!solutionShown">
+    <div class="card" mat-ripple style="cursor: pointer" (click)="showSolution()" *ngIf="lifecycle != 'result'">
+      <div class="card-text">{{vocabulary.direction == "lg" ? vocabulary.latin : vocabulary.german}}</div>
+      <div class="card-text" *ngIf="lifecycle == 'solution'">{{vocabulary.direction == "lg" ? vocabulary.german : vocabulary.latin}}</div>
+      <div class="card-text card-text-hidden-container" *ngIf="lifecycle != 'solution'">
         <div class="card-text-hidden-block length-2"></div>
         <div class="card-text-hidden-block length-1"></div>
         <div class="card-text-hidden-block length-3"></div>
       </div>
     </div>
+    <div class="card" *ngIf="lifecycle == 'result'">
+      <div class="card-text">Du hattest {{result.score * 100}} % der Vokabeln richtig.</div>
+      <div class="card-text" *ngIf="!result.done">Möchtest du die falschen Vokabeln noch einmal wiederholen?</div>
+      <div class="card-text" *ngIf="result.done">Möchtest du alle Vokabeln noch einmal wiederholen?</div>
+    </div>
 
-    <div id="actions-container" *ngIf="solutionShown">
+    <div class="actions-container" *ngIf="lifecycle == 'solution'">
       <button class="action-button action-bad" mat-ripple title="Das wusste ich nicht." (click)="submitSentiment('bad')">
         <mat-icon>sentiment_very_dissatisfied</mat-icon>
       </button>
@@ -26,6 +31,14 @@
       </button>
       <button class="action-button action-good" mat-ripple title="Das wusste ich."  (click)="submitSentiment('good')">
         <mat-icon>sentiment_very_satisfied</mat-icon>
+      </button>
+    </div>
+    <div class="actions-container" *ngIf="lifecycle == 'result'">
+      <button class="action-button" mat-ripple (click)="submitFinishType(true)">
+        Wiederholen
+      </button>
+      <button class="action-button" mat-ripple (click)="submitFinishType(false)">
+        Beenden
       </button>
     </div>
 

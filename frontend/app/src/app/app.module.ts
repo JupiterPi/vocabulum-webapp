@@ -69,8 +69,7 @@ import {
       {path: "trainer", component: TrainerLauncherComponent},
       {path: "trainer/chat", component: ChatTrainerSessionComponent},
       {path: "trainer/cards", component: CardsTrainerSessionComponent},
-      {path: "translationAssistance", component: TranslationAssistanceComponent},
-      {path: "tmp/plans", component: PlansComponent}
+      {path: "translationAssistance", component: TranslationAssistanceComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,

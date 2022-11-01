@@ -1,8 +1,10 @@
 package jupiterpi.vocabulum.webappserver.sessions.chat;
 
+import jupiterpi.vocabulum.core.sessions.Session;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import jupiterpi.vocabulum.webappserver.sessions.Mode;
 import jupiterpi.vocabulum.webappserver.sessions.SessionOptionsDTO;
+import jupiterpi.vocabulum.webappserver.sessions.SessionService;
 import jupiterpi.vocabulum.webappserver.sessions.WebappSessionConfiguration;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,25 +17,28 @@ public class ChatSessionController {
         CoreService.get();
     }
 
-    private ChatSessionService sessions = new ChatSessionService();
+    private SessionService sessions = new SessionService();
+    private ChatSession getSession(String id) {
+        return (ChatSession) sessions.getSession(id);
+    }
 
     @PostMapping("/create")
-    public String createSession(@RequestBody SessionOptionsDTO options) {
+    public String createSession(@RequestBody SessionOptionsDTO options) throws Session.SessionLifecycleException {
         WebappSessionConfiguration sessionConfiguration = WebappSessionConfiguration.fromDTO(Mode.CHAT, options);
-        return sessions.createSession(sessionConfiguration.getDirection(), sessionConfiguration.getSelection());
+        return sessions.createSession(sessionConfiguration);
     }
 
     @PostMapping("/{sessionId}/start")
     public List<MessageDTO> start(@PathVariable String sessionId) {
-        return sessions.getSession(sessionId).start(false);
+        return getSession(sessionId).start(false);
     }
 
     @PostMapping("/{sessionId}/input")
     public List<MessageDTO> handleUserInput(@PathVariable String sessionId, @RequestBody UserInputDTO userInput) {
         if (userInput.getAction() == null || userInput.getAction().isEmpty()) {
-            return sessions.getSession(sessionId).handleUserInput(userInput.getInput());
+            return getSession(sessionId).handleUserInput(userInput.getInput());
         } else {
-            return sessions.getSession(sessionId).handleButtonAction(userInput.getAction());
+            return getSession(sessionId).handleButtonAction(userInput.getAction());
         }
     }
 }
