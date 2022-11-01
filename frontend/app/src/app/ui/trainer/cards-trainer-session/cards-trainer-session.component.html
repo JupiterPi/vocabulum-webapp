@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <div class="card" mat-ripple style="cursor: pointer" (click)="showSolution()" *ngIf="lifecycle != 'result'">
+    <div class="card" matRipple [matRippleDisabled]="lifecycle != 'vocabulary'" [class.clickable]="lifecycle == 'vocabulary'" (click)="showSolution()" *ngIf="lifecycle != 'result'">
       <div class="card-text">{{vocabulary.direction == "lg" ? vocabulary.latin : vocabulary.german}}</div>
       <div class="card-text" *ngIf="lifecycle == 'solution'">{{vocabulary.direction == "lg" ? vocabulary.german : vocabulary.latin}}</div>
       <div class="card-text card-text-hidden-container" *ngIf="lifecycle != 'solution'">
