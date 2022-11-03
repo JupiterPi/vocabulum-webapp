@@ -17,8 +17,7 @@ public class PreviewVocabularyDTO {
     public static PreviewVocabularyDTO fromVocabulary(Vocabulary vocabulary) {
         PreviewVocabularyDTO dto = new PreviewVocabularyDTO();
         dto.portion = vocabulary.getPortion();
-        dto.kind = vocabulary.getKind().toString().substring(0, 1).toUpperCase() + vocabulary.getKind().toString().substring(1).toLowerCase();
-        //TODO implement i18n strings for Kind
+        dto.kind = vocabulary.getKind().toString().toLowerCase();
         dto.base_form = vocabulary.getBaseForm();
         dto.definition = vocabulary.getDefinition(CoreService.get().i18n);
 
