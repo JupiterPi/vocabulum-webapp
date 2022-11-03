@@ -1,0 +1,60 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+
+#vocabulary-selection-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.portion-container {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 40px auto;
+  /*grid-gap: (40px - 16px) / 2 - 2px;*/
+
+  &.expanded {
+    @include rounded-container;
+    border: none;
+    background-color: $clr-background-0;
+  }
+
+  &:not(.expanded) {
+    padding: 0 10px;
+  }
+}
+
+.portion-name {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  gap: 10px;
+}
+
+.block-toggle {
+  display: flex;
+  justify-content: center;
+  padding-top: (40px - 16px) / 2 - 2px;
+}
+
+.block-vocabularies {
+  @include rounded-container($border-radius: 10px);
+  padding: (40px - 16px) / 2 - 2px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.vocabulary-container {
+  display: flex;
+  gap: 10px;
+}
+
+mat-checkbox {
+  @include font-def;
+}

@@ -37,6 +37,9 @@ import {
   faPaperPlane,
   faWindowRestore
 } from "@fortawesome/free-solid-svg-icons";
+import {MatTreeModule} from "@angular/material/tree";
+import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vocabulary-selector.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -53,42 +56,45 @@ import {
     ProfileComponent,
     HistoryComponent,
     PlansComponent,
-    CardsTrainerSessionComponent
+    CardsTrainerSessionComponent,
+    VocabularySelectorComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([
-      {path: "", redirectTo: "/dictionary", pathMatch: "full"},
-      /*{path: "", component: PortionsOverviewComponent},*/
-      {path: "login", component: LoginComponent},
-      {path: "register", component: RegisterComponent},
-      {path: "my", component: ProfileComponent},
-      {path: "dictionary", component: PortionsOverviewComponent},
-      {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
-      {path: "search", component: SearchComponent},
-      {path: "trainer", component: TrainerLauncherComponent},
-      {path: "trainer/chat", component: ChatTrainerSessionComponent},
-      {path: "trainer/cards", component: CardsTrainerSessionComponent},
-      {path: "translationAssistance", component: TranslationAssistanceComponent}
-    ]),
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    MatListModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatRippleModule,
-    MatTooltipModule,
-    FormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-    FontAwesomeModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot([
+            {path: "", redirectTo: "/dictionary", pathMatch: "full"},
+            /*{path: "", component: PortionsOverviewComponent},*/
+            {path: "login", component: LoginComponent},
+            {path: "register", component: RegisterComponent},
+            {path: "my", component: ProfileComponent},
+            {path: "dictionary", component: PortionsOverviewComponent},
+            {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
+            {path: "search", component: SearchComponent},
+            {path: "trainer", component: TrainerLauncherComponent},
+            {path: "trainer/chat", component: ChatTrainerSessionComponent},
+            {path: "trainer/cards", component: CardsTrainerSessionComponent},
+            {path: "translationAssistance", component: TranslationAssistanceComponent}
+        ]),
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        MatListModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatTooltipModule,
+        FormsModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+        FontAwesomeModule,
+        MatTreeModule,
+        MatCheckboxModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

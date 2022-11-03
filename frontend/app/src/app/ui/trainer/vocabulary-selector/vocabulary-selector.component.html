@@ -1,0 +1,34 @@
+<div id="vocabulary-selection-container">
+  <div class="portion-container" *ngFor="let portion of portionNodes" [class.expanded]="portion.expanded">
+    <button class="portion-toggle" mat-icon-button (click)="togglePortion(portion)">
+      <mat-icon>{{portion.expanded ? 'expand_more' : 'chevron_right'}}</mat-icon>
+    </button>
+    <div class="portion-name">
+      <mat-checkbox
+        [checked]="isPortionSelected(portion)"
+        [indeterminate]="isPortionSelected(portion) ? false : isPortionPartiallySelected(portion)"
+        (change)="selectPortion(portion, $event.checked)"
+      >
+        Lektion {{portion.name}}
+      </mat-checkbox>
+    </div>
+    <ng-container *ngIf="isPortionExpanded(portion)">
+      <ng-container *ngFor="let block of portion.blocks">
+        <div class="block-toggle">
+          <mat-checkbox
+            [checked]="isBlockSelected(block)"
+            [indeterminate]="isBlockSelected(block) ? false : isBlockPartiallySelected(block)"
+            (change)="selectBlock(block, $event.checked)"
+          ></mat-checkbox>
+        </div>
+        <div class="block-vocabularies">
+          <div class="vocabulary-container" *ngFor="let vocabulary of block.vocabularies">
+            <mat-checkbox [(ngModel)]="vocabulary.selected">
+              {{vocabulary.vocabulary.base_form}} <span class="muted">&mdash;</span> {{vocabulary.vocabulary.translations[0].translation}}
+            </mat-checkbox>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

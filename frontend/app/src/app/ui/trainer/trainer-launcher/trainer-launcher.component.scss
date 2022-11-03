@@ -103,6 +103,23 @@
   }
 }
 
+
+/* ----- vocabulary selector ----- */
+
+mat-tree {
+  background-color: mix(white, red, 90%);
+}
+
+mat-nested-tree-node {
+  border: 10px solid black !important;
+}
+
+mat-tree-node {
+  padding-left: 60px;
+  min-height: 40px;
+}
+
+
 /* ----- start button ----- */
 
 #start-button-container {

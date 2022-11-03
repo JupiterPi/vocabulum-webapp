@@ -4,15 +4,16 @@ import {observable, Observable} from "rxjs";
 
 export type Portion = {
   name: string,
-  vocabularyBlocks: {
-    portion: string,
-    translations: {
-      important: boolean,
-      translation: string
-    }[],
-    kind: string,
-    base_form: string
-  }[][]
+  vocabularyBlocks: VocabularyInPortion[][]
+};
+export type VocabularyInPortion = {
+  portion: string,
+  translations: {
+    important: boolean,
+    translation: string
+  }[],
+  kind: string,
+  base_form: string
 };
 
 export type Vocabulary = {
@@ -297,6 +298,65 @@ export class DataService {
           }
         ]
       ]
+    },
+    {
+      name: "B",
+      vocabularyBlocks: [
+        [
+          {
+            portion: "B",
+            translations: [
+              {
+                important: true,
+                translation: "der Esel"
+              }
+            ],
+            kind: "Noun",
+            base_form: "asinus"
+          },
+          {
+            portion: "B",
+            translations: [
+              {
+                important: true,
+                translation: "dastehen"
+              },
+              {
+                important: false,
+                translation: "aufrecht stehen"
+              }
+            ],
+            kind: "Verb",
+            base_form: "stare"
+          },
+          {
+            portion: "B",
+            translations: [
+              {
+                important: true,
+                translation: "und"
+              }
+            ],
+            kind: "Inflexible",
+            base_form: "et"
+          },
+          {
+            portion: "B",
+            translations: [
+              {
+                important: true,
+                translation: "erwarten"
+              },
+              {
+                important: false,
+                translation: "warten auf"
+              }
+            ],
+            kind: "Verb",
+            base_form: "exspectare"
+          }
+        ]
+      ]
     }
   ];
   devVocabulary: Vocabulary = {
@@ -468,7 +528,7 @@ export class DataService {
     }
   ];
 
-  devMode = false;
+  devMode = true;
 
   // GET /portion
   getPortions() {
