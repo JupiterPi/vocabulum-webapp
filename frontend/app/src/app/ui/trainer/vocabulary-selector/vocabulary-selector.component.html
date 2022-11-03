@@ -23,8 +23,12 @@
         </div>
         <div class="block-vocabularies">
           <div class="vocabulary-container" *ngFor="let vocabulary of block.vocabularies">
-            <mat-checkbox [(ngModel)]="vocabulary.selected">
-              {{vocabulary.vocabulary.base_form}} <span class="muted">&mdash;</span> {{vocabulary.vocabulary.translations[0].translation}}
+            <mat-checkbox [(ngModel)]="vocabulary.selected" (ngModelChange)="updateSelectionString()">
+              {{vocabulary.vocabulary.base_form}}
+              <span class="vocabulary-translation">
+                <span class="muted">&mdash;</span>
+                {{vocabulary.vocabulary.translations[0].translation}}
+              </span>
             </mat-checkbox>
           </div>
         </div>

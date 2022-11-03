@@ -528,7 +528,7 @@ export class DataService {
     }
   ];
 
-  devMode = true;
+  devMode = false;
 
   // GET /portion
   getPortions() {

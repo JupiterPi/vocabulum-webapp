@@ -33,7 +33,7 @@ import {
   faBook,
   faChevronLeft,
   faComments,
-  faDisplay, faEye, faFire,
+  faDisplay, faEye,
   faPaperPlane,
   faWindowRestore
 } from "@fortawesome/free-solid-svg-icons";

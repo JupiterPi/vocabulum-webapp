@@ -1,9 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Direction} from "../../../data/session.service";
-import {Portion, Vocabulary} from "../../../data/data.service";
-import {NestedTreeControl} from "@angular/cdk/tree";
-import {MatTreeNestedDataSource} from "@angular/material/tree";
 
 type Mode = "cards" | "chat";
 
@@ -30,33 +27,12 @@ export class TrainerLauncherComponent {
     this.selectedDirection = direction;
   }
 
-  /*vocabularySelectorTreeControl = new NestedTreeControl<VocabularySelectorNode>(node => node.children);
-  vocabularySelectorDataSource = new MatTreeNestedDataSource<VocabularySelectorNode>();
-  hasChild = (_: number, node: VocabularySelectorNode) => !!node.children && node.children.length > 0;*/
+  selectionString = "";
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-    /*this.vocabularySelectorDataSource.data = [
-      {
-        name: "1",
-        children: [
-          { name: "voc1" },
-          { name: "voc2" },
-          { name: "voc3" }
-        ]
-      },
-      {
-        name: "A",
-        children: [
-          { name: "voc1" },
-          { name: "voc2" },
-          { name: "voc3" }
-        ]
-      }
-    ];*/
-  }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   checkReady() {
-    return this.selectedMode && this.selectedDirection;
+    return this.selectedMode && this.selectedDirection && this.selectionString != "";
   }
 
   submitStart() {
@@ -64,7 +40,8 @@ export class TrainerLauncherComponent {
       this.router.navigate([this.selectedMode], {
         relativeTo: this.route,
         queryParams: {
-          direction: this.selectedDirection
+          direction: this.selectedDirection,
+          selection: this.selectionString
         }
       });
     }

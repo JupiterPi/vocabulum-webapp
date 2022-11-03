@@ -58,3 +58,9 @@
 mat-checkbox {
   @include font-def;
 }
+
+@media screen and (max-width: 370px) {
+  .vocabulary-translation {
+    display: none;
+  }
+}
