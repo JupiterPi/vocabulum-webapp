@@ -8,14 +8,6 @@ import {DataService, Vocabulary} from "../../../data/data.service";
   styleUrls: ['./vocabulary-view.component.scss']
 })
 export class VocabularyViewComponent implements OnInit {
-  /*vocabulary: Vocabulary = {
-    portion: "",
-    translations: [],
-    kind: "",
-    base_form: "",
-    definition: "",
-    meta: []
-  };*/
   vocabulary?: Vocabulary;
 
   constructor(private route: ActivatedRoute, private dataService: DataService) {}
@@ -28,5 +20,15 @@ export class VocabularyViewComponent implements OnInit {
         this.vocabulary = vocabulary;
       });
     });
+  }
+
+  formatKind(kind: string) {
+    switch (kind) {
+      case "noun": return "Substantiv";
+      case "adjective": return "Adjektiv";
+      case "verb": return "Verb";
+      case "inflexible": return "nicht flektiert";
+    }
+    return "";
   }
 }

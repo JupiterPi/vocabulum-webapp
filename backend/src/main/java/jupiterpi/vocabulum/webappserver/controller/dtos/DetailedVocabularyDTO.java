@@ -22,7 +22,7 @@ public class DetailedVocabularyDTO {
     public static DetailedVocabularyDTO fromVocabulary(Vocabulary vocabulary) {
         DetailedVocabularyDTO dto = new DetailedVocabularyDTO();
         dto.portion = vocabulary.getPortion();
-        dto.kind = vocabulary.getKind().toString().substring(0, 1).toUpperCase() + vocabulary.getKind().toString().substring(1).toLowerCase();
+        dto.kind = vocabulary.getKind().toString().toLowerCase();
         dto.base_form = vocabulary.getBaseForm();
         dto.definition = vocabulary.getDefinition(CoreService.get().i18n);
 

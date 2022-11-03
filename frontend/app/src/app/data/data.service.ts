@@ -90,7 +90,7 @@ export class DataService {
                 translation: "die Sonne"
               }
             ],
-            kind: "Noun",
+            kind: "noun",
             base_form: "sol"
           },
           {
@@ -109,7 +109,7 @@ export class DataService {
                 translation: "das Schweigen"
               }
             ],
-            kind: "Noun",
+            kind: "noun",
             base_form: "silentium"
           },
           {
@@ -124,7 +124,7 @@ export class DataService {
                 translation: "die Villa"
               }
             ],
-            kind: "Noun",
+            kind: "noun",
             base_form: "villa"
           },
           {
@@ -135,7 +135,7 @@ export class DataService {
                 translation: "der Hund"
               }
             ],
-            kind: "Noun",
+            kind: "noun",
             base_form: "canis"
           },
           {
@@ -154,7 +154,7 @@ export class DataService {
                 translation: "scharf"
               }
             ],
-            kind: "Adjective",
+            kind: "adjective",
             base_form: "acer"
           }
         ],
@@ -167,7 +167,7 @@ export class DataService {
                 translation: "kurz"
               }
             ],
-            kind: "Adjective",
+            kind: "adjective",
             base_form: "brevis"
           },
           {
@@ -178,7 +178,7 @@ export class DataService {
                 translation: "glücklich"
               }
             ],
-            kind: "Adjective",
+            kind: "adjective",
             base_form: "felix"
           },
           {
@@ -193,7 +193,7 @@ export class DataService {
                 translation: "zart"
               }
             ],
-            kind: "Adjective",
+            kind: "adjective",
             base_form: "clemens"
           },
           {
@@ -204,7 +204,7 @@ export class DataService {
                 translation: "schnell"
               }
             ],
-            kind: "Adjective",
+            kind: "adjective",
             base_form: "celer"
           },
           {
@@ -219,7 +219,7 @@ export class DataService {
                 translation: "schön"
               }
             ],
-            kind: "Adjective",
+            kind: "adjective",
             base_form: "pulcher"
           },
           {
@@ -234,7 +234,7 @@ export class DataService {
                 translation: "nennen"
               }
             ],
-            kind: "Verb",
+            kind: "verb",
             base_form: "vocare"
           }
         ]
@@ -252,7 +252,7 @@ export class DataService {
                 translation: "der Esel"
               }
             ],
-            kind: "Noun",
+            kind: "noun",
             base_form: "asinus"
           },
           {
@@ -267,7 +267,7 @@ export class DataService {
                 translation: "aufrecht stehen"
               }
             ],
-            kind: "Verb",
+            kind: "verb",
             base_form: "stare"
           },
           {
@@ -278,7 +278,7 @@ export class DataService {
                 translation: "und"
               }
             ],
-            kind: "Inflexible",
+            kind: "inflexible",
             base_form: "et"
           },
           {
@@ -293,7 +293,7 @@ export class DataService {
                 translation: "warten auf"
               }
             ],
-            kind: "Verb",
+            kind: "verb",
             base_form: "exspectare"
           }
         ]
@@ -311,7 +311,7 @@ export class DataService {
                 translation: "der Esel"
               }
             ],
-            kind: "Noun",
+            kind: "noun",
             base_form: "asinus"
           },
           {
@@ -326,7 +326,7 @@ export class DataService {
                 translation: "aufrecht stehen"
               }
             ],
-            kind: "Verb",
+            kind: "verb",
             base_form: "stare"
           },
           {
@@ -337,7 +337,7 @@ export class DataService {
                 translation: "und"
               }
             ],
-            kind: "Inflexible",
+            kind: "inflexible",
             base_form: "et"
           },
           {
@@ -352,7 +352,7 @@ export class DataService {
                 translation: "warten auf"
               }
             ],
-            kind: "Verb",
+            kind: "verb",
             base_form: "exspectare"
           }
         ]
@@ -371,7 +371,7 @@ export class DataService {
         translation: "der Stern"
       }
     ],
-    kind: "Noun",
+    kind: "noun",
     base_form: "sol",
     definition: "sol, solis m.",
     meta: [
