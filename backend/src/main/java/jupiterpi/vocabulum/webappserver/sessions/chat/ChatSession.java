@@ -4,6 +4,7 @@ import jupiterpi.vocabulum.core.sessions.Session;
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 import jupiterpi.vocabulum.core.vocabularies.translations.TranslationSequence;
+import jupiterpi.vocabulum.core.vocabularies.translations.VocabularyTranslation;
 import jupiterpi.vocabulum.core.vocabularies.translations.parts.container.InputMatchedPart;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import jupiterpi.vocabulum.webappserver.sessions.Direction;
@@ -30,20 +31,24 @@ public class ChatSession implements WebappSession {
             } else {
                 session.start();
             }
-            Vocabulary vocabulary = session.getNextVocabulary();
-            currentVocabulary = vocabulary;
+            setNextVocabulary();
 
             List<MessageDTO> messages = new ArrayList<>();
             if (!isRestart) messages.addAll(List.of(
                     MessageDTO.fromMessage("Hi, willkommen zu deiner Abfrage!"),
-                    MessageDTO.fromMessage("Ich sage dir immer das lateinische Wort und du schreibst die deutschen Bedeutungen zurück."),
+                    MessageDTO.fromMessage(switch (direction) {
+                        case LG -> "Ich sage dir immer das lateinische Wort und du schreibst die deutschen Bedeutungen zurück.";
+                        case GL -> "Ich sage dir immer die deutsche Bedeutung, und du schreibst mir die lateinische Vokabel zurück.";
+                        case RAND -> "Ich sage dir manchmal die deutsche Bedeutung und manchmal die latinische Vokabel, und du schreibst mir das jeweils andere zurück.";
+                    }),
                     MessageDTO.fromMessage("Alles klar? Los geht's!")
             ));
-            messages.add(
-                    MessageDTO.fromMessageParts(false,
-                    new MessageDTO.MessagePartDTO("Die erste Vokabel: "),
-                    new MessageDTO.MessagePartDTO(vocabulary.getBaseForm(), true, "default")
-            ));
+
+            List<MessageDTO.MessagePartDTO> messageParts = new ArrayList<>();
+            messageParts.add(new MessageDTO.MessagePartDTO("Die erste Vokabel: "));
+            messageParts.addAll(getQuestionMessage());
+            messages.add(new MessageDTO(messageParts, false, false, List.of(), false));
+
             return messages;
         } catch (Session.SessionLifecycleException e) {
             return errorMessage(e);
@@ -51,33 +56,74 @@ public class ChatSession implements WebappSession {
     }
 
     private Vocabulary currentVocabulary;
+    private Direction.ResolvedDirection currentDirection;
+
+    private void setNextVocabulary() throws Session.SessionLifecycleException {
+        currentVocabulary = session.getNextVocabulary();
+        currentDirection = direction.resolveRandom();
+    }
+    private List<MessageDTO.MessagePartDTO> getQuestionMessage() {
+        switch (currentDirection) {
+            case LG -> {
+                return List.of(new MessageDTO.MessagePartDTO(currentVocabulary.getBaseForm(), true, "default"));
+            }
+            case GL -> {
+                List<MessageDTO.MessagePartDTO> messageParts = new ArrayList<>();
+                for (VocabularyTranslation translation : currentVocabulary.getTranslations()) {
+                    messageParts.add(new MessageDTO.MessagePartDTO(", ", false, "default"));
+                    messageParts.add(new MessageDTO.MessagePartDTO(translation.getTranslation(), translation.isImportant(), "default"));
+                }
+                messageParts = messageParts.subList(1, messageParts.size());
+                return messageParts;
+            }
+        }
+        return null;
+    }
 
     public List<MessageDTO> handleUserInput(String input) {
         try {
             List<MessageDTO> messages = new ArrayList<>();
 
-            List<TranslationSequence.ValidatedTranslation> translations = currentVocabulary.getTranslations().validateInput(input);
-            int amountRight = 0;
-            for (TranslationSequence.ValidatedTranslation translation : translations) {
-                if (translation.isValid()) {
-                    amountRight++;
-                }
-            }
-            float score = ((float) amountRight) / ((float) translations.size());
-            boolean passed = score >= 0.5f;
-            session.provideFeedback(currentVocabulary, passed);
+            boolean passed;
+            float score;
+            List<MessageDTO> directionSpecificMessages = new ArrayList<>();
+            if (currentDirection == Direction.ResolvedDirection.LG) {
 
+                List<TranslationSequence.ValidatedTranslation> translations = currentVocabulary.getTranslations().validateInput(input);
+                int amountRight = 0;
+                for (TranslationSequence.ValidatedTranslation translation : translations) {
+                    if (translation.isValid()) {
+                        amountRight++;
+                    }
+                }
+                score = ((float) amountRight) / ((float) translations.size());
+                passed = score >= 0.5f;
+
+                directionSpecificMessages.add(generateFullLgFeedback(currentVocabulary, translations));
+
+            } else {
+
+                passed = input.trim().equalsIgnoreCase(currentVocabulary.getDefinition(CoreService.get().i18n));
+                score = passed ? 1f : 0f;
+                directionSpecificMessages.add(new MessageDTO(List.of(
+                        new MessageDTO.MessagePartDTO(currentVocabulary.getDefinition(CoreService.get().i18n), false, passed ? "green" : "red")
+                ), false, false, List.of(), false));
+
+            }
+
+            session.provideFeedback(currentVocabulary, passed);
             messages.add(MessageDTO.fromMessageParts(false,
                     new MessageDTO.MessagePartDTO("Das ist "),
                     (passed
                             ? (score > 0.75f
-                                ? new MessageDTO.MessagePartDTO("richtig!", true, "green")
-                                : new MessageDTO.MessagePartDTO("ungefähr richtig", true, "orange")
-                            )
+                            ? new MessageDTO.MessagePartDTO("richtig!", true, "green")
+                            : new MessageDTO.MessagePartDTO("ungefähr richtig", true, "orange")
+                    )
                             : new MessageDTO.MessagePartDTO("leider falsch", true, "red")
                     )
             ));
-            messages.add(generateFullFeedback(currentVocabulary, translations));
+
+            messages.addAll(directionSpecificMessages);
 
             if (session.isRoundDone()) {
                 messages.add(generateRoundFeedback(session.getResult()));
@@ -102,12 +148,12 @@ public class ChatSession implements WebappSession {
             }
 
             if (!session.isAllDone()) {
-                Vocabulary vocabulary = session.getNextVocabulary();
-                currentVocabulary = vocabulary;
-                messages.add(MessageDTO.fromMessageParts(true,
-                        new MessageDTO.MessagePartDTO("Die nächste Vokabel: "),
-                        new MessageDTO.MessagePartDTO(vocabulary.getBaseForm(), true, "default")
-                ));
+                setNextVocabulary();
+
+                List<MessageDTO.MessagePartDTO> messageParts = new ArrayList<>();
+                messageParts.add(new MessageDTO.MessagePartDTO("Die nächste Vokabel: "));
+                messageParts.addAll(getQuestionMessage());
+                messages.add(new MessageDTO(messageParts, true, false, List.of(), false));
             }
 
             return messages;
@@ -135,7 +181,7 @@ public class ChatSession implements WebappSession {
         return errorMessage(new Exception("Unknown button action: " + action));
     }
 
-    private MessageDTO generateFullFeedback(Vocabulary vocabulary, List<TranslationSequence.ValidatedTranslation> validation) {
+    private MessageDTO generateFullLgFeedback(Vocabulary vocabulary, List<TranslationSequence.ValidatedTranslation> validation) {
         List<MessageDTO.MessagePartDTO> items = new ArrayList<>();
 
         items.add(new MessageDTO.MessagePartDTO(vocabulary.getDefinition(CoreService.get().i18n)));
