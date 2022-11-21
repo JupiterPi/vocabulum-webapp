@@ -42,11 +42,26 @@ public class DetailedVocabularyDTO {
         Vocabulary.Kind kind = vocabulary.getKind();
         if (kind == Vocabulary.Kind.NOUN) {
             Noun noun = (Noun) vocabulary;
-            meta.add(new MetaItem("Deklinationsschema", noun.getDeclensionSchema() + "-Dekl."));
+            meta.add(new MetaItem("Deklinationsschema", switch (noun.getDeclensionSchema()) {
+                case "a" -> "a-Deklination";
+                case "o" -> "o-Deklination";
+                case "cons" -> "konsonantische Deklination";
+                case "e" -> "e-Deklination";
+                case "u" -> "u-Deklination";
+                default -> noun.getDeclensionSchema();
+            }));
         } else if (kind == Vocabulary.Kind.ADJECTIVE) {
             Adjective adjective = (Adjective) vocabulary;
         } else if (kind == Vocabulary.Kind.VERB) {
             Verb verb = (Verb) vocabulary;
+            meta.add(new MetaItem("Konjugationsschema", switch (verb.getConjugationSchema()) {
+                case "a" -> "a-Konjugation";
+                case "e" -> "e-Konjugation";
+                case "ii" -> "i-Konjugation";
+                case "cons" -> "konsonantische Konjugation";
+                case "i" -> "kurzvokalische i-Konjugation";
+                default -> verb.getConjugationSchema();
+            }));
         } else if (kind == Vocabulary.Kind.INFLEXIBLE) {
             Inflexible inflexible = (Inflexible) vocabulary;
         }
