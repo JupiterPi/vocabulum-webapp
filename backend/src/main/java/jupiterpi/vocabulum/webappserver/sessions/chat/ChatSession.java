@@ -1,6 +1,7 @@
 package jupiterpi.vocabulum.webappserver.sessions.chat;
 
 import jupiterpi.vocabulum.core.sessions.Session;
+import jupiterpi.vocabulum.core.sessions.SessionRound;
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 import jupiterpi.vocabulum.core.vocabularies.translations.TranslationSequence;
@@ -55,11 +56,13 @@ public class ChatSession implements WebappSession {
         }
     }
 
+    private SessionRound round;
     private Vocabulary currentVocabulary;
     private Direction.ResolvedDirection currentDirection;
 
     private void setNextVocabulary() throws Session.SessionLifecycleException {
-        currentVocabulary = session.getNextVocabulary();
+        if (round == null) round = new SessionRound(session.getCurrentVocabularies());
+        currentVocabulary = round.getNextVocabulary();
         currentDirection = direction.resolveRandom();
     }
     private List<MessageDTO.MessagePartDTO> getQuestionMessage() {
@@ -111,7 +114,7 @@ public class ChatSession implements WebappSession {
 
             }
 
-            session.provideFeedback(currentVocabulary, passed);
+            round.provideFeedback(currentVocabulary, passed);
             messages.add(MessageDTO.fromMessageParts(false,
                     new MessageDTO.MessagePartDTO("Das ist "),
                     (passed
@@ -125,9 +128,12 @@ public class ChatSession implements WebappSession {
 
             messages.addAll(directionSpecificMessages);
 
-            if (session.isRoundDone()) {
+            if (round.isDone()) {
+                session.provideFeedback(round.getFeedback());
+                round = null;
+
                 messages.add(generateRoundFeedback(session.getResult()));
-                if (session.isAllDone()) {
+                if (session.isDone()) {
                     messages.add(MessageDTO.fromMessageParts(false,
                             new MessageDTO.MessagePartDTO("Juhu! Jetzt hast du "),
                             new MessageDTO.MessagePartDTO("alle Vokabeln fertig", true, "default"),
@@ -147,7 +153,7 @@ public class ChatSession implements WebappSession {
                 }
             }
 
-            if (!session.isAllDone()) {
+            if (!session.isDone()) {
                 setNextVocabulary();
 
                 List<MessageDTO.MessagePartDTO> messageParts = new ArrayList<>();
@@ -166,7 +172,6 @@ public class ChatSession implements WebappSession {
     private static final String BUTTON_EXIT = "exit";
 
     public List<MessageDTO> handleButtonAction(String action) {
-        System.out.println("handling button action: " + action);
         if (action.equals(BUTTON_RESTART)) {
             List<MessageDTO> messages = new ArrayList<>();
             messages.add(MessageDTO.fromMessageParts(true,

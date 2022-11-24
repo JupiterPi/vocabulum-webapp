@@ -1,6 +1,7 @@
 package jupiterpi.vocabulum.webappserver.sessions.cards;
 
 import jupiterpi.vocabulum.core.sessions.Session;
+import jupiterpi.vocabulum.core.sessions.SessionRound;
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 import jupiterpi.vocabulum.webappserver.sessions.Direction;
@@ -15,13 +16,15 @@ public class CardsSession implements WebappSession {
         this.direction = direction;
 
         session.start();
+        round = new SessionRound(session.getCurrentVocabularies());
         setNextVocabulary();
     }
 
+    private SessionRound round;
     private Vocabulary currentVocabulary;
     private Direction.ResolvedDirection currentDirection;
     private void setNextVocabulary() throws Session.SessionLifecycleException {
-        currentVocabulary = session.getNextVocabulary();
+        currentVocabulary = round.getNextVocabulary();
         currentDirection = direction.resolveRandom();
     }
 
@@ -34,8 +37,9 @@ public class CardsSession implements WebappSession {
     }
 
     public NextTypeDTO.NextType submitSentiment(boolean passed) throws Session.SessionLifecycleException {
-        session.provideFeedback(currentVocabulary, passed);
-        if (session.isRoundDone()) {
+        round.provideFeedback(currentVocabulary, passed);
+        if (round.isDone()) {
+            session.provideFeedback(round.getFeedback());
             return NextTypeDTO.NextType.RESULT;
         } else {
             setNextVocabulary();
@@ -50,9 +54,10 @@ public class CardsSession implements WebappSession {
 
     public void submitFinish(boolean repeat) throws Session.SessionLifecycleException {
         if (repeat) {
-            if (session.isAllDone()) {
+            if (session.isDone()) {
                 session.restart();
             }
+            round = new SessionRound(session.getCurrentVocabularies());
             setNextVocabulary();
         }
     }
