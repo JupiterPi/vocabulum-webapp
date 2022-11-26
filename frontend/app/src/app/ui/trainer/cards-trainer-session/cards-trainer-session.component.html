@@ -8,8 +8,8 @@
     </div>
 
     <div class="card" matRipple [matRippleDisabled]="lifecycle != 'vocabulary'" [class.clickable]="lifecycle == 'vocabulary'" (click)="showSolution()" *ngIf="lifecycle != 'result'">
-      <div class="card-text">{{vocabulary.direction == "lg" ? vocabulary.latin : vocabulary.german}}</div>
-      <div class="card-text" *ngIf="lifecycle == 'solution'">{{vocabulary.direction == "lg" ? vocabulary.german : vocabulary.latin}}</div>
+      <div class="card-text">{{currentVocabulary.direction == "lg" ? currentVocabulary.latin : currentVocabulary.german}}</div>
+      <div class="card-text" *ngIf="lifecycle == 'solution'">{{currentVocabulary.direction == "lg" ? currentVocabulary.german : currentVocabulary.latin}}</div>
       <div class="card-text card-text-hidden-container" *ngIf="lifecycle != 'solution'">
         <div class="card-text-hidden-block length-2"></div>
         <div class="card-text-hidden-block length-1"></div>
@@ -23,13 +23,13 @@
     </div>
 
     <div class="actions-container" *ngIf="lifecycle == 'solution'">
-      <button class="action-button action-bad" mat-ripple title="Das wusste ich nicht." (click)="submitSentiment('bad')">
+      <button class="action-button action-bad" mat-ripple title="Das wusste ich nicht." (click)="submitFeedback('bad')">
         <mat-icon>sentiment_very_dissatisfied</mat-icon>
       </button>
-      <button class="action-button action-passable" mat-ripple title="Das wusste ich ungefähr." (click)="submitSentiment('passable')">
+      <button class="action-button action-passable" mat-ripple title="Das wusste ich ungefähr." (click)="submitFeedback('passable')">
         <mat-icon>sentiment_neutral</mat-icon>
       </button>
-      <button class="action-button action-good" mat-ripple title="Das wusste ich."  (click)="submitSentiment('good')">
+      <button class="action-button action-good" mat-ripple title="Das wusste ich."  (click)="submitFeedback('good')">
         <mat-icon>sentiment_very_satisfied</mat-icon>
       </button>
     </div>

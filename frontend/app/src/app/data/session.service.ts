@@ -79,18 +79,17 @@ export class ChatSessionService {
 /* --- cards sessions --- */
 
 export type CardsVocabulary = {
+  base_form: string,
   direction: "lg" | "gl",
   german: string,
   latin: string
 };
 
-export type Sentiment = {
-  sentiment: "good" | "passable" | "bad"
+export type Feedback = {
+  vocabulary: string,
+  sentiment: Sentiment
 };
-
-export type NextType = {
-  nextType: "next_vocabulary" | "result"
-};
+export type Sentiment = "good" | "passable" | "bad";
 
 export type FinishType = {
   repeat: boolean
@@ -115,22 +114,14 @@ export class CardsSessionService {
     return this.http.post(this.dataService.backendRoot + "/api/session/cards/create", options, {responseType: "text"});
   }
 
-  // GET /nextVocabulary
-  getNextVocabulary(id: string) {
-    return this.http.get<CardsVocabulary>(this.dataService.backendRoot + "/api/session/cards/" + id + "/nextVocabulary");
+  // GET /nextRound
+  getNextRound(id: string) {
+    return this.http.get<CardsVocabulary[]>(this.dataService.backendRoot + "/api/session/cards/" + id + "/nextRound");
   }
 
-  // POST /sentiment
-  submitSentiment(id: string, sentiment: "good" | "passable" | "bad") {
-    const sentimentObj: Sentiment = {
-      sentiment
-    };
-    return this.http.post<NextType>(this.dataService.backendRoot + "/api/session/cards/" + id + "/sentiment", sentimentObj);
-  }
-
-  // GET /result
-  getResult(id: string) {
-    return this.http.get<Result>(this.dataService.backendRoot + "/api/session/cards/" + id + "/result");
+  // POST /feedback
+  submitFeedback(id: string, feedback: Feedback[]) {
+    return this.http.post<Result>(this.dataService.backendRoot + "/api/session/cards/" + id + "/feedback", feedback);
   }
 
   // POST /finish

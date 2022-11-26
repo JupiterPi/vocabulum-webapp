@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class NextTypeDTO {
     public enum NextType {
-        NEXT_VOCABULARY, RESULT;
+        NEXT_ROUND, RESULT;
 
         @JsonCreator
         public static NextType decode(String value) {

@@ -1,11 +1,13 @@
 package jupiterpi.vocabulum.webappserver.sessions.cards;
 
 import jupiterpi.vocabulum.core.sessions.Session;
-import jupiterpi.vocabulum.core.sessions.SessionRound;
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 import jupiterpi.vocabulum.webappserver.sessions.Direction;
 import jupiterpi.vocabulum.webappserver.sessions.WebappSession;
+
+import java.util.List;
+import java.util.Map;
 
 public class CardsSession implements WebappSession {
     private Session session;
@@ -16,40 +18,25 @@ public class CardsSession implements WebappSession {
         this.direction = direction;
 
         session.start();
-        round = new SessionRound(session.getCurrentVocabularies());
-        setNextVocabulary();
+        setNextRound();
     }
 
-    private SessionRound round;
-    private Vocabulary currentVocabulary;
-    private Direction.ResolvedDirection currentDirection;
-    private void setNextVocabulary() throws Session.SessionLifecycleException {
-        currentVocabulary = round.getNextVocabulary();
-        currentDirection = direction.resolveRandom();
+    public Direction getDirection() {
+        return direction;
     }
 
-    public Vocabulary getNextVocabulary() {
-        return currentVocabulary;
+    private List<Vocabulary> nextRound;
+    private void setNextRound() throws Session.SessionLifecycleException {
+        nextRound = session.getCurrentVocabularies();
     }
 
-    public Direction.ResolvedDirection getCurrentDirection() {
-        return currentDirection;
+    public List<Vocabulary> getNextRound() {
+        return nextRound;
     }
 
-    public NextTypeDTO.NextType submitSentiment(boolean passed) throws Session.SessionLifecycleException {
-        round.provideFeedback(currentVocabulary, passed);
-        if (round.isDone()) {
-            session.provideFeedback(round.getFeedback());
-            return NextTypeDTO.NextType.RESULT;
-        } else {
-            setNextVocabulary();
-            return NextTypeDTO.NextType.NEXT_VOCABULARY;
-        }
-    }
-
-    public Session.Result getResult() {
-        Session.Result result = session.getResult();
-        return result;
+    public Session.Result submitFeedback(Map<Vocabulary, Session.Feedback> feedback) throws Session.SessionLifecycleException {
+        session.provideFeedback(feedback);
+        return session.getResult();
     }
 
     public void submitFinish(boolean repeat) throws Session.SessionLifecycleException {
@@ -57,8 +44,7 @@ public class CardsSession implements WebappSession {
             if (session.isDone()) {
                 session.restart();
             }
-            round = new SessionRound(session.getCurrentVocabularies());
-            setNextVocabulary();
+            setNextRound();
         }
     }
 }

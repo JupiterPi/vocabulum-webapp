@@ -3,7 +3,7 @@ package jupiterpi.vocabulum.webappserver.sessions.cards;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class SentimentDTO {
+public class FeedbackDTO {
     public enum Sentiment {
         GOOD, PASSABLE, BAD;
 
@@ -18,7 +18,12 @@ public class SentimentDTO {
         }
     }
 
+    private String vocabulary;
     private Sentiment sentiment;
+
+    public String getVocabulary() {
+        return vocabulary;
+    }
 
     public Sentiment getSentiment() {
         return sentiment;
