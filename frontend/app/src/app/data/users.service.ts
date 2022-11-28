@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DataService} from "./data.service";
 
+export type CredentialsVerification = {
+  valid: boolean
+}
+
 export type UserDetails = {
   username: string,
   email: string,
@@ -18,7 +22,7 @@ export type HistoryItem = {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UsersService {
   constructor(private http: HttpClient, private dataService: DataService) {}
 
   devUserDetails: UserDetails = {
@@ -66,6 +70,13 @@ export class UserService {
   registerNewUser(username: string, email: string, password: string) {
     return this.http.post(this.dataService.backendRoot + "/auth/register", {
       username, email, password
+    });
+  }
+
+  // POST /verifyCredentials
+  verifyCredentials(username: string, password: string) {
+    return this.http.post<CredentialsVerification>(this.dataService.backendRoot + "/auth/verifyCredentials", {
+      username, password
     });
   }
 

@@ -6,7 +6,7 @@ import {
   Feedback,
   Result,
   Sentiment
-} from "../../../data/session.service";
+} from "../../../data/sessions.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({

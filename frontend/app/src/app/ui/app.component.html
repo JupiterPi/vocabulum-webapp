@@ -21,11 +21,11 @@
     <div id="navbar-user" matRipple matRippleColor="rgba(140, 140, 140, 0.2)" (click)="authClicked()">
       <img id="navbar-user-icon" src="/assets/logo/vocabulum_logo_circle.png">
       <div id="navbar-user-name">
-        <ng-container *ngIf="loggedIn">
+        <ng-container *ngIf="session.loggedIn">
           <div id="navbar-user-name-description">Eingeloggt als</div>
-          <div id="navbar-user-name-name">{{userDetails?.username}}</div>
+          <div id="navbar-user-name-name">{{session.user?.username}}</div>
         </ng-container>
-        <ng-container *ngIf="!loggedIn">
+        <ng-container *ngIf="!session.loggedIn">
           <div id="navbar-user-name-text">Nicht angemeldet</div>
         </ng-container>
       </div>

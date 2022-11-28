@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {HistoryItem, UserService} from "../../../data/user.service";
+import {HistoryItem, UsersService} from "../../../data/users.service";
 import {min} from "rxjs";
 
 type HistoryBlock = {
@@ -16,7 +16,7 @@ type HistoryBlock = {
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent {
-  constructor(private user: UserService) {
+  constructor(private user: UsersService) {
     this.history = user.getHistory();
     this.sortHistoryItems(this.history);
   }

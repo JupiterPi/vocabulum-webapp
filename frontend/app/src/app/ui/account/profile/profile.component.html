@@ -1,7 +1,7 @@
 <div id="outer-container">
   <div class="container" id="container-account">
 
-    <div class="container-header" id="greeting">Hi, {{userDetails.username}}!</div>
+    <div class="container-header" id="greeting">Hi, {{session.user?.username}}!</div>
 
     <div id="meta-outer-container">
       <div class="meta-container">
@@ -11,18 +11,13 @@
       <div class="meta-container">
         <span class="meta-name">E-Mail</span>
         <span class="meta-value" id="email" (click)="showEmail()">
-          {{obfuscateEmail(userDetails.email)}}
+          {{obfuscateEmail(session.user?.email)}}
           <a>
             <!--<mat-icon>visibility</mat-icon>-->
             <fa-icon icon="eye" size="sm"></fa-icon>
           </a>
         </span>
       </div>
-    </div>
-
-    <div>
-      <input [(ngModel)]="hasPro" type="checkbox">
-      <label>hasPro</label>
     </div>
 
     <div id="actions-container">
@@ -33,7 +28,7 @@
 
   </div>
 
-  <div class="container vkpro-container" *ngIf="!hasPro">
+  <div class="container vkpro-container" *ngIf="!session.hasPro">
     <div class="container-header">Vocabulum Pro</div>
     <app-plans></app-plans>
   </div>
@@ -41,7 +36,7 @@
   <div class="container">
     <div class="container-header">Verlauf</div>
     <app-history></app-history>
-    <div class="vkpro-required-container" *ngIf="!hasPro">
+    <div class="vkpro-required-container" *ngIf="!session.hasPro">
       <div class="vkpro-icon">
         <img src="/assets/logo/vkpro_logo_circle.png">
       </div>

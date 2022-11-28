@@ -3,13 +3,15 @@
 
     <div id="header">Anmelden</div>
 
-    <input placeholder="Benutzername / E-Mail" type="email" [(ngModel)]="username">
+    <input placeholder="Benutzername" type="text" [(ngModel)]="username">
 
     <input placeholder="Passwort" type="password" [(ngModel)]="password">
 
     <div id="confirm-container">
       <button id="confirm" mat-ripple [disabled]="!ready()" (click)="login()">Anmelden</button>
     </div>
+
+    <div class="footnote" style="color: #ee2727">{{errorMessage}}</div>
 
     <div class="footnote">Du hast noch kein Profil? <a routerLink="/register">Registriere</a> dich.</div>
 

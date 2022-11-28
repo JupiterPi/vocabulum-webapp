@@ -20,19 +20,11 @@ import java.util.stream.Collectors;
 public class DbAuthenticationProvider implements AuthenticationProvider {
     private static final String USER_ROLE = "VK_USER";
 
-    List<WebappUser> users;
-
-    public DbAuthenticationProvider() {
-        CoreService.get();
-        users = Database.get().getUsers().getAll()
-                .stream()
-                .map(user -> ((WebappUser) user))
-                .collect(Collectors.toList());
-    }
-
     public static WebappUser getUser(Principal principal) {
         if (principal == null) return null;
-        return (WebappUser) Database.get().getUsers().getUser(principal.getName());
+        return WebappUsers.get().getAll().stream()
+                .filter(webappUser -> webappUser.getName().equals(principal.getName()))
+                .findFirst().get();
     }
 
     @Override
@@ -40,7 +32,7 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        Optional<WebappUser> authenticatedUser = users.stream().filter(
+        Optional<WebappUser> authenticatedUser = WebappUsers.get().getAll().stream().filter(
                 user -> user.getName().equals(name) && user.getPassword().equals(password)
         ).findFirst();
 

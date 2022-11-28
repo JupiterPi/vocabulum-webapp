@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {UserService, UserDetails} from "../../../data/user.service";
+import {Component} from '@angular/core';
+import {SessionService} from "../../../session.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -7,18 +8,14 @@ import {UserService, UserDetails} from "../../../data/user.service";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  constructor(private user: UserService) {
-    this.userDetails = user.getUserDetails();
+  constructor(public session: SessionService, private router: Router) {
+    if (!session.loggedIn) {
+      this.router.navigate(["login"]);
+    }
   }
 
-  userDetails: UserDetails = {
-    username: "...",
-    email: "...",
-    isProUser: false
-  };
-  hasPro = false;
-
-  obfuscateEmail(email: string) {
+  obfuscateEmail(email?: string) {
+    if (email == null) return "";
     const atIndex = email.lastIndexOf("@");
     if (atIndex == -1 || atIndex <= 2) return email;
     let str = email.substring(0, 2);
@@ -29,7 +26,7 @@ export class ProfileComponent {
   }
 
   showEmail() {
-    alert("Deine E-Mail-Adresse lautet: " + this.userDetails.email);
+    alert("Deine E-Mail-Adresse lautet: " + this.session.user?.email);
   }
 
   changePassword() {

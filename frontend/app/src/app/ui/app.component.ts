@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
-import {UserService, UserDetails} from "../data/user.service";
+import {UsersService} from "../data/users.service";
+import {SessionService} from "../session.service";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import {UserService, UserDetails} from "../data/user.service";
 export class AppComponent {
   currentSection = "";
 
-  constructor(private router: Router, private user: UserService) {
+  constructor(private router: Router, private user: UsersService, public session: SessionService) {
     // navigation
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -27,16 +28,10 @@ export class AppComponent {
         }
       }
     });
-
-    // user details
-    this.userDetails = user.getUserDetails();
   }
 
-  loggedIn = true;
-  userDetails?: UserDetails;
-
   authClicked() {
-    if (this.loggedIn) {
+    if (this.session.loggedIn) {
       this.router.navigate(["my"]);
     } else {
       this.router.navigate(["login"]);

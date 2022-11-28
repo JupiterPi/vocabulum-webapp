@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Button, Message} from "../chat-view/chat-view.component";
-import {BotMessage, Direction, ChatSessionService} from "../../../../data/session.service";
+import {BotMessage, Direction, ChatSessionService} from "../../../../data/sessions.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
