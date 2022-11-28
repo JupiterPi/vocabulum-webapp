@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {DataService} from "./data.service";
 
 export type UserDetails = {
   username: string,
   email: string,
-  proUser: boolean
+  isProUser: boolean
 };
 
 export type HistoryItem = {
@@ -18,12 +19,12 @@ export type HistoryItem = {
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dataService: DataService) {}
 
   devUserDetails: UserDetails = {
     username: "JupiterPi",
     email: "jupiterpi@vocabulum.de",
-    proUser: false
+    isProUser: false
   };
 
   devHistory: HistoryItem[] = [
@@ -59,5 +60,19 @@ export class UserService {
 
   getHistory() {
     return this.devHistory;
+  }
+
+  // POST /register
+  registerNewUser(username: string, email: string, password: string) {
+    return this.http.post(this.dataService.backendRoot + "/auth/register", {
+      username, email, password
+    });
+  }
+
+  // POST /login
+  login(username: string, password: string) {
+    return this.http.post<UserDetails>(this.dataService.backendRoot + "/auth/login", null, {headers: {
+      "Authorization": "Basic " + btoa(username + ":" + password)
+    }});
   }
 }

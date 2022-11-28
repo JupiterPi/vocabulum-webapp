@@ -10,11 +10,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and().authorizeRequests()
+        http
+                .csrf().disable()
+                .httpBasic().and().authorizeRequests()
+                    .anyRequest().permitAll();
+        /*http.httpBasic().and().authorizeRequests()
                 .antMatchers("/ping").permitAll()
                 .antMatchers("/ping2").authenticated()
                 .antMatchers("/secret").authenticated()
-                .antMatchers("/admin").hasRole("ADMIN");
+                .antMatchers("/admin").hasRole("ADMIN");*/
     }
 
     @Override

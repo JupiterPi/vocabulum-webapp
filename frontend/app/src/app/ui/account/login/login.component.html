@@ -8,7 +8,7 @@
     <input placeholder="Passwort" type="password" [(ngModel)]="password">
 
     <div id="confirm-container">
-      <button id="confirm" mat-ripple [disabled]="!ready()">Anmelden</button>
+      <button id="confirm" mat-ripple [disabled]="!ready()" (click)="login()">Anmelden</button>
     </div>
 
     <div class="footnote">Du hast noch kein Profil? <a routerLink="/register">Registriere</a> dich.</div>

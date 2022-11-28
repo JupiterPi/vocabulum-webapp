@@ -10,6 +10,7 @@ import jupiterpi.vocabulum.core.interpreter.parser.ParserException;
 import jupiterpi.vocabulum.core.users.User;
 import jupiterpi.vocabulum.core.vocabularies.conjugated.form.VerbFormDoesNotExistException;
 import jupiterpi.vocabulum.core.vocabularies.declined.DeclinedFormDoesNotExistException;
+import jupiterpi.vocabulum.webappserver.auth.WebappUser;
 import jupiterpi.vocabulum.webappserver.sessions.WebappSessionConfiguration;
 
 public class CoreService {
@@ -33,7 +34,7 @@ public class CoreService {
     public CoreService() throws LoadingDataException, ParserException, DeclinedFormDoesNotExistException, I18nException, LexerException, VerbFormDoesNotExistException, ReflectiveOperationException {
         String connectUrl = new TextFile("mongodb_connect_url.txt").getLine(0);
         System.out.println("connectUrl = " + connectUrl);
-        Database.get().connectAndLoad(connectUrl, User.class, WebappSessionConfiguration.class);
+        Database.get().connectAndLoad(connectUrl, WebappUser.class, WebappSessionConfiguration.class);
         Database.get().prepareWordbase();
         i18n = Database.get().getI18ns().de();
     }

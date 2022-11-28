@@ -12,7 +12,7 @@
     <input placeholder="Passwort wiederholen" type="password" [(ngModel)]="passwordRepeat" [class.invalid]="!passwordRepeatedCorrectly()">
 
     <div id="confirm-container">
-      <button id="confirm" mat-ripple [disabled]="!ready()">Registrieren</button>
+      <button id="confirm" mat-ripple [disabled]="!ready()" (click)="register()">Registrieren</button>
     </div>
 
   </div>

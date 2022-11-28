@@ -15,31 +15,32 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DbAuthenticationProvider implements AuthenticationProvider {
     private static final String USER_ROLE = "VK_USER";
 
-    List<User> users;
+    List<WebappUser> users;
 
     public DbAuthenticationProvider() {
         CoreService.get();
-        users = Database.get().getUsers().getAll();
-        /*this.users.add(new User("jeremy", "jeremypw", "USER"));
-        this.users.add(new User("ursula", "ursulapw", "ADMIN"));*/
+        users = Database.get().getUsers().getAll()
+                .stream()
+                .map(user -> ((WebappUser) user))
+                .collect(Collectors.toList());
     }
 
-    public static User getUser(Principal principal) {
+    public static WebappUser getUser(Principal principal) {
         if (principal == null) return null;
-        return Database.get().getUsers().getUser(principal.getName());
+        return (WebappUser) Database.get().getUsers().getUser(principal.getName());
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        System.out.println("authenticating " + name + ":" + password);
 
-        Optional<User> authenticatedUser = users.stream().filter(
+        Optional<WebappUser> authenticatedUser = users.stream().filter(
                 user -> user.getName().equals(name) && user.getPassword().equals(password)
         ).findFirst();
 
@@ -56,28 +57,4 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> aClass) {
         return aClass.equals(UsernamePasswordAuthenticationToken.class);
     }
-
-    /*private static class User {
-        private String name;
-        private String password;
-        private String role;
-
-        public User(String name, String password, String role) {
-            this.name = name;
-            this.password = password;
-            this.role = role;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public String getRole() {
-            return role;
-        }
-    }*/
 }

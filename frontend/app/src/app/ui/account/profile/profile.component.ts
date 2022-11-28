@@ -14,7 +14,7 @@ export class ProfileComponent {
   userDetails: UserDetails = {
     username: "...",
     email: "...",
-    proUser: false
+    isProUser: false
   };
   hasPro = false;
 
