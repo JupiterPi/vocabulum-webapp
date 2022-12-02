@@ -1,5 +1,7 @@
 package jupiterpi.vocabulum.webappserver.auth;
 
+import jupiterpi.vocabulum.webappserver.auth.registration.PendingRegistrations;
+import jupiterpi.vocabulum.webappserver.auth.registration.RegistrationDTO;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +14,17 @@ public class AuthController {
         CoreService.get();
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Test YES";
-    }
+    private PendingRegistrations pendingRegistrations = new PendingRegistrations();
 
     @PostMapping("/register")
-    public void register(@RequestBody RegisterUserDTO dto) {
-        WebappUser user = WebappUser.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword(), false);
-        WebappUsers.get().addUser(user);
+    public void register(@RequestBody RegistrationDTO dto) {
+        String id = pendingRegistrations.addPendingRegistration(dto);
+    }
+
+    @PostMapping("/confirmRegistration/{id}")
+    public String confirmRegistration(@PathVariable String id) {
+        WebappUser user = pendingRegistrations.confirmRegistration(id);
+        return user.getName();
     }
 
     @PostMapping("/verifyCredentials")

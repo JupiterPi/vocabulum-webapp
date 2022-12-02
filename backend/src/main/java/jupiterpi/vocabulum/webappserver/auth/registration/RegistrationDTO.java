@@ -1,6 +1,6 @@
-package jupiterpi.vocabulum.webappserver.auth;
+package jupiterpi.vocabulum.webappserver.auth.registration;
 
-public class RegisterUserDTO {
+public class RegistrationDTO {
     private String username;
     private String email;
     private String password;
