@@ -1,0 +1,32 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+#outer-container {
+  @include outer-container;
+}
+
+#container {
+  @include rounded-container;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#greeting {
+  @include font-srf;
+  font-size: 200%;
+}
+
+.button {
+  @include primary-button;
+  display: flex;
+  justify-content: center;
+}
+
+.footnote {
+  font-size: 70%;
+  color: $clr-muted-alt;
+}

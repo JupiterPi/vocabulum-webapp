@@ -18,6 +18,7 @@ public class PendingRegistrations {
 
     public WebappUser confirmRegistration(String id) {
         RegistrationDTO registration = registrations.get(id);
+        if (registration == null) return null;
         registrations.remove(id);
         WebappUser user = WebappUser.createUser(registration.getUsername(), registration.getEmail(), registration.getPassword(), false);
         WebappUsers.get().addUser(user);

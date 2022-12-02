@@ -40,6 +40,7 @@ import {
 import {MatTreeModule} from "@angular/material/tree";
 import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vocabulary-selector.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     HistoryComponent,
     PlansComponent,
     CardsTrainerSessionComponent,
-    VocabularySelectorComponent
+    VocabularySelectorComponent,
+    ConfirmEmailComponent
   ],
     imports: [
         BrowserModule,
@@ -66,6 +68,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
             /*{path: "", component: PortionsOverviewComponent},*/
             {path: "login", component: LoginComponent},
             {path: "register", component: RegisterComponent},
+            {path: "confirmEmail", component: ConfirmEmailComponent},
             {path: "my", component: ProfileComponent},
             {path: "dictionary", component: PortionsOverviewComponent},
             {path: "dictionary/:vocabulary", component: VocabularyViewComponent},

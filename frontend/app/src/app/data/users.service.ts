@@ -73,6 +73,11 @@ export class UsersService {
     });
   }
 
+  // POST /confirmRegistration
+  confirmRegistration(id: string) {
+    return this.http.post(this.dataService.backendRoot + "/auth/confirmRegistration/" + id, null, {responseType: "text"});
+  }
+
   // POST /verifyCredentials
   verifyCredentials(username: string, password: string) {
     return this.http.post<CredentialsVerification>(this.dataService.backendRoot + "/auth/verifyCredentials", {

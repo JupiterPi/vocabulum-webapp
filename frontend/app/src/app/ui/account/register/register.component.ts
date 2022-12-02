@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UsersService} from "../../../data/users.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -13,7 +12,9 @@ export class RegisterComponent {
   password = "";
   passwordRepeat = "";
 
-  constructor(private users: UsersService, private router: Router) {}
+  success = false;
+
+  constructor(private users: UsersService) {}
 
   passwordRepeatedCorrectly() {
     return this.password == this.passwordRepeat;
@@ -24,8 +25,9 @@ export class RegisterComponent {
   }
 
   register() {
-    this.users.registerNewUser(this.username, this.email, this.password).subscribe(success => {
-      this.router.navigate(["login"]);
+    if (this.success) return;
+    this.users.registerNewUser(this.username, this.email, this.password).subscribe(() => {
+      this.success = true;
     });
   }
 }

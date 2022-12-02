@@ -1,0 +1,15 @@
+<div id="outer-container">
+<div id="container">
+
+  <div id="greeting">Willkommen, {{username}}!</div>
+
+  <div>Dein Account ist jetzt fertig eingerichtet und du kannst dich anmelden: </div>
+
+  <div class="footnote" style="color: #ee2727" *ngIf="showError">
+    Die Registrierung konnte nicht abgeschlossen werden! (Ist sie das vielleicht schon?)
+  </div>
+
+  <a class="button" routerLink="/login" mat-ripple>Login</a>
+
+</div>
+</div>
