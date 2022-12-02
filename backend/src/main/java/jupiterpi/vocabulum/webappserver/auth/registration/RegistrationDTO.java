@@ -16,4 +16,13 @@ public class RegistrationDTO {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public String toString() {
+        return "RegistrationDTO{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

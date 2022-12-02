@@ -24,7 +24,8 @@ export class LoginComponent {
     this.errorMessage = "";
     this.users.verifyCredentials(this.username, this.password).subscribe(verification => {
       if (verification.valid) {
-        this.users.login(this.username, this.password).subscribe(userDetails => {
+        this.users.login(verification.email, this.password).subscribe(userDetails => {
+          this.users.authHeaders = this.users.makeAuthHeaders(verification.email, this.password);
           this.session.login(userDetails);
           this.router.navigate(["my"]);
         });

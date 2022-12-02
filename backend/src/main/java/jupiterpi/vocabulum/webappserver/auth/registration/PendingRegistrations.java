@@ -3,24 +3,36 @@ package jupiterpi.vocabulum.webappserver.auth.registration;
 import jupiterpi.vocabulum.webappserver.auth.WebappUser;
 import jupiterpi.vocabulum.webappserver.auth.WebappUsers;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class PendingRegistrations {
-    private Map<String, RegistrationDTO> registrations = new HashMap<>();
+    private Map<String, Registration> registrations = new HashMap<>();
+
+    private void cleanupRegistrations() {
+        registrations.forEach((id, registration) -> {
+            if (registration.isExpired()) registrations.remove(id);
+        });
+    }
 
     public String addPendingRegistration(RegistrationDTO registration) {
+        cleanupRegistrations();
+
         String id = UUID.randomUUID().toString();
-        registrations.put(id, registration);
+        registrations.put(id, new Registration(registration, new Date(new Date().getTime() + 1000*60*5)));
         return id;
     }
 
     public WebappUser confirmRegistration(String id) {
-        RegistrationDTO registration = registrations.get(id);
+        cleanupRegistrations();
+
+        Registration registration = registrations.get(id);
         if (registration == null) return null;
         registrations.remove(id);
-        WebappUser user = WebappUser.createUser(registration.getUsername(), registration.getEmail(), registration.getPassword(), false);
+        RegistrationDTO dto = registration.getDto();
+        WebappUser user = WebappUser.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword(), false);
         WebappUsers.get().addUser(user);
         return user;
     }

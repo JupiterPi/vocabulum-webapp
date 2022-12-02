@@ -39,4 +39,9 @@ public class WebappUsers {
         Database.get().getUsers().addUser(user);
         loadWebappUsers();
     }
+
+    public void modifyUser(WebappUser user) {
+        Database.get().getUsers().modifyUser(user);
+        loadWebappUsers();
+    }
 }

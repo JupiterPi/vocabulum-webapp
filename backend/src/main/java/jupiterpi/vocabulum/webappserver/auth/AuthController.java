@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,11 +34,15 @@ public class AuthController {
 
     @PostMapping("/verifyCredentials")
     public CredentialsVerificationDTO verifyCredentials(@RequestBody CredentialsDTO dto) {
-        long count = WebappUsers.get().getAll().stream()
-                .filter(webappUser -> webappUser.getName().equals(dto.getUsername()))
+        Optional<WebappUser> userFound = WebappUsers.get().getAll().stream()
+                .filter(webappUser -> webappUser.getName().equals(dto.getUsername()) || webappUser.getEmail().equals(dto.getUsername()))
                 .filter(webappUser -> webappUser.getPassword().equals(dto.getPassword()))
-                .count();
-        return new CredentialsVerificationDTO(count > 0);
+                .findFirst();
+        if (userFound.isEmpty()) {
+            return new CredentialsVerificationDTO(false, "");
+        } else {
+            return new CredentialsVerificationDTO(true, userFound.get().getEmail());
+        }
     }
 
     @PostMapping("/login")
@@ -50,5 +55,25 @@ public class AuthController {
     public UserDetailsDTO getUserDetails(Principal principal) {
         WebappUser user = DbAuthenticationProvider.getUser(principal);
         return UserDetailsDTO.fromUser(user);
+    }
+
+    @PutMapping("/username")
+    public UserDetailsDTO changeUsername(Principal principal, @RequestBody RegistrationDTO dto) {
+        WebappUser user = DbAuthenticationProvider.getUser(principal);
+        if (!user.getName().equals(dto.getUsername())) {
+            boolean usernameTaken = WebappUsers.get().getAll().stream().anyMatch(webappUser -> webappUser.getName().equals(dto.getUsername()));
+            if (!usernameTaken) {
+                user.changeName(dto.getUsername());
+                WebappUsers.get().modifyUser(user);
+            }
+        }
+        return UserDetailsDTO.fromUser(user);
+    }
+
+    @PutMapping("/password")
+    public void changePassword(Principal principal, @RequestBody RegistrationDTO dto) {
+        WebappUser user = DbAuthenticationProvider.getUser(principal);
+        user.changePassword(dto.getPassword());
+        WebappUsers.get().modifyUser(user);
     }
 }

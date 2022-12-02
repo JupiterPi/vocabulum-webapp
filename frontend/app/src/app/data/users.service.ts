@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DataService} from "./data.service";
+import {SessionService} from "../session.service";
 
 export type CredentialsVerification = {
+  email: string,
   valid: boolean
 }
 
@@ -23,13 +25,7 @@ export type HistoryItem = {
   providedIn: 'root'
 })
 export class UsersService {
-  constructor(private http: HttpClient, private dataService: DataService) {}
-
-  devUserDetails: UserDetails = {
-    username: "JupiterPi",
-    email: "jupiterpi@vocabulum.de",
-    isProUser: false
-  };
+  constructor(private http: HttpClient, private dataService: DataService, private sessionService: SessionService) {}
 
   devHistory: HistoryItem[] = [
     {
@@ -58,10 +54,6 @@ export class UsersService {
     }
   ];
 
-  getUserDetails() {
-    return this.devUserDetails;
-  }
-
   getHistory() {
     return this.devHistory;
   }
@@ -79,16 +71,35 @@ export class UsersService {
   }
 
   // POST /verifyCredentials
-  verifyCredentials(username: string, password: string) {
+  verifyCredentials(email: string, password: string) {
     return this.http.post<CredentialsVerification>(this.dataService.backendRoot + "/auth/verifyCredentials", {
-      username, password
+      username: email, password
     });
   }
 
+  authHeaders?: { headers: { Authorization: string } };
+  makeAuthHeaders(email: string, password: string) {
+    return {headers: {
+      "Authorization": "Basic " + btoa(email + ":" + password)
+    }};
+  }
+
   // POST /login
-  login(username: string, password: string) {
-    return this.http.post<UserDetails>(this.dataService.backendRoot + "/auth/login", null, {headers: {
-      "Authorization": "Basic " + btoa(username + ":" + password)
-    }});
+  login(email: string, password: string) {
+    return this.http.post<UserDetails>(this.dataService.backendRoot + "/auth/login", null, this.makeAuthHeaders(email, password));
+  }
+
+  // PUT /username
+  changeUsername(newUsername: string) {
+    return this.http.put<UserDetails>(this.dataService.backendRoot + "/auth/username", {
+      username: newUsername
+    }, this.authHeaders);
+  }
+
+  // PUT /password
+  changePassword(newPassword: string) {
+    return this.http.put(this.dataService.backendRoot + "/auth/password", {
+      password: newPassword
+    }, this.authHeaders);
   }
 }

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {SessionService} from "../../../session.service";
 import {Router} from "@angular/router";
+import {UsersService} from "../../../data/users.service";
 
 @Component({
   selector: 'app-profile',
@@ -8,7 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  constructor(public session: SessionService, private router: Router) {
+  constructor(public session: SessionService, private router: Router, private users: UsersService) {
     if (!session.loggedIn) {
       this.router.navigate(["login"]);
     }
@@ -29,9 +30,31 @@ export class ProfileComponent {
     alert("Deine E-Mail-Adresse lautet: " + this.session.user?.email);
   }
 
+  changeUsername() {
+    const newUsername = prompt("Gib einen neuen Nutzernamen ein:");
+    if (newUsername != null) this.users.changeUsername(newUsername).subscribe(userDetails => {
+      this.session.user = userDetails;
+    });
+  }
+
   changePassword() {
-    prompt("Gib dein aktuelles Passwort ein:");
-    prompt("Gib jetzt ein neues Passwort ein:");
-    prompt("Wiederhole das neue Passwort:");
+    const password = prompt("Gib dein aktuelles Passwort ein:");
+    const newPassword = prompt("Gib jetzt ein neues Passwort ein:");
+
+    if (prompt("Wiederhole das neue Passwort:") != newPassword) {
+      alert("Stimmt nicht überein!");
+      return;
+    }
+
+    if (password == null || newPassword == null) return;
+
+    if (this.session.user == null) return;
+    this.users.verifyCredentials(this.session.user?.username, password).subscribe(verification => {
+      if (verification.valid) {
+        this.users.changePassword(newPassword).subscribe();
+      } else {
+        alert("Falsches Passwort!");
+      }
+    });
   }
 }
