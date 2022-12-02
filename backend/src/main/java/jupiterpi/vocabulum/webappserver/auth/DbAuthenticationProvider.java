@@ -1,5 +1,7 @@
 package jupiterpi.vocabulum.webappserver.auth;
 
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUsers;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

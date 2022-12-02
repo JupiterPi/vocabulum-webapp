@@ -7,10 +7,9 @@ import jupiterpi.vocabulum.core.i18n.I18n;
 import jupiterpi.vocabulum.core.i18n.I18nException;
 import jupiterpi.vocabulum.core.interpreter.lexer.LexerException;
 import jupiterpi.vocabulum.core.interpreter.parser.ParserException;
-import jupiterpi.vocabulum.core.users.User;
 import jupiterpi.vocabulum.core.vocabularies.conjugated.form.VerbFormDoesNotExistException;
 import jupiterpi.vocabulum.core.vocabularies.declined.DeclinedFormDoesNotExistException;
-import jupiterpi.vocabulum.webappserver.auth.WebappUser;
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
 import jupiterpi.vocabulum.webappserver.sessions.WebappSessionConfiguration;
 
 public class CoreService {

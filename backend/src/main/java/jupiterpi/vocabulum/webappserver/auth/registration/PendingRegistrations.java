@@ -1,7 +1,7 @@
 package jupiterpi.vocabulum.webappserver.auth.registration;
 
-import jupiterpi.vocabulum.webappserver.auth.WebappUser;
-import jupiterpi.vocabulum.webappserver.auth.WebappUsers;
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUsers;
 
 import java.util.Date;
 import java.util.HashMap;

@@ -1,11 +1,11 @@
-package jupiterpi.vocabulum.webappserver.auth;
+package jupiterpi.vocabulum.webappserver.auth.user;
 
 import jupiterpi.vocabulum.core.users.User;
 import jupiterpi.vocabulum.core.util.Attachments;
 import org.bson.Document;
 
 public class WebappUser extends User {
-    private boolean isProUser;
+    protected boolean isProUser;
 
     public WebappUser(String username, String email, String password, boolean isProUser) {
         super(username, email, password);

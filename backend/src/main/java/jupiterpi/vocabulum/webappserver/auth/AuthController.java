@@ -1,7 +1,12 @@
 package jupiterpi.vocabulum.webappserver.auth;
 
+import jupiterpi.vocabulum.webappserver.auth.dtos.CredentialsDTO;
+import jupiterpi.vocabulum.webappserver.auth.dtos.CredentialsVerificationDTO;
+import jupiterpi.vocabulum.webappserver.auth.dtos.UserDetailsDTO;
 import jupiterpi.vocabulum.webappserver.auth.registration.PendingRegistrations;
 import jupiterpi.vocabulum.webappserver.auth.registration.RegistrationDTO;
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUsers;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

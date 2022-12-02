@@ -1,4 +1,4 @@
-package jupiterpi.vocabulum.webappserver.auth;
+package jupiterpi.vocabulum.webappserver.auth.user;
 
 import jupiterpi.vocabulum.core.db.Database;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;

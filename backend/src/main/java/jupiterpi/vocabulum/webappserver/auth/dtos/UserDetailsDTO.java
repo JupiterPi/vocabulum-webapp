@@ -1,4 +1,6 @@
-package jupiterpi.vocabulum.webappserver.auth;
+package jupiterpi.vocabulum.webappserver.auth.dtos;
+
+import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
 
 public class UserDetailsDTO {
     private String username;
