@@ -24,11 +24,8 @@ export class LoginComponent {
     this.errorMessage = "";
     this.users.verifyCredentials(this.username, this.password).subscribe(verification => {
       if (verification.valid) {
-        this.users.login(verification.email, this.password).subscribe(userDetails => {
-          this.users.authHeaders = this.users.makeAuthHeaders(verification.email, this.password);
-          this.session.login(userDetails);
-          this.router.navigate(["my"]);
-        });
+        this.session.login(verification.email, this.password);
+        this.router.navigate(["my"]);
       } else {
         this.errorMessage = "Benutzername oder Passwort falsch";
       }

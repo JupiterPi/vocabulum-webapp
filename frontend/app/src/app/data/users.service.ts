@@ -26,7 +26,7 @@ export type HistoryItem = {
   providedIn: 'root'
 })
 export class UsersService {
-  constructor(private http: HttpClient, private dataService: DataService, private sessionService: SessionService) {}
+  constructor(private http: HttpClient, private dataService: DataService) {}
 
   devHistory: HistoryItem[] = [
     {
@@ -79,15 +79,10 @@ export class UsersService {
   }
 
   authHeaders?: { headers: { Authorization: string } };
-  makeAuthHeaders(email: string, password: string) {
-    return {headers: {
-      "Authorization": "Basic " + btoa(email + ":" + password)
-    }};
-  }
 
   // POST /login
-  login(email: string, password: string) {
-    return this.http.post<UserDetails>(this.dataService.backendRoot + "/auth/login", null, this.makeAuthHeaders(email, password));
+  login(authHeaders: { headers: { Authorization: string } }) {
+    return this.http.post<UserDetails>(this.dataService.backendRoot + "/auth/login", null, authHeaders);
   }
 
   /* user details */
