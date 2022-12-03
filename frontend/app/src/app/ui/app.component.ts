@@ -26,6 +26,10 @@ export class AppComponent {
         } else {
           this.currentSection = "";
         }
+
+        setTimeout(() => {
+          this.refreshScrollbarVisible();
+        }, 50);
       }
     });
   }
@@ -36,5 +40,11 @@ export class AppComponent {
     } else {
       this.router.navigate(["login"]);
     }
+  }
+
+  scrollbarVisible = false;
+  refreshScrollbarVisible() {
+    const body = document.getElementsByTagName("body")[0];
+    this.scrollbarVisible = body.scrollHeight > body.clientHeight;
   }
 }

@@ -2,13 +2,10 @@
 
 @import "src/styles/variables";
 
-$navbar-height: 75px;
-$navbar-content-height: $navbar-height - 25px;
-
-$header-clr: #f8a190;
+/* layout */
 
 #fake-header {
-  background-color: $header-clr;
+  background-color: $clr-header;
   height: 30px;
 }
 
@@ -20,7 +17,7 @@ $header-clr: #f8a190;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 
-  // display: flex; activated in media query
+  // display: flex; added in media query or .scrollbar
   flex-direction: row;
   justify-content: space-between;
 
@@ -38,6 +35,10 @@ $header-clr: #f8a190;
   }
   #nodge-left {
     background-color: $clr-primary;
+
+    #navbar-container.scrollbar & {
+      clip-path: polygon(0 0, 0% 100%, 0 50%);
+    }
   }
   #nodge-left::after {
     clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
@@ -54,13 +55,16 @@ $header-clr: #f8a190;
   }
 
   display: none;
+  #navbar-container.scrollbar & {
+    display: flex;
+  }
 }
 
-:has(#navbar) {
+#navbar-container {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: $header-clr;
+  background-color: $clr-header;
   height: $navbar-height;
 }
 
@@ -74,6 +78,11 @@ $header-clr: #f8a190;
 
   padding: 0 13px;
   gap: 20px;
+
+  #navbar-container.scrollbar & {
+    padding: 0 17px 0 13px;
+    border-top-right-radius: 15px;
+  }
 }
 @media screen and (max-width: 1000px) {
   #navbar {
@@ -95,7 +104,12 @@ $header-clr: #f8a190;
   #nodges {
     display: flex;
   }
+  #navbar-container.scrollbar #nodge-left {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
+  }
 }
+
+/* navbar contents */
 
 #navbar-title {
   height: $navbar-content-height;

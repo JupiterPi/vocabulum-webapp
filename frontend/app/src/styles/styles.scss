@@ -40,3 +40,38 @@ a.button {
 b {
   @include font-def-bolder;
 }
+
+
+/* scroll bar */
+
+body::-webkit-scrollbar {
+  background-color: $clr-header;
+  width: 13px;
+}
+
+$scrollbar-padding: 3px;
+body::-webkit-scrollbar-track {
+  margin-top: /*$navbar-height +*/ $scrollbar-padding;
+  margin-bottom: $scrollbar-padding;
+  background-color: $clr-header;
+  border-radius: 100vw;
+}
+
+@media screen and (display-mode: standalone) {
+  body::-webkit-scrollbar-track {
+    margin-top: 0;
+  }
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: mix($clr-header, $clr-primary, 70%);
+  border-radius: 100vw;
+  border: 1px solid mix($clr-header, $clr-primary, 40%);
+
+  &:hover {
+    background-color: mix($clr-header, $clr-primary, 55%);
+  }
+  &:active {
+    background-color: mix($clr-header, $clr-primary, 40%);
+  }
+}
