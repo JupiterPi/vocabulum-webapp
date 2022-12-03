@@ -36,3 +36,7 @@ a, a:hover, a:visited, a:active {
 a.button {
   @include button;
 }
+
+b {
+  @include font-def-bolder;
+}
