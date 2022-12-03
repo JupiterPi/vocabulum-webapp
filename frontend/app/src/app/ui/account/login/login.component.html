@@ -3,9 +3,9 @@
 
     <div id="header">Anmelden</div>
 
-    <input placeholder="E-Mail" type="text" [(ngModel)]="username">
+    <input placeholder="E-Mail" autocomplete="email" type="text" [(ngModel)]="username">
 
-    <input placeholder="Passwort" type="password" [(ngModel)]="password">
+    <input placeholder="Passwort" autocomplete="current-password" type="password" [(ngModel)]="password">
 
     <div id="confirm-container">
       <button id="confirm" mat-ripple [disabled]="!ready()" (click)="login()">Anmelden</button>

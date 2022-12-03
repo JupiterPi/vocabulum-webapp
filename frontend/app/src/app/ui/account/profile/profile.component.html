@@ -1,7 +1,7 @@
 <div id="outer-container" *ngIf="session.user">
   <div class="container" id="container-account">
 
-    <div class="container-header" id="greeting">Hi, {{session.user?.username}}!</div>
+    <div class="container-header" id="greeting">Hi, {{session.user.username}}!</div>
 
     <div id="meta-outer-container">
       <div class="meta-container">
@@ -11,7 +11,7 @@
       <div class="meta-container">
         <span class="meta-name">E-Mail</span>
         <span class="meta-value click-to-show" (click)="showEmail()">
-          {{obfuscateEmail(session.user?.email)}}
+          {{obfuscateEmail(session.user.email)}}
           <a>
             <!--<mat-icon>visibility</mat-icon>-->
             <fa-icon icon="eye" size="sm"></fa-icon>
@@ -87,5 +87,9 @@
       <div class="vkpro-text">Du benötigst Vocabulum Pro, um dieses Feature nutzen zu können!</div>
       <div class="vkpro-text"><a routerLink="/my">Jetzt kaufen</a></div>
     </div>
+  </div>
+
+  <div class="actions-container" id="bottom-actions-container">
+    <a class="button" mat-ripple id="logout-button" (click)="logout()">Abmelden</a>
   </div>
 </div>

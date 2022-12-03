@@ -3,18 +3,19 @@ package jupiterpi.vocabulum.webappserver.auth.registration;
 import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
 import jupiterpi.vocabulum.webappserver.auth.user.WebappUsers;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PendingRegistrations {
     private Map<String, Registration> registrations = new HashMap<>();
 
     private void cleanupRegistrations() {
+        List<String> toRemove = new ArrayList<>();
         registrations.forEach((id, registration) -> {
-            if (registration.isExpired()) registrations.remove(id);
+            if (registration.isExpired()) toRemove.add(id);
         });
+        for (String id : toRemove) {
+            registrations.remove(id);
+        }
     }
 
     public String addPendingRegistration(RegistrationDTO registration) {

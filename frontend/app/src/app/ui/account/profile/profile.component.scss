@@ -145,3 +145,14 @@ $clr-discord-primary: #5865F2;
     color: $clr-vkpro;
   }
 }
+
+/* bottom actions */
+
+#bottom-actions-container {
+  width: 800px;
+
+  .button {
+    color: red;
+    border-color: red;
+  }
+}

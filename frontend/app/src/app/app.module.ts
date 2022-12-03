@@ -42,6 +42,7 @@ import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vo
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.component';
 import { DiscordBannerComponent } from './ui/account/profile/discord-banner/discord-banner.component';
+import {CookieModule, CookieService} from "ngx-cookie";
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { DiscordBannerComponent } from './ui/account/profile/discord-banner/disc
         }),
         FontAwesomeModule,
         MatTreeModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        CookieModule.withOptions()
     ],
   providers: [],
   bootstrap: [AppComponent]

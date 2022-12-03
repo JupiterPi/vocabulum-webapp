@@ -16,6 +16,6 @@ public class Registration {
     }
 
     public boolean isExpired() {
-        return expiration.getTime() > new Date().getTime();
+        return expiration.getTime() <= new Date().getTime();
     }
 }

@@ -92,5 +92,7 @@
       }
     }
   },
-  "defaultProject": "vocabulum-webapp-pwa"
+  "cli": {
+    "analytics": "c03a94c9-6074-47ec-ad88-fd5a14741bc2"
+  }
 }
