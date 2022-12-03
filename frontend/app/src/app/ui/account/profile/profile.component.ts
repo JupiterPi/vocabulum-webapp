@@ -75,9 +75,15 @@ export class ProfileComponent {
   }
 
   changeDiscordUsername() {
-    const newUsername = prompt("Gib einen neuen Discord-Benutzernamen ein: (z. B. \"MeinName#1234\")");
-    if (newUsername != null) this.users.changeDiscordUsername(newUsername).subscribe(userDetails => {
-      this.session.user = userDetails;
-    });
+    const newUsername = prompt("Gib deinen Discord-Benutzernamen ein: (z. B. \"MeinName#1234\")");
+    if (newUsername != null) {
+      if (newUsername.match(/^.{3,32}#[0-9]{4}$/g) == null) {
+        alert("Bitte gib einen korrekten Discord-Benutzernamen wie \"MeinName#1234\" ein.");
+      } else {
+        this.users.changeDiscordUsername(newUsername).subscribe(userDetails => {
+          this.session.user = userDetails;
+        });
+      }
+    }
   }
 }
