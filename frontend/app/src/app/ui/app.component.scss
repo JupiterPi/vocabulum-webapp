@@ -9,21 +9,49 @@ $header-clr: #f8a190;
 
 #fake-header {
   background-color: $header-clr;
-  width: 100%;
   height: 30px;
-  display: none;
 }
 
-#content-separator {
+#nodges {
   border: 1px $clr-background-1-border;
-  background-color: $clr-background-0;
-  position: relative;
-  top: -15px;
   height: 15px;
   margin-bottom: -15px;
   z-index: 1001;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+
+  // display: flex; activated in media query
+  flex-direction: row;
+  justify-content: space-between;
+
+  .nodge {
+    width: 15px;
+    height: 15px;
+  }
+  .nodge::after {
+    content: "";
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: $clr-background-0;
+    border-radius: 15px;
+  }
+  #nodge-left {
+    background-color: $clr-primary;
+  }
+  #nodge-left::after {
+    clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
+  }
+  #nodge-right {
+    background-color: $clr-secondary;
+  }
+  #nodge-right::after {
+    position: relative;
+    right: 15px;
+    margin-right: -30px;
+
+    clip-path: polygon(50% 0, 100% 0, 100% 51%, 50% 50%);
+  }
 
   display: none;
 }
@@ -55,22 +83,17 @@ $header-clr: #f8a190;
 
 @media screen and (display-mode: standalone) {
   :has(#navbar) {
-    height: $navbar-height + 15px;
+    height: $navbar-height;
   }
 
   #navbar {
-    padding: 0 20px 15px;
+    padding: 0 20px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
   }
 
-  #content-separator {
-    display: block;
-  }
-
-  #router-outlet {
-    position: relative;
-    top: -15px;
+  #nodges {
+    display: flex;
   }
 }
 

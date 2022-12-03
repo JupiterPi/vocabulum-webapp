@@ -1,3 +1,5 @@
+<!--<div id="fake-header"></div>-->
+
 <div>
   <div id="navbar">
     <div id="navbar-title" routerLink="">
@@ -26,12 +28,16 @@
           <div id="navbar-user-name-name">{{session.user?.username}}</div>
         </ng-container>
         <ng-container *ngIf="!session.loggedIn">
-          <div id="navbar-user-name-text">Nicht angemeldet</div>
+          <div id="navbar-user-name-text">Anmelden</div>
         </ng-container>
       </div>
     </div>
   </div>
-  <div id="content-separator"></div>
+
+  <div id="nodges">
+    <div class="nodge" id="nodge-left"></div>
+    <div class="nodge" id="nodge-right"></div>
+  </div>
 </div>
 
 <div id="router-outlet">
