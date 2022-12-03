@@ -1,4 +1,4 @@
-<div id="outer-container">
+<div id="outer-container" *ngIf="session.user">
   <div class="container" id="container-account">
 
     <div class="container-header" id="greeting">Hi, {{session.user?.username}}!</div>
@@ -10,7 +10,7 @@
       </div>
       <div class="meta-container">
         <span class="meta-name">E-Mail</span>
-        <span class="meta-value" id="email" (click)="showEmail()">
+        <span class="meta-value click-to-show" (click)="showEmail()">
           {{obfuscateEmail(session.user?.email)}}
           <a>
             <!--<mat-icon>visibility</mat-icon>-->
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div id="actions-container">
+    <div class="actions-container">
       <a class="button" mat-ripple (click)="changeUsername()">
         Benutzernamen ändern
       </a>
@@ -28,6 +28,47 @@
         Passwort ändern
       </a>
     </div>
+
+  </div>
+
+  <div class="container" id="discord-container">
+
+    <div class="container-header">Vocabulum auf Discord</div>
+
+    <p>
+      Verwende den Vocabulum-Bot in Discord!
+      So kannst du bspw. Chat-Abfragen direkt in deinem Lieblings-Messenger halten,
+      und das auf allen deinen Geräten.
+      Karteikarten-Abfragen und unsere Vokabelsuche findest du dort auch.
+    </p>
+    <p>
+      Auf dem Vocabulum Discord-Server kannst du mit deine Freunden chatten und dich über Vocabulum austauschen.
+      Hier findest du auch Support, falls du Probleme oder Fragen zur der App oder dem Discord-Bot hast.
+      Bald kommt außerdem ein Battle-Modus, in dem du deine Freunde zu einem Vokabelduell herausfordern kannst!
+    </p>
+    <p>
+      Trage hier deine Discord-Benutzernamen inkl. deinem Tag ein und tippe unten auf "In Discord verwenden", um zu starten.
+    </p>
+
+    <ng-container *ngIf="session.user.discordUsername != ''">
+      <div class="meta-container">
+        <span class="meta-name">Discord-Benutzername</span>
+        <span class="meta-value click-to-show" (click)="showDiscordUsername()">
+          {{obfuscateDiscordUsername(session.user.discordUsername)}}
+          <a>
+            <fa-icon icon="eye" size="sm"></fa-icon>
+          </a>
+        </span>
+      </div>
+    </ng-container>
+
+    <div class="actions-container">
+      <a class="button" mat-ripple (click)="changeDiscordUsername()">
+        Discord-Benutzernamen {{session.user.discordUsername == "" ? "eintragen" : "ändern"}}
+      </a>
+    </div>
+
+    <app-discord-banner></app-discord-banner>
 
   </div>
 

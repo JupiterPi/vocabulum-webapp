@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {SessionService} from "../../../session.service";
 import {Router} from "@angular/router";
 import {UsersService} from "../../../data/users.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +10,7 @@ import {UsersService} from "../../../data/users.service";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  constructor(public session: SessionService, private router: Router, private users: UsersService) {
+  constructor(public session: SessionService, private router: Router, private users: UsersService, public sanitizer: DomSanitizer) {
     if (!session.loggedIn) {
       this.router.navigate(["login"]);
     }
@@ -26,8 +27,23 @@ export class ProfileComponent {
     return str + email.substring(atIndex);
   }
 
+  obfuscateDiscordUsername(username?: string) {
+    if (username == null) return "";
+    const name = username.substring(0, username.lastIndexOf("#"));
+    if (name.length <= 3) return name + "#****";
+    let str = name.substring(0, 3);
+    for (let i = 3; i < name.length; i++) {
+      str += "*";
+    }
+    return str + "#****";
+  }
+
   showEmail() {
     alert("Deine E-Mail-Adresse lautet: " + this.session.user?.email);
+  }
+
+  showDiscordUsername() {
+    alert("Dein Discord-Benutzername lautet: " + this.session.user?.discordUsername);
   }
 
   changeUsername() {
@@ -55,6 +71,13 @@ export class ProfileComponent {
       } else {
         alert("Falsches Passwort!");
       }
+    });
+  }
+
+  changeDiscordUsername() {
+    const newUsername = prompt("Gib einen neuen Discord-Benutzernamen ein: (z. B. \"MeinName#1234\")");
+    if (newUsername != null) this.users.changeDiscordUsername(newUsername).subscribe(userDetails => {
+      this.session.user = userDetails;
     });
   }
 }

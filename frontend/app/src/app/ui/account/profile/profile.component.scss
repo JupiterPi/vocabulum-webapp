@@ -51,15 +51,15 @@
   @include meta-name;
 }
 
-#actions-container {
+.actions-container {
   @include buttons;
 }
 
-#email {
+.click-to-show {
   cursor: pointer;
 }
 
-#email mat-icon {
+.click-to-show mat-icon {
   font-size: 16px;
   color: $clr-muted;
 }
@@ -71,6 +71,21 @@
   .container-header#greeting {
     font-size: 45px;
   }
+}
+
+/* discord-container */
+
+$clr-discord-primary: #5865F2;
+
+#discord-container {
+  border-color: $clr-discord-primary;
+  border-width: 2px;
+}
+
+#discord-container p {
+  margin: 0;
+  padding: 0;
+  line-height: 130%;
 }
 
 /* vkpro-container */

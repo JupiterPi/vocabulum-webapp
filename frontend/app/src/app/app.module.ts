@@ -41,6 +41,7 @@ import {MatTreeModule} from "@angular/material/tree";
 import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vocabulary-selector.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.component';
+import { DiscordBannerComponent } from './ui/account/profile/discord-banner/discord-banner.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.
     PlansComponent,
     CardsTrainerSessionComponent,
     VocabularySelectorComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    DiscordBannerComponent
   ],
     imports: [
         BrowserModule,

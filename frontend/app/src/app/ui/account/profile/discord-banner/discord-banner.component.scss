@@ -1,0 +1,79 @@
+$clr-discord-primary: #5865F2;
+
+#container {
+  height: 40px;
+  //width: fit-content;
+
+  background-color: $clr-discord-primary;
+
+  display: inline-flex;
+  padding: 20px 25px;
+  flex-direction: row;
+  gap: 25px;
+  border-radius: 10px;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+#discord-logo-full {
+  width: 150px;
+  height: 40px;
+}
+#discord-logo-mark {
+  width: 40px;
+  height: 40px;
+}
+
+#text {
+  color: white;
+}
+
+#vk-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 17px;
+  background-color: white;
+  padding: 7px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 43px;
+  }
+}
+
+#arrow {
+  border: solid white;
+  border-width: 0 4px 4px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+}
+
+@media screen and (max-width: 620px) {
+  #text {
+    width: min-content;
+  }
+}
+
+#discord-logo-mark {
+  display: none;
+}
+@media screen and (max-width: 520px) {
+  #discord-logo-full {
+    display: none;
+  }
+
+  #discord-logo-mark {
+    display: initial;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  #vk-logo {
+    display: none;
+  }
+}

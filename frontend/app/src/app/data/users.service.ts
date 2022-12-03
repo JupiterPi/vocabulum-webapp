@@ -11,7 +11,8 @@ export type CredentialsVerification = {
 export type UserDetails = {
   username: string,
   email: string,
-  isProUser: boolean
+  isProUser: boolean,
+  discordUsername: string
 };
 
 export type HistoryItem = {
@@ -89,17 +90,26 @@ export class UsersService {
     return this.http.post<UserDetails>(this.dataService.backendRoot + "/auth/login", null, this.makeAuthHeaders(email, password));
   }
 
+  /* user details */
+
   // PUT /username
   changeUsername(newUsername: string) {
-    return this.http.put<UserDetails>(this.dataService.backendRoot + "/auth/username", {
+    return this.http.put<UserDetails>(this.dataService.backendRoot + "/user/username", {
       username: newUsername
     }, this.authHeaders);
   }
 
   // PUT /password
   changePassword(newPassword: string) {
-    return this.http.put(this.dataService.backendRoot + "/auth/password", {
+    return this.http.put(this.dataService.backendRoot + "/user/password", {
       password: newPassword
+    }, this.authHeaders);
+  }
+
+  // PUT /discordUsername
+  changeDiscordUsername(newDiscordUsername: string) {
+    return this.http.put<UserDetails>(this.dataService.backendRoot + "/user/discordUsername", {
+      discordUsername: newDiscordUsername
     }, this.authHeaders);
   }
 }

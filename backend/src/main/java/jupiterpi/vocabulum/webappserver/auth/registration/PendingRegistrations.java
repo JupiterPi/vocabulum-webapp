@@ -32,7 +32,7 @@ public class PendingRegistrations {
         if (registration == null) return null;
         registrations.remove(id);
         RegistrationDTO dto = registration.getDto();
-        WebappUser user = WebappUser.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword(), false);
+        WebappUser user = WebappUser.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword(), false, "");
         WebappUsers.get().addUser(user);
         return user;
     }
