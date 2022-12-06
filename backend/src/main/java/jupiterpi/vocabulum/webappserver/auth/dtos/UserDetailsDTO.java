@@ -1,6 +1,6 @@
 package jupiterpi.vocabulum.webappserver.auth.dtos;
 
-import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
+import jupiterpi.vocabulum.core.users.User;
 
 public class UserDetailsDTO {
     private String username;
@@ -8,7 +8,7 @@ public class UserDetailsDTO {
     private boolean isProUser;
     private String discordUsername;
 
-    public static UserDetailsDTO fromUser(WebappUser user) {
+    public static UserDetailsDTO fromUser(User user) {
         UserDetailsDTO dto = new UserDetailsDTO();
         dto.username = user.getName();
         dto.email = user.getEmail();

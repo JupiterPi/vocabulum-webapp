@@ -1,7 +1,7 @@
 package jupiterpi.vocabulum.webappserver.auth;
 
-import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
-import jupiterpi.vocabulum.webappserver.auth.user.WebappUsers;
+import jupiterpi.vocabulum.core.db.Database;
+import jupiterpi.vocabulum.core.users.User;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,10 +18,10 @@ import java.util.Optional;
 public class DbAuthenticationProvider implements AuthenticationProvider {
     private static final String USER_ROLE = "VK_USER";
 
-    public static WebappUser getUser(Principal principal) {
+    public static User getUser(Principal principal) {
         if (principal == null) return null;
-        return WebappUsers.get().getAll().stream()
-                .filter(webappUser -> webappUser.getEmail().equals(principal.getName()))
+        return Database.get().getUsers().getAll().stream()
+                .filter(user -> user.getEmail().equals(principal.getName()))
                 .findFirst().get();
     }
 
@@ -30,7 +30,7 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        Optional<WebappUser> authenticatedUser = WebappUsers.get().getAll().stream().filter(
+        Optional<User> authenticatedUser = Database.get().getUsers().getAll().stream().filter(
                 user -> user.getEmail().equals(email) && user.getPassword().equals(password)
         ).findFirst();
 

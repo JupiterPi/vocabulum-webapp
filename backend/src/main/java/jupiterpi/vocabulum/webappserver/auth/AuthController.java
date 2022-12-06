@@ -1,13 +1,12 @@
 package jupiterpi.vocabulum.webappserver.auth;
 
-import jupiterpi.vocabulum.webappserver.auth.discord.DiscordUsernameDTO;
+import jupiterpi.vocabulum.core.db.Database;
+import jupiterpi.vocabulum.core.users.User;
 import jupiterpi.vocabulum.webappserver.auth.dtos.CredentialsDTO;
 import jupiterpi.vocabulum.webappserver.auth.dtos.CredentialsVerificationDTO;
 import jupiterpi.vocabulum.webappserver.auth.dtos.UserDetailsDTO;
 import jupiterpi.vocabulum.webappserver.auth.registration.PendingRegistrations;
 import jupiterpi.vocabulum.webappserver.auth.registration.RegistrationDTO;
-import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
-import jupiterpi.vocabulum.webappserver.auth.user.WebappUsers;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +32,16 @@ public class AuthController {
 
     @PostMapping("/confirmRegistration/{id}")
     public String confirmRegistration(@PathVariable String id) {
-        WebappUser user = pendingRegistrations.confirmRegistration(id);
+        User user = pendingRegistrations.confirmRegistration(id);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pending registration not found");
         return user.getName();
     }
 
     @PostMapping("/verifyCredentials")
     public CredentialsVerificationDTO verifyCredentials(@RequestBody CredentialsDTO dto) {
-        Optional<WebappUser> userFound = WebappUsers.get().getAll().stream()
-                .filter(webappUser -> webappUser.getName().equals(dto.getUsername()) || webappUser.getEmail().equals(dto.getUsername()))
-                .filter(webappUser -> webappUser.getPassword().equals(dto.getPassword()))
+        Optional<User> userFound = Database.get().getUsers().getAll().stream()
+                .filter(user -> user.getName().equals(dto.getUsername()) || user.getEmail().equals(dto.getUsername()))
+                .filter(user -> user.getPassword().equals(dto.getPassword()))
                 .findFirst();
         if (userFound.isEmpty()) {
             return new CredentialsVerificationDTO(false, "");
@@ -53,7 +52,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public UserDetailsDTO login(Principal principal) {
-        WebappUser user = DbAuthenticationProvider.getUser(principal);
+        User user = DbAuthenticationProvider.getUser(principal);
         return UserDetailsDTO.fromUser(user);
     }
 }

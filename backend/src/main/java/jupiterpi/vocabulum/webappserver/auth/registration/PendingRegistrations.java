@@ -1,7 +1,7 @@
 package jupiterpi.vocabulum.webappserver.auth.registration;
 
-import jupiterpi.vocabulum.webappserver.auth.user.WebappUser;
-import jupiterpi.vocabulum.webappserver.auth.user.WebappUsers;
+import jupiterpi.vocabulum.core.db.Database;
+import jupiterpi.vocabulum.core.users.User;
 
 import java.util.*;
 
@@ -26,15 +26,15 @@ public class PendingRegistrations {
         return id;
     }
 
-    public WebappUser confirmRegistration(String id) {
+    public User confirmRegistration(String id) {
         cleanupRegistrations();
 
         Registration registration = registrations.get(id);
         if (registration == null) return null;
         registrations.remove(id);
         RegistrationDTO dto = registration.getDto();
-        WebappUser user = WebappUser.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword(), false, "");
-        WebappUsers.get().addUser(user);
+        User user = User.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword());
+        Database.get().getUsers().addUser(user);
         return user;
     }
 }

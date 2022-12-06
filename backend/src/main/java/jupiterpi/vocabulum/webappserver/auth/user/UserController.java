@@ -1,5 +1,7 @@
 package jupiterpi.vocabulum.webappserver.auth.user;
 
+import jupiterpi.vocabulum.core.db.Database;
+import jupiterpi.vocabulum.core.users.User;
 import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider;
 import jupiterpi.vocabulum.webappserver.auth.discord.DiscordUsernameDTO;
 import jupiterpi.vocabulum.webappserver.auth.dtos.UserDetailsDTO;
@@ -13,18 +15,18 @@ import java.security.Principal;
 public class UserController {
     @GetMapping("")
     public UserDetailsDTO getUserDetails(Principal principal) {
-        WebappUser user = DbAuthenticationProvider.getUser(principal);
+        User user = DbAuthenticationProvider.getUser(principal);
         return UserDetailsDTO.fromUser(user);
     }
 
     @PutMapping("/username")
     public UserDetailsDTO changeUsername(Principal principal, @RequestBody RegistrationDTO dto) {
-        WebappUser user = DbAuthenticationProvider.getUser(principal);
+        User user = DbAuthenticationProvider.getUser(principal);
         if (!user.getName().equals(dto.getUsername())) {
-            boolean usernameTaken = WebappUsers.get().getAll().stream().anyMatch(webappUser -> webappUser.getName().equals(dto.getUsername()));
+            boolean usernameTaken = Database.get().getUsers().getAll().stream().anyMatch(webappUser -> webappUser.getName().equals(dto.getUsername()));
             if (!usernameTaken) {
-                user.changeName(dto.getUsername());
-                WebappUsers.get().modifyUser(user);
+                user.setName(dto.getUsername());
+                user.saveEntity();
             }
         }
         return UserDetailsDTO.fromUser(user);
@@ -32,16 +34,16 @@ public class UserController {
 
     @PutMapping("/password")
     public void changePassword(Principal principal, @RequestBody RegistrationDTO dto) {
-        WebappUser user = DbAuthenticationProvider.getUser(principal);
-        user.changePassword(dto.getPassword());
-        WebappUsers.get().modifyUser(user);
+        User user = DbAuthenticationProvider.getUser(principal);
+        user.setPassword(dto.getPassword());
+        user.saveEntity();
     }
 
     @PutMapping("/discordUsername")
     public UserDetailsDTO changeDiscordUsername(Principal principal, @RequestBody DiscordUsernameDTO dto) {
-        WebappUser user = DbAuthenticationProvider.getUser(principal);
+        User user = DbAuthenticationProvider.getUser(principal);
         user.setDiscordUsername(dto.getDiscordUsername());
-        WebappUsers.get().modifyUser(user);
+        user.saveEntity();
         return UserDetailsDTO.fromUser(user);
     }
 }
