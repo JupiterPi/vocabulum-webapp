@@ -156,3 +156,9 @@ $clr-discord-primary: #5865F2;
     border-color: red;
   }
 }
+
+@media screen and (max-width: 900px) {
+  #bottom-actions-container {
+    width: auto;
+  }
+}

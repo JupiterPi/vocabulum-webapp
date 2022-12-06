@@ -46,7 +46,7 @@ b {
 
 body::-webkit-scrollbar {
   background-color: $clr-header;
-  width: 13px;
+  width: $scrollbar-width;
 }
 
 $scrollbar-padding: 3px;
