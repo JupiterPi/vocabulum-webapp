@@ -30,6 +30,9 @@ export class AppComponent {
         setTimeout(() => {
           this.refreshScrollbarVisible();
         }, 50);
+        setTimeout(() => {
+          this.refreshScrollbarVisible();
+        }, 5*1000);
       }
     });
   }
