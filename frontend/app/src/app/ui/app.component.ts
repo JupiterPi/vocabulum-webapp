@@ -27,7 +27,7 @@ export class AppComponent {
           this.currentSection = "";
         }
 
-        [50, 200, 2*1000, 5*1000].forEach(timeout => {
+        [50, 200, 500, 1000, 2*1000, 3*1000, 5*1000].forEach(timeout => {
           setTimeout(() => {
             this.refreshScrollbarVisible();
           }, timeout);
