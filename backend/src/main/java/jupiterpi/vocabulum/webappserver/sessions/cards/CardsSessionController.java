@@ -6,7 +6,7 @@ import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import jupiterpi.vocabulum.webappserver.sessions.Mode;
 import jupiterpi.vocabulum.webappserver.sessions.SessionOptionsDTO;
 import jupiterpi.vocabulum.webappserver.sessions.SessionService;
-import jupiterpi.vocabulum.webappserver.sessions.WebappSessionConfiguration;
+import jupiterpi.vocabulum.webappserver.sessions.SessionConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class CardsSessionController {
 
     @PostMapping("/create")
     public String createSession(@RequestBody SessionOptionsDTO options) throws Session.SessionLifecycleException {
-        WebappSessionConfiguration sessionConfiguration = WebappSessionConfiguration.fromDTO(Mode.CARDS, options);
+        SessionConfiguration sessionConfiguration = SessionConfiguration.fromDTO(Mode.CARDS, options);
         return sessions.createSession(sessionConfiguration);
     }
 

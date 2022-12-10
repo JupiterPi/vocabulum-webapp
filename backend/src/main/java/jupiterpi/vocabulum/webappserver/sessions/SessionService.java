@@ -11,7 +11,7 @@ import java.util.UUID;
 public class SessionService {
     private Map<String, WebappSession> sessions = new HashMap<>();
 
-    public String createSession(WebappSessionConfiguration configuration) throws Session.SessionLifecycleException {
+    public String createSession(SessionConfiguration configuration) throws Session.SessionLifecycleException {
         String id = UUID.randomUUID().toString();
         sessions.put(id, switch (configuration.getMode()) {
             case CHAT -> new ChatSession(configuration.getDirection(), configuration.getSelection());
