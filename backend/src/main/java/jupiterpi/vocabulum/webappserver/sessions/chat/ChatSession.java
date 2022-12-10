@@ -18,9 +18,12 @@ public class ChatSession implements WebappSession {
     private Session session;
     private Direction direction;
 
-    public ChatSession(Direction direction, VocabularySelection selection) {
+    private Runnable onComplete;
+
+    public ChatSession(Direction direction, VocabularySelection selection, Runnable onComplete) {
         session = new Session(selection);
         this.direction = direction;
+        this.onComplete = onComplete;
     }
 
     //TODO implement richer texts
@@ -181,6 +184,7 @@ public class ChatSession implements WebappSession {
             return messages;
         }
         if (action.equals(BUTTON_EXIT)) {
+            onComplete.run();
             return List.of(MessageDTO.exit());
         }
         return errorMessage(new Exception("Unknown button action: " + action));

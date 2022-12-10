@@ -1,7 +1,9 @@
 package jupiterpi.vocabulum.webappserver.sessions.cards;
 
 import jupiterpi.vocabulum.core.sessions.Session;
+import jupiterpi.vocabulum.core.users.User;
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
+import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 import jupiterpi.vocabulum.webappserver.sessions.Mode;
 import jupiterpi.vocabulum.webappserver.sessions.SessionOptionsDTO;
@@ -9,6 +11,7 @@ import jupiterpi.vocabulum.webappserver.sessions.SessionService;
 import jupiterpi.vocabulum.webappserver.sessions.SessionConfiguration;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +30,12 @@ public class CardsSessionController {
     }
 
     @PostMapping("/create")
-    public String createSession(@RequestBody SessionOptionsDTO options) throws Session.SessionLifecycleException {
+    public String createSession(Principal principal, @RequestBody SessionOptionsDTO options) throws Session.SessionLifecycleException {
+        User user = DbAuthenticationProvider.getUser(principal);
+        System.out.println("USER: --------------------------------");
+        System.out.println(user);
         SessionConfiguration sessionConfiguration = SessionConfiguration.fromDTO(Mode.CARDS, options);
-        return sessions.createSession(sessionConfiguration);
+        return sessions.createSession(user, sessionConfiguration);
     }
 
     @GetMapping("/{sessionId}/nextRound")

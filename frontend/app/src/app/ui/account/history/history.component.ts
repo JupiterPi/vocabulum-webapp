@@ -17,8 +17,10 @@ type HistoryBlock = {
 })
 export class HistoryComponent {
   constructor(private user: UsersService) {
-    this.history = user.getHistory();
-    this.sortHistoryItems(this.history);
+    user.getHistory().subscribe(history => {
+      this.history = history;
+      this.sortHistoryItems(this.history);
+    });
   }
 
   history: HistoryItem[] = [];

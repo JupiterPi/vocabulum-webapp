@@ -6,13 +6,19 @@ import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider;
 import jupiterpi.vocabulum.webappserver.auth.discord.DiscordUsernameDTO;
 import jupiterpi.vocabulum.webappserver.auth.dtos.UserDetailsDTO;
 import jupiterpi.vocabulum.webappserver.auth.registration.RegistrationDTO;
+import jupiterpi.vocabulum.webappserver.db.WebappDatabase;
+import jupiterpi.vocabulum.webappserver.db.histories.History;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    /* user details*/
+
     @GetMapping("")
     public UserDetailsDTO getUserDetails(Principal principal) {
         User user = DbAuthenticationProvider.getUser(principal);
@@ -45,5 +51,16 @@ public class UserController {
         user.setDiscordUsername(dto.getDiscordUsername());
         user.saveEntity();
         return UserDetailsDTO.fromUser(user);
+    }
+
+    /* history */
+
+    @GetMapping("/history")
+    public List<HistoryItemDTO> getHistory(Principal principal) {
+        User user = DbAuthenticationProvider.getUser(principal);
+        History history = WebappDatabase.get().getHistories().getHistoryOrCreate(user);
+        return history.getHistoryItems().stream()
+                .map(historyItem -> HistoryItemDTO.fromHistoryItem(historyItem))
+                .collect(Collectors.toList());
     }
 }

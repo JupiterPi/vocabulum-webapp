@@ -19,7 +19,7 @@
         <!--<mat-icon>arrow_back_ios_new</mat-icon>-->
         <fa-icon icon="chevron-left" size="lg"></fa-icon>
       </button>
-      <input id="chat-input" (keyup.enter)="submitInput()" [(ngModel)]="chatInput" placeholder="Chat ...">
+      <input id="chat-input" (keyup.enter)="submitInput()" autocomplete="off" [(ngModel)]="chatInput" placeholder="Chat ...">
       <button class="chat-button" (click)="submitInput()" [class.muted]="chatInput==''" mat-ripple>
         <!--<mat-icon>send</mat-icon>-->
         <fa-icon icon="paper-plane" size="lg"></fa-icon>

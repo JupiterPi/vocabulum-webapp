@@ -46,8 +46,8 @@ public class SessionConfiguration {
     public static SessionConfiguration fromDocument(Document document) {
         return new SessionConfiguration(
                 PortionBasedVocabularySelection.fromString(document.getString("selection")),
-                Mode.valueOf(document.getString("mode".toUpperCase())),
-                Direction.valueOf(document.getString("direction".toUpperCase()))
+                Mode.valueOf(document.getString("mode").toUpperCase()),
+                Direction.valueOf(document.getString("direction").toUpperCase())
         );
     }
 
@@ -55,7 +55,7 @@ public class SessionConfiguration {
         Document document = new Document();
         document.put("selection", VocabularySelections.getPortionBasedString(selection));
         document.put("mode", mode.toString().toLowerCase());
-        document.put("direction", mode.toString().toLowerCase());
+        document.put("direction", direction.toString().toLowerCase());
         return document;
     }
 }

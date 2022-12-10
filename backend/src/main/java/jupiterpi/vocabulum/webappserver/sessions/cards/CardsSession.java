@@ -13,9 +13,12 @@ public class CardsSession implements WebappSession {
     private Session session;
     private Direction direction;
 
-    public CardsSession(Direction direction, VocabularySelection selection) throws Session.SessionLifecycleException {
+    private Runnable onComplete;
+
+    public CardsSession(Direction direction, VocabularySelection selection, Runnable onComplete) throws Session.SessionLifecycleException {
         session = new Session(selection);
         this.direction = direction;
+        this.onComplete = onComplete;
 
         session.start();
         setNextRound();
@@ -45,6 +48,8 @@ public class CardsSession implements WebappSession {
                 session.restart();
             }
             setNextRound();
+        } else {
+            onComplete.run();
         }
     }
 }

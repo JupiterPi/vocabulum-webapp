@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DataService} from "./data.service";
-import {SessionService} from "../session.service";
 
 export type CredentialsVerification = {
   email: string,
@@ -55,10 +54,6 @@ export class UsersService {
     }
   ];
 
-  getHistory() {
-    return this.devHistory;
-  }
-
   // POST /register
   registerNewUser(username: string, email: string, password: string) {
     return this.http.post(this.dataService.backendRoot + "/auth/register", {
@@ -106,5 +101,11 @@ export class UsersService {
     return this.http.put<UserDetails>(this.dataService.backendRoot + "/user/discordUsername", {
       discordUsername: newDiscordUsername
     }, this.authHeaders);
+  }
+
+  /* history */
+
+  getHistory() {
+    return this.http.get<HistoryItem[]>(this.dataService.backendRoot + "/user/history", this.authHeaders);
   }
 }

@@ -32,6 +32,13 @@ public class History extends Entity {
         return historyItems;
     }
 
+    /* modifiers */
+
+    public void addItemAndSave(HistoryItem historyItem) {
+        historyItems.add(historyItem);
+        saveEntity();
+    }
+
     /* Entity */
 
     private History(EntityProvider entityProvider, String documentId) {
@@ -55,6 +62,7 @@ public class History extends Entity {
         document.put("user", user);
         document.put("items", historyItems.stream()
                 .map(item -> item.toDocument())
+                .collect(Collectors.toList())
         );
         return document;
     }

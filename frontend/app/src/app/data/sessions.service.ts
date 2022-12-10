@@ -36,12 +36,17 @@ type UserInput = {
 export class ChatSessionService {
   constructor(private http: HttpClient, private dataService: DataService) {}
 
+  authHeaders?: { headers: { Authorization: string } };
+
   // POST /create
   createSession(direction: Direction, selection: string) {
     const options: SessionOptions = {
       direction, selection
     };
-    return this.http.post(this.dataService.backendRoot + "/api/session/chat/create", options, {responseType: "text"});
+    return this.http.post(this.dataService.backendRoot + "/api/session/chat/create", options, {
+      responseType: "text",
+      headers: this.authHeaders?.headers
+    });
   }
 
   // POST /:id/start
@@ -106,12 +111,17 @@ export type Result = {
 export class CardsSessionService {
   constructor(private http: HttpClient, private dataService: DataService) {}
 
+  authHeaders?: { headers: { Authorization: string } };
+
   // POST /create
   createSession(direction: Direction, selection: string) {
     const options: SessionOptions = {
       direction, selection
     };
-    return this.http.post(this.dataService.backendRoot + "/api/session/cards/create", options, {responseType: "text"});
+    return this.http.post(this.dataService.backendRoot + "/api/session/cards/create", options, {
+      responseType: "text",
+      headers: this.authHeaders?.headers
+    });
   }
 
   // GET /nextRound
