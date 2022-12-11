@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {HistoryItem, UsersService} from "../../../data/users.service";
 import {min} from "rxjs";
+import {Router} from "@angular/router";
 
 type HistoryBlock = {
   startTime: Date,
@@ -16,16 +17,27 @@ type HistoryBlock = {
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent {
-  constructor(private user: UsersService) {
+  constructor(private user: UsersService, private router: Router) {
     user.getHistory().subscribe(history => {
-      this.history = history;
-      this.sortHistoryItems(this.history);
+      if (history.length > 0) {
+        this.sortHistoryItems(history.map(dto => {
+          return {
+            time: new Date(dto.time),
+            mode: dto.mode,
+            direction: dto.direction,
+            selection: dto.selection
+          };
+        }).reverse());
+        this.empty = false;
+      } else {
+        this.sortedHistory = [];
+        this.empty = true;
+      }
     });
   }
 
-  history: HistoryItem[] = [];
-
   sortedHistory: HistoryBlock[] = [];
+  empty = true;
   sortHistoryItems(history: HistoryItem[]) {
     this.sortedHistory = [];
     let previousTime: Date = history[0].time;
@@ -34,7 +46,8 @@ export class HistoryComponent {
       items: []
     };
     for (let item of history) {
-      if (item.time.getTime() - previousTime.getTime() > 30 * 60 * 1000) {
+      const timeDifference = Math.abs(item.time.getTime() - previousTime.getTime());
+      if (timeDifference > 30 * 60 * 1000) {
         this.sortedHistory.push(block);
         block = {
           startTime: item.time,
@@ -160,6 +173,11 @@ export class HistoryComponent {
   }
 
   repeatHistoryItem(item: HistoryItem) {
-    alert("repeating " + item.time);
+    this.router.navigate(["trainer", item.mode], {
+      queryParams: {
+        direction: item.direction,
+        selection: item.selection
+      }
+    });
   }
 }

@@ -33,7 +33,6 @@ export class SessionService {
       this.usersService.authHeaders = authHeaders;
       this.chatSessionsService.authHeaders = authHeaders;
       this.cardsSessionService.authHeaders = authHeaders;
-      console.log("set: " + JSON.stringify(this.cardsSessionService.authHeaders));
 
       this.cookieService.put("auth", auth, {
         secure: true,

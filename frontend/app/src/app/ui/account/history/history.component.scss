@@ -86,3 +86,9 @@
 .expanded-buttons-container {
   @include buttons;
 }
+
+#empty-container {
+  text-align: center;
+  color: $clr-muted-alt;
+  margin: 20px 0;
+}

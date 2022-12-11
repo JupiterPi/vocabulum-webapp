@@ -32,8 +32,6 @@ public class CardsSessionController {
     @PostMapping("/create")
     public String createSession(Principal principal, @RequestBody SessionOptionsDTO options) throws Session.SessionLifecycleException {
         User user = DbAuthenticationProvider.getUser(principal);
-        System.out.println("USER: --------------------------------");
-        System.out.println(user);
         SessionConfiguration sessionConfiguration = SessionConfiguration.fromDTO(Mode.CARDS, options);
         return sessions.createSession(user, sessionConfiguration);
     }

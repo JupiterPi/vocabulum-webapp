@@ -14,6 +14,12 @@ export type UserDetails = {
   discordUsername: string
 };
 
+export type HistoryItemDTO = {
+  time: number,
+  mode: "cards" | "chat",
+  direction: "lg" | "rand" | "gl",
+  selection: string
+}
 export type HistoryItem = {
   time: Date,
   mode: "cards" | "chat",
@@ -27,7 +33,7 @@ export type HistoryItem = {
 export class UsersService {
   constructor(private http: HttpClient, private dataService: DataService) {}
 
-  devHistory: HistoryItem[] = [
+  /*devHistory: HistoryItem[] = [
     {
       time: new Date(0),
       mode: "cards",
@@ -52,7 +58,7 @@ export class UsersService {
       direction: "gl",
       selection: "40"
     }
-  ];
+  ];*/
 
   // POST /register
   registerNewUser(username: string, email: string, password: string) {
@@ -106,6 +112,6 @@ export class UsersService {
   /* history */
 
   getHistory() {
-    return this.http.get<HistoryItem[]>(this.dataService.backendRoot + "/user/history", this.authHeaders);
+    return this.http.get<HistoryItemDTO[]>(this.dataService.backendRoot + "/user/history", this.authHeaders);
   }
 }
