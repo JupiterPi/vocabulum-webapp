@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {DataService, TAItem} from "../../data/data.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-translation-assistance',
   templateUrl: './translation-assistance.component.html',
   styleUrls: ['./translation-assistance.component.scss']
 })
-export class TranslationAssistanceComponent {
-  query: string = "";
-  ready: boolean = false;
-  error: boolean = false;
+export class TranslationAssistanceComponent implements OnInit {
+  query = "";
+  ready = false;
+  error = false;
   items: TAItem[] = [
     {
       title: "Asini",
@@ -68,14 +69,28 @@ export class TranslationAssistanceComponent {
     }
   ];
 
-  hasPro = false;
+  hasPro = true;
   usesLeft = 3;
-  unlocked = false;
 
-  constructor(private router: Router, private data: DataService) {}
+  constructor(private router: Router, private data: DataService, private route: ActivatedRoute, private location: Location) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.query = params["q"];
+      this.updateChange(this.query);
+    });
+  }
 
   timerId?: number;
   updateChange(query: string) {
+    if (query == "") {
+      const url = this.router.createUrlTree([], {relativeTo: this.route});
+      this.location.replaceState(url.toString());
+    } else {
+      const url = this.router.createUrlTree([], {relativeTo: this.route, queryParams: {q: query}});
+      this.location.replaceState(url.toString());
+    }
+
     this.ready = false;
     this.error = false;
     clearTimeout(this.timerId);
