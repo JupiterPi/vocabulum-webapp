@@ -1,5 +1,7 @@
 package jupiterpi.vocabulum.webappserver.controller.dtos;
 
+import jupiterpi.vocabulum.core.db.Database;
+import jupiterpi.vocabulum.core.db.lectures.Lectures;
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
 import jupiterpi.vocabulum.core.vocabularies.conjugated.Verb;
 import jupiterpi.vocabulum.core.vocabularies.declined.adjectives.Adjective;
@@ -9,6 +11,7 @@ import jupiterpi.vocabulum.core.vocabularies.translations.VocabularyTranslation;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DetailedVocabularyDTO {
@@ -18,6 +21,7 @@ public class DetailedVocabularyDTO {
     private String base_form;
     private String definition;
     private List<MetaItem> meta;
+    private List<ExampleSentenceDTO> exampleSentences;
 
     public static DetailedVocabularyDTO fromVocabulary(Vocabulary vocabulary) {
         DetailedVocabularyDTO dto = new DetailedVocabularyDTO();
@@ -32,6 +36,12 @@ public class DetailedVocabularyDTO {
         }
 
         dto.meta = generateMeta(vocabulary);
+
+        dto.exampleSentences = new ArrayList<>();
+        List<Lectures.ExampleLine> exampleLines = Database.get().getLectures().getExampleLines(vocabulary);
+        for (Lectures.ExampleLine exampleLine : exampleLines) {
+            dto.exampleSentences.add(ExampleSentenceDTO.fromExampleLine(exampleLine));
+        }
 
         return dto;
     }
@@ -110,5 +120,9 @@ public class DetailedVocabularyDTO {
 
     public List<MetaItem> getMeta() {
         return meta;
+    }
+
+    public List<ExampleSentenceDTO> getExampleSentences() {
+        return exampleSentences;
     }
 }

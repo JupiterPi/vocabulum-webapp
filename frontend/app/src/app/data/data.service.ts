@@ -28,6 +28,13 @@ export type Vocabulary = {
   meta: {
     name: string,
     value: string
+  }[],
+  exampleSentences: {
+    line: string,
+    matchStart: number,
+    matchEnd: number,
+    lecture: string,
+    lineIndex: number
   }[]
 };
 
@@ -394,6 +401,15 @@ export class DataService {
       {
         name: "Meta 4",
         value: "Some other thing"
+      }
+    ],
+    exampleSentences: [
+      {
+        line: "Sol ardet.",
+        matchStart: 0,
+        matchEnd: 3,
+        lecture: "L1",
+        lineIndex: 0
       }
     ]
   };

@@ -1,6 +1,8 @@
 package jupiterpi.vocabulum.webappserver.controller.ta;
 
-import jupiterpi.vocabulum.core.ta.TAResult;
+import jupiterpi.vocabulum.core.ta.result.TAResult;
+import jupiterpi.vocabulum.core.ta.result.TAResultPunctuation;
+import jupiterpi.vocabulum.core.ta.result.TAResultWord;
 import jupiterpi.vocabulum.core.vocabularies.inflexible.Inflexible;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
 
@@ -26,17 +28,19 @@ public class TAResultItemDTO {
     }
 
     public static TAResultItemDTO fromTAResultItem(TAResult.TAResultItem item) {
-        if (item instanceof TAResult.TAPunctuation) {
-            TAResult.TAPunctuation punctuation = (TAResult.TAPunctuation) item;
+        if (item instanceof TAResultPunctuation) {
+            TAResultPunctuation punctuation = (TAResultPunctuation) item;
             return new TAResultItemDTO(
                     punctuation.getPunctuation(),
                     true,
                     false, List.of(), "", List.of(), ""
             );
         } else {
-            TAResult.TAWord word = (TAResult.TAWord) item;
+            TAResultWord resultWord = (TAResultWord) item;
+            if (resultWord.getPossibleWords().size() != 1) return null;
+            TAResultWord.PossibleWord word = resultWord.getPossibleWords().get(0);
             return new TAResultItemDTO(
-                    word.getWord(),
+                    resultWord.getWord(),
                     false,
                     word.getVocabulary() instanceof Inflexible,
                     word.getForms(CoreService.get().i18n),

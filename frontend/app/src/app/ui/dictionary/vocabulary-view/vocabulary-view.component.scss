@@ -6,7 +6,7 @@
   @include outer-container;
 }
 
-#container {
+.container {
   @include rounded-container;
   @include container-in-outer-container;
 
@@ -17,7 +17,7 @@
 }
 
 @media screen and (max-width: 900px) {
-  #container {
+  .container {
     @include container-in-outer-container-sm;
   }
 
@@ -90,4 +90,42 @@
 
 #actions-container {
   @include buttons;
+}
+
+
+/* --- example sentences --- */
+
+.container-header {
+  font-size: 40px;
+  @include font-srf;
+}
+
+#example-sentences-container {
+  counter-reset: example-sentences-counter;
+}
+
+.example-sentence-container {
+  padding: 5px 10px;
+  counter-increment: example-sentences-counter;
+  line-height: 150%;
+
+  &::before {
+    content: counter(example-sentences-counter) ".";
+    margin-right: 10px;
+    color: $clr-muted;
+  }
+
+  .example-sentence-match {
+    @include font-def-bolder;
+  }
+
+  .example-sentence-context {
+    color: $clr-muted;
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+}
+
+#no-example-sentences {
+  text-align: center;
 }

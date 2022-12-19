@@ -1,5 +1,5 @@
 <div id="outer-container" *ngIf="vocabulary">
-  <div id="container">
+  <div class="container">
 
     <div id="kind">
       <span>{{formatKind(vocabulary.kind)}}</span>
@@ -27,6 +27,27 @@
       <a class="button" mat-ripple>
         Form bilden
       </a>
+    </div>
+
+  </div>
+
+  <div class="container">
+
+    <div class="container-header">Beispielsätze</div>
+
+    <div id="example-sentences-container" *ngIf="vocabulary.exampleSentences.length > 0">
+      <div class="example-sentence-container" *ngFor="let sentence of vocabulary.exampleSentences">
+        <span>{{sentence.line.substring(0, sentence.matchStart)}}</span>
+        <span class="example-sentence-match">{{sentence.line.substring(sentence.matchStart, sentence.matchEnd)}}</span>
+        <span>{{sentence.line.substring(sentence.matchEnd)}}</span>
+        <span class="example-sentence-context">
+          ({{sentence.lecture}}, Z. {{sentence.lineIndex+1}})
+        </span>
+      </div>
+    </div>
+
+    <div *ngIf="vocabulary.exampleSentences.length == 0" id="no-example-sentences">
+      Keine Beispielsätze verfügbar!
     </div>
 
   </div>
