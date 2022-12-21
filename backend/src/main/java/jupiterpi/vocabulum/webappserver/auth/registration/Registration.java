@@ -15,6 +15,10 @@ public class Registration {
         return dto;
     }
 
+    public Date getExpiration() {
+        return expiration;
+    }
+
     public boolean isExpired() {
         return expiration.getTime() <= new Date().getTime();
     }

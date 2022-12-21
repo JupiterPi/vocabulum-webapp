@@ -1,1 +1,11 @@
-<p>admin-overview works!</p>
+<div id="container">
+
+  <h2>Pending Registrations</h2>
+
+  <button (click)="loadPendingRegistrations()">
+    Load
+    <span *ngIf="pendingRegistrationsLoading">...</span>
+  </button>
+  <textarea rows="15" cols="80" [value]="pendingRegistrations"></textarea>
+
+</div>

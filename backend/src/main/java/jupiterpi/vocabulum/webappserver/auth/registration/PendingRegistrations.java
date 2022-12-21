@@ -26,6 +26,10 @@ public class PendingRegistrations {
         return id;
     }
 
+    public Map<String, Registration> getRegistrations() {
+        return registrations;
+    }
+
     public User confirmRegistration(String id) {
         cleanupRegistrations();
 

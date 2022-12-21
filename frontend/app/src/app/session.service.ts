@@ -18,6 +18,7 @@ export class SessionService {
   }
 
   loggedIn = false;
+  authHeaders: {headers: {"Authorization": string}} = {headers: {"Authorization": "None"}};
   user?: UserDetails;
   hasPro = false;
 
@@ -26,13 +27,13 @@ export class SessionService {
   }
   private loginFromAuth(auth: string) {
     this.loggedIn = true;
-    const authHeaders = {headers: {
+    this.authHeaders = {headers: {
       "Authorization": "Basic " + auth
     }};
-    this.usersService.login(authHeaders).subscribe(userDetails => {
-      this.usersService.authHeaders = authHeaders;
-      this.chatSessionsService.authHeaders = authHeaders;
-      this.cardsSessionService.authHeaders = authHeaders;
+    this.usersService.login(this.authHeaders).subscribe(userDetails => {
+      this.usersService.authHeaders = this.authHeaders;
+      this.chatSessionsService.authHeaders = this.authHeaders;
+      this.cardsSessionService.authHeaders = this.authHeaders;
 
       this.cookieService.put("auth", auth, {
         secure: true,

@@ -22,12 +22,11 @@ public class AuthController {
         CoreService.get();
     }
 
-    private PendingRegistrations pendingRegistrations = new PendingRegistrations();
+    public PendingRegistrations pendingRegistrations = new PendingRegistrations();
 
     @PostMapping("/register")
     public void register(@RequestBody RegistrationDTO dto) {
-        String id = pendingRegistrations.addPendingRegistration(dto);
-        System.out.println(id);
+        pendingRegistrations.addPendingRegistration(dto);
     }
 
     @PostMapping("/confirmRegistration/{id}")
