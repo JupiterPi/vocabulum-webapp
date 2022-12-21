@@ -91,4 +91,8 @@ export class ProfileComponent {
     this.session.logout();
     this.router.navigate(["/"]);
   }
+
+  openAdminConsole() {
+    this.router.navigate(["admin"]);
+  }
 }

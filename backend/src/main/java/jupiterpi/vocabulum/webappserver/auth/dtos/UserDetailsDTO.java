@@ -7,6 +7,7 @@ public class UserDetailsDTO {
     private String email;
     private boolean isProUser;
     private String discordUsername;
+    private boolean isAdmin;
 
     public static UserDetailsDTO fromUser(User user) {
         UserDetailsDTO dto = new UserDetailsDTO();
@@ -14,6 +15,7 @@ public class UserDetailsDTO {
         dto.email = user.getEmail();
         dto.isProUser = user.isProUser();
         dto.discordUsername = user.getDiscordUsername();
+        dto.isAdmin = user.isAdmin();
         return dto;
     }
 
@@ -33,13 +35,7 @@ public class UserDetailsDTO {
         return discordUsername;
     }
 
-    @Override
-    public String toString() {
-        return "UserDetailsDTO{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", isProUser=" + isProUser +
-                ", discordUsername='" + discordUsername + '\'' +
-                '}';
+    public boolean getIsAdmin() {
+        return isAdmin;
     }
 }

@@ -11,7 +11,8 @@ export type UserDetails = {
   username: string,
   email: string,
   isProUser: boolean,
-  discordUsername: string
+  discordUsername: string,
+  isAdmin: boolean
 };
 
 export type HistoryItemDTO = {

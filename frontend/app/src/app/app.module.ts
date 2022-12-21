@@ -43,6 +43,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.component';
 import { DiscordBannerComponent } from './ui/account/profile/discord-banner/discord-banner.component';
 import {CookieModule, CookieService} from "ngx-cookie";
+import { AdminOverviewComponent } from './admin/ui/admin-overview/admin-overview.component';
 
 @NgModule({
   declarations: [
@@ -62,25 +63,31 @@ import {CookieModule, CookieService} from "ngx-cookie";
     CardsTrainerSessionComponent,
     VocabularySelectorComponent,
     ConfirmEmailComponent,
-    DiscordBannerComponent
+    DiscordBannerComponent,
+    AdminOverviewComponent
   ],
     imports: [
         BrowserModule,
         RouterModule.forRoot([
             {path: "", redirectTo: "/dictionary", pathMatch: "full"},
-            /*{path: "", component: PortionsOverviewComponent},*/
+
             {path: "login", component: LoginComponent},
             {path: "register", component: RegisterComponent},
             {path: "confirmEmail", component: ConfirmEmailComponent},
             {path: "my", component: ProfileComponent},
             {path: "pro", redirectTo: "/my", pathMatch: "full"},
+
             {path: "dictionary", component: PortionsOverviewComponent},
             {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
             {path: "search", component: SearchComponent},
+
             {path: "trainer", component: TrainerLauncherComponent},
             {path: "trainer/chat", component: ChatTrainerSessionComponent},
             {path: "trainer/cards", component: CardsTrainerSessionComponent},
-            {path: "translationAssistance", component: TranslationAssistanceComponent}
+
+            {path: "translationAssistance", component: TranslationAssistanceComponent},
+
+            {path: "admin", component: AdminOverviewComponent}
         ]),
         HttpClientModule,
         BrowserAnimationsModule,

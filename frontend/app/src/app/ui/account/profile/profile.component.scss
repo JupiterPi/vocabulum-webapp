@@ -151,9 +151,14 @@ $clr-discord-primary: #5865F2;
 #bottom-actions-container {
   width: 800px;
 
-  .button {
+  .button-red {
     color: red;
     border-color: red;
+  }
+
+  .button-black {
+    color: black;
+    border-color: black;
   }
 }
 
