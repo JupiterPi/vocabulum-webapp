@@ -18,6 +18,7 @@ export class VocabularyViewComponent implements OnInit {
 
       this.dataService.getVocabulary(vocabulary).subscribe((vocabulary) => {
         this.vocabulary = vocabulary;
+        this.exampleSentencesShown = vocabulary.exampleSentences.slice(0, 5);
       });
     });
   }
@@ -30,5 +31,10 @@ export class VocabularyViewComponent implements OnInit {
       case "inflexible": return "nicht flektiert";
     }
     return "";
+  }
+
+  exampleSentencesShown: {line: string, matchStart: number, matchEnd: number, lecture: string, lineIndex: number}[] = [];
+  expandExampleSentences() {
+    this.exampleSentencesShown = this.vocabulary?.exampleSentences ?? [];
   }
 }

@@ -36,7 +36,7 @@
     <div class="container-header">Beispielsätze</div>
 
     <div id="example-sentences-container" *ngIf="vocabulary.exampleSentences.length > 0">
-      <div class="example-sentence-container" *ngFor="let sentence of vocabulary.exampleSentences">
+      <div class="example-sentence-container" *ngFor="let sentence of exampleSentencesShown">
         <span>{{sentence.line.substring(0, sentence.matchStart)}}</span>
         <span class="example-sentence-match">{{sentence.line.substring(sentence.matchStart, sentence.matchEnd)}}</span>
         <span>{{sentence.line.substring(sentence.matchEnd)}}</span>
@@ -44,6 +44,10 @@
           ({{sentence.lecture}}, Z. {{sentence.lineIndex+1}})
         </span>
       </div>
+    </div>
+
+    <div *ngIf="vocabulary.exampleSentences.length > exampleSentencesShown.length" id="expand-example-sentences">
+      <a (click)="expandExampleSentences()">Mehr anzeigen</a>
     </div>
 
     <div *ngIf="vocabulary.exampleSentences.length == 0" id="no-example-sentences">
