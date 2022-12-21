@@ -15,57 +15,69 @@ export class TranslationAssistanceComponent implements OnInit {
   items: TAItem[] = [
     {
       title: "Asini",
-      punctuation: false,
-      inflexible: false,
-      forms: ["Gen. Sg.", "Nom. Pl."],
-      definition: "asinus, asini m.",
-      translations: ["*der Esel*", "das Maultier"],
-      base_form: "asinus"
+      possibleWord: {
+        punctuation: false,
+        inflexible: false,
+        forms: ["Gen. Sg.", "Nom. Pl."],
+        definition: "asinus, asini m.",
+        translations: ["*der Esel*", "das Maultier"],
+        base_form: "asinus"
+      }
     },
     {
       title: "stant",
-      punctuation: false,
-      inflexible: false,
-      forms: ["3. Pers. Pl. Präs."],
-      definition: "stare, sto, stavi, statum",
-      translations: ["*stehen*", "dastehen"],
-      base_form: "stare"
+      possibleWord: {
+        punctuation: false,
+        inflexible: false,
+        forms: ["3. Pers. Pl. Präs."],
+        definition: "stare, sto, stavi, statum",
+        translations: ["*stehen*", "dastehen"],
+        base_form: "stare"
+      }
     },
     {
       title: ",",
-      punctuation: true,
-      inflexible: false,
-      forms: [],
-      definition: "",
-      translations: [],
-      base_form: ""
+      possibleWord: {
+        punctuation: true,
+        inflexible: false,
+        forms: [],
+        definition: "",
+        translations: [],
+        base_form: ""
+      }
     },
     {
       title: "et",
-      punctuation: false,
-      inflexible: true,
-      forms: [],
-      definition: "et",
-      translations: ["*und*"],
-      base_form: "et"
+      possibleWord: {
+        punctuation: false,
+        inflexible: true,
+        forms: [],
+        definition: "et",
+        translations: ["*und*"],
+        base_form: "et"
+      }
     },
     {
       title: "exspectant",
-      punctuation: false,
-      inflexible: false,
-      forms: ["3. Pers. Pl. Präs."],
-      definition: "exspectare, exspecto, exspectavi, exspectatum",
-      translations: ["*erwarten*", "warten auf"],
-      base_form: "exspectare"
+      possibleWord: {
+        punctuation: false,
+        inflexible: false,
+        forms: ["3. Pers. Pl. Präs."],
+        definition: "exspectare, exspecto, exspectavi, exspectatum",
+        translations: ["*erwarten*", "warten auf"],
+        base_form: "exspectare"
+      }
     },
     {
       title: ".",
-      punctuation: true,
-      inflexible: false,
-      forms: [],
-      definition: "",
-      translations: [],
-      base_form: ""
+      possibleWord: {
+        punctuation: true,
+        inflexible: false,
+        forms: [],
+        definition: "",
+        translations: [],
+        base_form: ""
+      }
     }
   ];
 
@@ -103,10 +115,12 @@ export class TranslationAssistanceComponent implements OnInit {
       this.data.getTAItems(query).subscribe({
         next: (items) => {
           this.items = items;
-          console.log(items);
+          items.forEach(item => {
+            if (!item.possibleWord) this.error = true;
+          });
           this.ready = true;
         },
-        error: (err) => {
+        error: () => {
           this.error = true;
         }
       });

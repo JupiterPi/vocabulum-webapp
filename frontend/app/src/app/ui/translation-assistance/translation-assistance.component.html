@@ -28,16 +28,21 @@
 
     <div id="ta-items-container">
 
-      <div class="ta-item-container" *ngFor="let item of items" mat-ripple (click)="!item.punctuation ? showVocabulary(item.base_form) : '';">
+      <div class="ta-item-container"
+           *ngFor="let item of items"
+           mat-ripple
+           (click)="(item.possibleWord && !item.possibleWord.punctuation) ? showVocabulary(item.possibleWord.base_form) : '';"
+           [class.error]="!item.possibleWord"
+      >
         <div class="ta-item-title">{{item.title}}</div>
-        <ng-container *ngIf="!item.punctuation">
+        <ng-container *ngIf="item.possibleWord && !item.possibleWord.punctuation">
           <div class="ta-item-forms-container">
-            <div class="ta-item-form" *ngFor="let form of item.forms">{{form}}</div>
+            <div class="ta-item-form" *ngFor="let form of item.possibleWord.forms">{{form}}</div>
           </div>
-          <div class="ta-item-of" *ngIf="!item.inflexible">von</div>
-          <div class="ta-item-definition">{{item.definition}}</div>
+          <div class="ta-item-of" *ngIf="!item.possibleWord.inflexible">von</div>
+          <div class="ta-item-definition">{{item.possibleWord.definition}}</div>
           <div class="ta-item-translations-container">
-            <div class="ta-item-translation" *ngFor="let translation of item.translations">
+            <div class="ta-item-translation" *ngFor="let translation of item.possibleWord.translations">
               <span class="quotation-marks">&#8222;</span>
               <span [class.important]="isTranslationImportant(translation)">{{formatTranslation(translation)}}</span>
               <span class="quotation-marks">&#8220;</span>

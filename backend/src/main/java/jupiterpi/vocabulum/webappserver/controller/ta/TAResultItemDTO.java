@@ -10,21 +10,11 @@ import java.util.List;
 
 public class TAResultItemDTO {
     private String title;
-    private boolean isPunctuation;
-    private boolean inflexible;
-    private List<String> forms;
-    private String definition;
-    private List<String> translations;
-    private String base_form;
+    private TAResultPossibleWordDTO possibleWord;
 
-    public TAResultItemDTO(String title, boolean isPunctuation, boolean inflexible, List<String> forms, String definition, List<String> translations, String base_form) {
+    public TAResultItemDTO(String title, TAResultPossibleWordDTO possibleWord) {
         this.title = title;
-        this.isPunctuation = isPunctuation;
-        this.inflexible = inflexible;
-        this.forms = forms;
-        this.definition = definition;
-        this.translations = translations;
-        this.base_form = base_form;
+        this.possibleWord = possibleWord;
     }
 
     public static TAResultItemDTO fromTAResultItem(TAResult.TAResultItem item) {
@@ -32,21 +22,24 @@ public class TAResultItemDTO {
             TAResultPunctuation punctuation = (TAResultPunctuation) item;
             return new TAResultItemDTO(
                     punctuation.getPunctuation(),
-                    true,
-                    false, List.of(), "", List.of(), ""
+                    new TAResultPossibleWordDTO(true, false, List.of(), "", List.of(), "")
             );
         } else {
             TAResultWord resultWord = (TAResultWord) item;
-            if (resultWord.getPossibleWords().size() != 1) return null;
+            if (resultWord.getPossibleWords().size() != 1) {
+                return new TAResultItemDTO(item.getItem(), null);
+            }
             TAResultWord.PossibleWord word = resultWord.getPossibleWords().get(0);
             return new TAResultItemDTO(
                     resultWord.getWord(),
-                    false,
-                    word.getVocabulary() instanceof Inflexible,
-                    word.getForms(CoreService.get().i18n),
-                    word.getVocabulary().getDefinition(CoreService.get().i18n),
-                    word.getTranslations(),
-                    word.getVocabulary().getBaseForm()
+                    new TAResultPossibleWordDTO(
+                        false,
+                        word.getVocabulary() instanceof Inflexible,
+                        word.getForms(CoreService.get().i18n),
+                        word.getVocabulary().getDefinition(CoreService.get().i18n),
+                        word.getTranslations(),
+                        word.getVocabulary().getBaseForm()
+                    )
             );
         }
     }
@@ -55,27 +48,49 @@ public class TAResultItemDTO {
         return title;
     }
 
-    public boolean isPunctuation() {
-        return isPunctuation;
+    public TAResultPossibleWordDTO getPossibleWord() {
+        return possibleWord;
     }
 
-    public boolean isInflexible() {
-        return inflexible;
-    }
+    public static class TAResultPossibleWordDTO {
+        private boolean isPunctuation;
+        private boolean inflexible;
+        private List<String> forms;
+        private String definition;
+        private List<String> translations;
+        private String base_form;
 
-    public List<String> getForms() {
-        return forms;
-    }
+        public TAResultPossibleWordDTO(boolean isPunctuation, boolean inflexible, List<String> forms, String definition, List<String> translations, String base_form) {
+            this.isPunctuation = isPunctuation;
+            this.inflexible = inflexible;
+            this.forms = forms;
+            this.definition = definition;
+            this.translations = translations;
+            this.base_form = base_form;
+        }
 
-    public String getDefinition() {
-        return definition;
-    }
+        public boolean isPunctuation() {
+            return isPunctuation;
+        }
 
-    public List<String> getTranslations() {
-        return translations;
-    }
+        public boolean isInflexible() {
+            return inflexible;
+        }
 
-    public String getBase_form() {
-        return base_form;
+        public List<String> getForms() {
+            return forms;
+        }
+
+        public String getDefinition() {
+            return definition;
+        }
+
+        public List<String> getTranslations() {
+            return translations;
+        }
+
+        public String getBase_form() {
+            return base_form;
+        }
     }
 }
