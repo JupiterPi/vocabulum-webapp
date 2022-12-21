@@ -91,6 +91,6 @@
 
   <div class="actions-container" id="bottom-actions-container">
     <a class="button button-red" mat-ripple id="logout-button" (click)="logout()">Abmelden</a>
-    <a class="button button-black" mat-ripple id="admin-console-button" (click)="openAdminConsole()">Admin Console</a>
+    <a class="button button-black" mat-ripple id="admin-console-button" (click)="openAdminConsole()" *ngIf="session.user.isAdmin">Admin Console</a>
   </div>
 </div>

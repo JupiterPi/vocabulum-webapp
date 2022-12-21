@@ -2,10 +2,23 @@
 
   <h2>Pending Registrations</h2>
 
-  <button (click)="loadPendingRegistrations()">
+  <button (click)="pendingRegistrations.run()">
     Load
-    <span *ngIf="pendingRegistrationsLoading">...</span>
+    <span *ngIf="pendingRegistrations.working">...</span>
   </button>
-  <textarea rows="15" cols="80" [value]="pendingRegistrations"></textarea>
+  <textarea rows="15" cols="80" [value]="pendingRegistrations.value" readonly></textarea>
+
+
+  <h2>Reload Entities</h2>
+
+  <button (click)="users.run()">
+    Reload Users
+    <span *ngIf="users.working">...</span>
+  </button>
+
+  <button (click)="histories.run()">
+    Reload Histories
+    <span *ngIf="histories.working">...</span>
+  </button>
 
 </div>
