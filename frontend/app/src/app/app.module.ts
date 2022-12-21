@@ -73,6 +73,7 @@ import {CookieModule, CookieService} from "ngx-cookie";
             {path: "register", component: RegisterComponent},
             {path: "confirmEmail", component: ConfirmEmailComponent},
             {path: "my", component: ProfileComponent},
+            {path: "pro", redirectTo: "/my", pathMatch: "full"},
             {path: "dictionary", component: PortionsOverviewComponent},
             {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
             {path: "search", component: SearchComponent},

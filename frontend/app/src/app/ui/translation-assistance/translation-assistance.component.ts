@@ -19,7 +19,7 @@ export class TranslationAssistanceComponent implements OnInit {
       inflexible: false,
       forms: ["Gen. Sg.", "Nom. Pl."],
       definition: "asinus, asini m.",
-      translations: ["der Esel", "das Maultier"],
+      translations: ["*der Esel*", "das Maultier"],
       base_form: "asinus"
     },
     {
@@ -27,8 +27,8 @@ export class TranslationAssistanceComponent implements OnInit {
       punctuation: false,
       inflexible: false,
       forms: ["3. Pers. Pl. Präs."],
-      definition: "stare",
-      translations: ["stehen", "dastehen"],
+      definition: "stare, sto, stavi, statum",
+      translations: ["*stehen*", "dastehen"],
       base_form: "stare"
     },
     {
@@ -46,7 +46,7 @@ export class TranslationAssistanceComponent implements OnInit {
       inflexible: true,
       forms: [],
       definition: "et",
-      translations: ["und"],
+      translations: ["*und*"],
       base_form: "et"
     },
     {
@@ -54,8 +54,8 @@ export class TranslationAssistanceComponent implements OnInit {
       punctuation: false,
       inflexible: false,
       forms: ["3. Pers. Pl. Präs."],
-      definition: "exspectare",
-      translations: ["erwarten", "warten auf"],
+      definition: "exspectare, exspecto, exspectavi, exspectatum",
+      translations: ["*erwarten*", "warten auf"],
       base_form: "exspectare"
     },
     {
@@ -76,8 +76,11 @@ export class TranslationAssistanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.query = params["q"];
-      this.updateChange(this.query);
+      const query = params["q"];
+      if (!(query == null || query == "")) {
+        this.query = query;
+        this.updateChange(this.query);
+      }
     });
   }
 
@@ -100,6 +103,7 @@ export class TranslationAssistanceComponent implements OnInit {
       this.data.getTAItems(query).subscribe({
         next: (items) => {
           this.items = items;
+          console.log(items);
           this.ready = true;
         },
         error: (err) => {
@@ -107,6 +111,14 @@ export class TranslationAssistanceComponent implements OnInit {
         }
       });
     }, 250);
+  }
+
+  isTranslationImportant(translation: string) {
+    return translation.startsWith("*");
+  }
+  formatTranslation(translation: string) {
+    if (translation.startsWith("*")) translation = translation.substring(1, translation.length-1);
+    return translation;
   }
 
   showVocabulary(base_form: string) {

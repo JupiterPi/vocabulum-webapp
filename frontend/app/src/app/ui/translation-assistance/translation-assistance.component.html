@@ -15,7 +15,7 @@
         Diesen Monat sind keine Benutzungen mehr frei.
       </p>
       <div id="vkpro-button-container">
-        <a id="vkpro-button" routerLink="/my" mat-ripple>Jetzt Pro kaufen</a>
+        <a id="vkpro-button" routerLink="/pro" mat-ripple>Jetzt Pro kaufen</a>
       </div>
     </div>
   </div>
@@ -39,8 +39,8 @@
           <div class="ta-item-translations-container">
             <div class="ta-item-translation" *ngFor="let translation of item.translations">
               <span class="quotation-marks">&#8222;</span>
-              {{translation}}
-              <span class="quotation-marks">&#8223;</span>
+              <span [class.important]="isTranslationImportant(translation)">{{formatTranslation(translation)}}</span>
+              <span class="quotation-marks">&#8220;</span>
             </div>
           </div>
         </ng-container>
@@ -54,14 +54,14 @@
       </div>
       <ng-container *ngIf="usesLeft > 0">
         <div class="vkpro-text optional">Du benötigst Vocabulum Pro, um dieses Feature nutzen zu können!</div>
-        <div class="vkpro-text optional"><a routerLink="/my">Jetzt kaufen</a></div>
+        <div class="vkpro-text optional"><a routerLink="/pro">Jetzt kaufen</a></div>
         <div class="vkpro-text">Diesen Monat {{usesLeft == 1 ? "ist" : "sind"}} noch <b>{{usesLeft}}</b> Benutzung{{usesLeft == 1 ? "" : "en"}} frei.</div>
         <div class="vkpro-text"><a>Jetzt benutzen</a></div>
       </ng-container>
       <ng-container *ngIf="usesLeft == 0">
         <div class="vkpro-text">Du benötigst Vocabulum Pro, um dieses Feature nutzen zu können!</div>
         <div class="vkpro-text">Diesen Monat sind keine Benutzungen mehr frei.</div>
-        <div class="vkpro-text"><a routerLink="/my">Jetzt Pro kaufen</a></div>
+        <div class="vkpro-text"><a routerLink="/pro">Jetzt Pro kaufen</a></div>
       </ng-container>
     </div>
 

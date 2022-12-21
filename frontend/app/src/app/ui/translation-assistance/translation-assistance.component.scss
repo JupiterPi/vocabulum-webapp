@@ -61,8 +61,17 @@
   color: $clr-muted-alt;
 }
 
-.quotation-marks {
-  color: darkgrey;
+.ta-item-translation {
+  display: flex;
+  gap: 5px;
+
+  .important {
+    @include font-def-bolder;
+  }
+
+  .quotation-marks {
+    color: darkgrey;
+  }
 }
 
 /* vkpro */
