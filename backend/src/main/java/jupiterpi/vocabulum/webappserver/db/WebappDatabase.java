@@ -6,6 +6,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import jupiterpi.tools.files.TextFile;
 import jupiterpi.vocabulum.webappserver.db.histories.Histories;
+import jupiterpi.vocabulum.webappserver.db.vouchers.Voucher;
+import jupiterpi.vocabulum.webappserver.db.vouchers.Vouchers;
 import org.bson.Document;
 
 public class WebappDatabase {
@@ -23,6 +25,7 @@ public class WebappDatabase {
     public MongoDatabase database;
 
     public MongoCollection<Document> collection_history;
+    public MongoCollection<Document> collection_vouchers;
 
     public WebappDatabase() {
         String mongoConnectUrl = new TextFile("mongodb_connect_url.txt").getLine(0);
@@ -31,9 +34,11 @@ public class WebappDatabase {
 
         // collections
         collection_history = database.getCollection("history");
+        collection_vouchers = database.getCollection("vouchers");
 
         // load
         loadHistories();
+        loadVouchers();
     }
 
     /* ---------- */
@@ -46,5 +51,17 @@ public class WebappDatabase {
 
     public Histories getHistories() {
         return histories;
+    }
+
+    // ---
+
+    private Vouchers vouchers;
+
+    private void loadVouchers() {
+        vouchers = new Vouchers(this);
+    }
+
+    public Vouchers getVouchers() {
+        return vouchers;
     }
 }

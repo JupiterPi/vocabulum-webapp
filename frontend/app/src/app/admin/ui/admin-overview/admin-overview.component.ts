@@ -49,15 +49,50 @@ export class AdminOverviewComponent {
     });
   });
 
-  users = new Interface((done) => {
+  reloadUsers = new Interface((done) => {
     this.http.post(this.data.backendRoot + "/admin/reloadUsers", null, this.session.authHeaders).subscribe(() => {
       done();
     });
   });
 
-  histories = new Interface((done) => {
+  reloadHistories = new Interface((done) => {
     this.http.post(this.data.backendRoot + "/admin/reloadHistories", null, this.session.authHeaders).subscribe(() => {
       done();
     });
   });
+
+  vouchers = new Interface((done, setValue) => {
+    this.http.get<string[]>(this.data.backendRoot + "/admin/vouchers", this.session.authHeaders).subscribe(vouchers => {
+      setValue(vouchers.join("\n"));
+      done();
+    });
+  });
+
+  newVoucherExpirationDate = null;
+  newVoucherExpirationTime = "00:00";
+  newVoucherAmount = 1;
+  newVoucherNote = "";
+  createNewVoucher = new Interface((done, setValue) => {
+    this.http.post<string[]>(this.data.backendRoot + "/admin/vouchers", {
+      expiration: new Date(this.newVoucherExpirationDate + "T" + this.newVoucherExpirationTime).toJSON(),
+      amount: this.newVoucherAmount,
+      note: this.newVoucherNote
+    }, this.session.authHeaders).subscribe(ids => {
+      console.log(ids);
+      setValue(ids.join("\n"));
+
+      this.newVoucherExpirationDate = null;
+      this.newVoucherExpirationTime = "00:00";
+      this.newVoucherAmount = 1;
+      this.newVoucherNote = "";
+      done();
+    });
+  });
+
+  reloadVouchers = new Interface((done, setValue) => {
+    this.http.post(this.data.backendRoot + "/admin/reloadVouchers", null, this.session.authHeaders).subscribe(() => {
+      done();
+    });
+  });
 }
+
