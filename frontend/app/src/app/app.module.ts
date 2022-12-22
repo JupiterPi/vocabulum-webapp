@@ -42,8 +42,9 @@ import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vo
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.component';
 import { DiscordBannerComponent } from './ui/account/profile/discord-banner/discord-banner.component';
-import {CookieModule, CookieService} from "ngx-cookie";
+import {CookieModule} from "ngx-cookie";
 import { AdminOverviewComponent } from './admin/ui/admin-overview/admin-overview.component';
+import { VoucherComponent } from './ui/account/voucher/voucher.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { AdminOverviewComponent } from './admin/ui/admin-overview/admin-overview
     VocabularySelectorComponent,
     ConfirmEmailComponent,
     DiscordBannerComponent,
-    AdminOverviewComponent
+    AdminOverviewComponent,
+    VoucherComponent
   ],
     imports: [
         BrowserModule,
@@ -76,6 +78,7 @@ import { AdminOverviewComponent } from './admin/ui/admin-overview/admin-overview
             {path: "confirmEmail", component: ConfirmEmailComponent},
             {path: "my", component: ProfileComponent},
             {path: "pro", redirectTo: "/my", pathMatch: "full"},
+            {path: "voucher", component: VoucherComponent},
 
             {path: "dictionary", component: PortionsOverviewComponent},
             {path: "dictionary/:vocabulary", component: VocabularyViewComponent},

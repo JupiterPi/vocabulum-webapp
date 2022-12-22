@@ -103,6 +103,11 @@ $clr-discord-primary: #5865F2;
   }
 }
 
+#voucher-link {
+  text-decoration: underline;
+  color: $clr-muted;
+}
+
 /* vkpro-required */
 
 .container:has(.vkpro-required-container) {

@@ -89,7 +89,7 @@ export class ProfileComponent {
 
   logout() {
     this.session.logout();
-    this.router.navigate(["/"]);
+    this.router.navigate(["login"]);
   }
 
   openAdminConsole() {

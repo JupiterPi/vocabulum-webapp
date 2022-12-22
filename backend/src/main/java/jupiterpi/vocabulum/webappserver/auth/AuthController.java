@@ -8,11 +8,14 @@ import jupiterpi.vocabulum.webappserver.auth.dtos.UserDetailsDTO;
 import jupiterpi.vocabulum.webappserver.auth.registration.PendingRegistrations;
 import jupiterpi.vocabulum.webappserver.auth.registration.RegistrationDTO;
 import jupiterpi.vocabulum.webappserver.controller.CoreService;
+import jupiterpi.vocabulum.webappserver.db.WebappDatabase;
+import jupiterpi.vocabulum.webappserver.db.vouchers.Voucher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -52,6 +55,20 @@ public class AuthController {
     @PostMapping("/login")
     public UserDetailsDTO login(Principal principal) {
         User user = DbAuthenticationProvider.getUser(principal);
+        return UserDetailsDTO.fromUser(user);
+    }
+
+    @PostMapping("/useVoucher/{code}")
+    public UserDetailsDTO useVoucher(Principal principal, @PathVariable String code) {
+        User user = DbAuthenticationProvider.getUser(principal);
+        Voucher voucher = WebappDatabase.get().getVouchers().getVoucher(code);
+        if (voucher != null && !voucher.isExpired() && !voucher.isUsed()) {
+            if (!user.isProUser()) {
+                voucher.useAndSave(user.getEmail(), new Date());
+                user.setProExpiration(voucher.getExpiration());
+                //user.saveEntity();
+            }
+        }
         return UserDetailsDTO.fromUser(user);
     }
 }

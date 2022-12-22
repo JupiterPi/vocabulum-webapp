@@ -63,8 +63,7 @@ public class AdminController {
         List<Voucher> vouchers = WebappDatabase.get().getVouchers().getAll();
         if (vouchers.size() == 0) return List.of("<No vouchers>");
         for (Voucher voucher : vouchers) {
-            boolean expired = voucher.getExpiration().getTime() <= new Date().getTime();
-            String expirationStr = (expired ? "expired" : "expiring") + " " + voucher.getExpiration().toString();
+            String expirationStr = (voucher.isExpired() ? "expired" : "expiring") + " " + voucher.getExpiration().toString();
 
             boolean used = !voucher.getUsedBy().isEmpty();
             String usedStr = (used ? "used by " + voucher.getUsedBy() + " at " + voucher.getUsedAt() : "not used");

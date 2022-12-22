@@ -3,6 +3,7 @@ package jupiterpi.vocabulum.webappserver.auth.registration;
 import jupiterpi.vocabulum.core.db.Database;
 import jupiterpi.vocabulum.core.users.User;
 
+import javax.xml.crypto.Data;
 import java.util.*;
 
 public class PendingRegistrations {
@@ -39,6 +40,7 @@ public class PendingRegistrations {
         RegistrationDTO dto = registration.getDto();
         User user = User.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword());
         Database.get().getUsers().addUser(user);
+        Database.get().getUsers().save();
         return user;
     }
 }

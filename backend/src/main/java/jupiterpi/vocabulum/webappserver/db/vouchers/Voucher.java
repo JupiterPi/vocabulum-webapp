@@ -52,7 +52,15 @@ public class Voucher extends Entity {
         return note;
     }
 
-    /* modifiers */
+    /* other getters, modifiers */
+
+    public boolean isExpired() {
+        return expiration.getTime() <= new Date().getTime();
+    }
+
+    public boolean isUsed() {
+        return !usedBy.equals("");
+    }
 
     public void useAndSave(String usedBy, Date usedAt) {
         this.usedBy = usedBy;

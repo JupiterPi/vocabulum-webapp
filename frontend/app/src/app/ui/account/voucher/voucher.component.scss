@@ -1,0 +1,38 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+#outer-container {
+  @include outer-container;
+}
+
+#container {
+  @include container-in-outer-container;
+  @include rounded-container;
+}
+
+#header {
+  @include font-srf;
+  font-size: 200%;
+}
+
+#code-input {
+  @include font-def-mono;
+  height: 50px;
+  @include rounded-container;
+  padding: 0 20px;
+  font-size: 115%;
+}
+
+button {
+  @include primary-button;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+
+  &[disabled] {
+    cursor: not-allowed;
+    color: $clr-muted-alt;
+  }
+}

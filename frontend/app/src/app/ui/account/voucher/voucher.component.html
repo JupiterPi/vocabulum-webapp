@@ -1,0 +1,24 @@
+<div id="outer-container">
+  <div id="container">
+
+    <div id="header">Code einlösen</div>
+
+    <input type="text" [(ngModel)]="code" placeholder="C0deHi3r" id="code-input" maxlength="8">
+
+    <button (click)="useCode()" mat-ripple [disabled]="!codeValid()">Code verwenden</button>
+
+    <div *ngIf="success">
+      <span style="color: green">Erfolg!</span><br>
+      Dein Code wurde erfolgreich eingelöst! Du erhältst nun Vocabulum Pro bis zum Ablaufdatum des Codes.
+    </div>
+
+    <div *ngIf="failure">
+      <span style="color: red">Ungültig</span><br>
+      Da hat etwas nicht funktioniert.
+      Bist du sicher, dass nicht du oder jemand anderes den Code schon eingelöst hat?
+      Hast du ihn korrekt eingegeben? Ist er bereits abgelaufen?
+      Hast du bereits Vocabulum Pro?
+    </div>
+
+  </div>
+</div>
