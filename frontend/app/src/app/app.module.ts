@@ -43,8 +43,10 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.component';
 import { DiscordBannerComponent } from './ui/account/profile/discord-banner/discord-banner.component';
 import {CookieModule} from "ngx-cookie";
-import { AdminOverviewComponent } from './admin/ui/admin-overview/admin-overview.component';
+import {AdminOverviewComponent} from './admin/ui/admin-overview/admin-overview.component';
 import { VoucherComponent } from './ui/account/voucher/voucher.component';
+import { VouchersPrintableComponent } from './admin/ui/vouchers-printable/vouchers-printable.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -66,7 +68,8 @@ import { VoucherComponent } from './ui/account/voucher/voucher.component';
     ConfirmEmailComponent,
     DiscordBannerComponent,
     AdminOverviewComponent,
-    VoucherComponent
+    VoucherComponent,
+    VouchersPrintableComponent
   ],
     imports: [
         BrowserModule,
@@ -90,7 +93,8 @@ import { VoucherComponent } from './ui/account/voucher/voucher.component';
 
             {path: "translationAssistance", component: TranslationAssistanceComponent},
 
-            {path: "admin", component: AdminOverviewComponent}
+            {path: "admin", component: AdminOverviewComponent},
+            {path: "admin/printVouchers", component: VouchersPrintableComponent}
         ]),
         HttpClientModule,
         BrowserAnimationsModule,
@@ -111,7 +115,8 @@ import { VoucherComponent } from './ui/account/voucher/voucher.component';
         FontAwesomeModule,
         MatTreeModule,
         MatCheckboxModule,
-        CookieModule.withOptions()
+        CookieModule.withOptions(),
+        MatDialogModule
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,43 @@
+<div id="config">
+  <button mat-icon-button (click)="navigateBack()"><mat-icon>arrow_back</mat-icon></button><br><br>
+
+  Vouchers: <span title="every line = voucher, format: '<code>:<title for text>'">(?)</span> <br>
+  <textarea [(ngModel)]="vouchersStr" rows="10" cols="30"></textarea>
+  <br>
+  Title: <input type="text" [(ngModel)]="title">
+  ("%" = insert title from voucher, " // " = newline)
+  <br>
+  Expiration: <input type="text" [(ngModel)]="expiration">
+  <br> <span title="to print, press Ctrl+P in browser, should open properly formatted view">(?)</span>
+  <br> <input type="checkbox" [(ngModel)]="showHelpLines"> Show help lines
+</div>
+
+<div id="container">
+
+  <div class="voucher-container" *ngFor="let voucher of makeVouchers(vouchersStr)" [class.help-lines]="showHelpLines">
+    <div class="voucher-inner-container">
+      <div class="header">
+        <img src="/assets/logo/vkpro_logo_circle.png">
+        <span>Vocabulum Pro</span>
+      </div>
+      <div class="title">
+        <div *ngFor="let line of calculateTitle(voucher)">{{line}}</div>
+      </div>
+      <div class="centered" *ngIf="hasExpiration()">
+        <span class="muted">gültig bis</span> {{expiration}}
+      </div>
+      <div class="centered">
+        <span class="muted">Einlösbar unter</span> app.vocabulum.de/voucher
+        <br>
+        <span class="muted">In der App unter</span> Profil &#10141; Pro
+      </div>
+      <div class="code">
+        <div class="qr-code">
+          <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=app.vocabulum.de/voucher?code=' + voucher.code">
+        </div>
+        {{voucher.code}}
+      </div>
+    </div>
+  </div>
+
+</div>

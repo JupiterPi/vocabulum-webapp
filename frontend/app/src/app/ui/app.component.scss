@@ -69,6 +69,11 @@
   background-color: $clr-header;
   height: $navbar-height;
 }
+@media print {
+  #navbar-container {
+    display: none;
+  }
+}
 #navbar-spacing-placeholder {
   height: $navbar-height;
 }

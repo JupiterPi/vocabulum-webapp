@@ -51,6 +51,10 @@
     Create Voucher(s)
     <span *ngIf="createNewVoucher.working">...</span>
   </button>
-  <textarea rows="10" cols="10" [value]="createNewVoucher.value" readonly></textarea>
+  <textarea rows="10" cols="30" [value]="createNewVoucher.value" readonly></textarea>
+
+  <h3>Print Vouchers</h3>
+  <textarea rows="10" cols="30" [(ngModel)]="printVouchers"></textarea>
+  <button (click)="openPrintVouchers()">Open printable page</button>
 
 </div>

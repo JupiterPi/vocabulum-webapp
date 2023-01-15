@@ -94,5 +94,12 @@ export class AdminOverviewComponent {
       done();
     });
   });
-}
 
+  printVouchers = "";
+
+  openPrintVouchers() {
+    this.router.navigate(["admin", "printVouchers"], {queryParams: {
+      vouchers: this.printVouchers
+    }});
+  }
+}

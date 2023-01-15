@@ -66,7 +66,7 @@ public class AuthController {
             if (!user.isProUser()) {
                 voucher.useAndSave(user.getEmail(), new Date());
                 user.setProExpiration(voucher.getExpiration());
-                //user.saveEntity();
+                user.saveEntity();
             }
         }
         return UserDetailsDTO.fromUser(user);
