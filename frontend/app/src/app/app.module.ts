@@ -35,7 +35,8 @@ import {
   faComments,
   faDisplay, faEye,
   faPaperPlane,
-  faWindowRestore
+  faWindowRestore,
+  faFileLines
 } from "@fortawesome/free-solid-svg-icons";
 import {MatTreeModule} from "@angular/material/tree";
 import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vocabulary-selector.component';
@@ -47,6 +48,7 @@ import {AdminOverviewComponent} from './admin/ui/admin-overview/admin-overview.c
 import { VoucherComponent } from './ui/account/voucher/voucher.component';
 import { VouchersPrintableComponent } from './admin/ui/vouchers-printable/vouchers-printable.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { TestTrainerComponent } from './ui/trainer/test-trainer/test-trainer.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     DiscordBannerComponent,
     AdminOverviewComponent,
     VoucherComponent,
-    VouchersPrintableComponent
+    VouchersPrintableComponent,
+    TestTrainerComponent
   ],
     imports: [
         BrowserModule,
@@ -90,6 +93,7 @@ import {MatDialogModule} from "@angular/material/dialog";
             {path: "trainer", component: TrainerLauncherComponent},
             {path: "trainer/chat", component: ChatTrainerSessionComponent},
             {path: "trainer/cards", component: CardsTrainerSessionComponent},
+            {path: "trainer/test", component: TestTrainerComponent},
 
             {path: "translationAssistance", component: TranslationAssistanceComponent},
 
@@ -124,7 +128,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 export class AppModule {
   constructor(fontawesome: FaIconLibrary) {
     fontawesome.addIcons(
-      faBook, faComments, faDisplay, faWindowRestore, faChevronLeft, faPaperPlane, faEye
+      faBook, faComments, faDisplay, faWindowRestore, faChevronLeft, faPaperPlane, faEye, faFileLines
     );
   }
 }

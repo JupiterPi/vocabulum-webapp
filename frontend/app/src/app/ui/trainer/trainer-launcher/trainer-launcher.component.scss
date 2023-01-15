@@ -35,10 +35,9 @@
 /* ----- options ----- */
 
 .options-container {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  display: grid;
   gap: 30px;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .option {
@@ -62,9 +61,10 @@
 
 /* for specific options */
 
-#mode-selection .option {
+#mode-selection {
+  justify-content: space-evenly;
   height: 200px;
-  max-height: 20vh;
+  //max-height: 20vh;
 }
 
 #direction-selection .option {
@@ -72,22 +72,33 @@
   max-height: 10vh;
 }
 
-@media screen and (max-height: 560px) {
-  #mode-selection .option {
-    gap: 10px;
-  }
-}
-
+/* make mode selection vertical */
 @media screen and (max-width: 550px) {
+  #mode-selection {
+    height: 400px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+
   #direction-selection .option {
     height: 30px;
   }
 }
 
+/* make direction selection vertical */
+#option-groups-separator {
+  display: none;
+  height: 0;
+  border-top: 1px solid $clr-background-1-border;
+}
 @media screen and (max-width: 430px) {
+  #option-groups-separator {
+    display: block;
+  }
+
   #direction-selection {
-    flex-direction: column;
-    gap: 8px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
   }
 }
 
@@ -97,7 +108,8 @@
     padding: 15px;
     gap: 15px;
   }
-
+}
+@media screen and (max-width: 650px) {
   .options-container {
     gap: 15px;
   }

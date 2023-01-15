@@ -142,3 +142,20 @@ export class CardsSessionService {
     return this.http.post(this.dataService.backendRoot + "/api/session/cards/" + id + "/finish", finishType);
   }
 }
+
+/* --- test trainer --- */
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TestTrainerService {
+  constructor(private http: HttpClient, private dataService: DataService) {}
+
+  authHeaders?: { headers: { Authorization: string } };
+
+  getVocabulariesAmount(selection: string) {
+    return this.http.get(this.dataService.backendRoot + "/api/testtrainer/vocabulariesAmount/" + selection, {
+      responseType: "text"
+    });
+  }
+}

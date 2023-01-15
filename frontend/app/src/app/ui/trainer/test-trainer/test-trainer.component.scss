@@ -1,0 +1,103 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+#outer-container {
+  @include outer-container;
+}
+
+#container {
+  @include rounded-container;
+  @include container-in-outer-container($width: 700px);
+}
+
+@media screen and (max-width: 900px) {
+  #outer-container {
+    @include outer-container-sm;
+  }
+  #container {
+    @include container-in-outer-container-sm;
+  }
+}
+@media screen and (max-width: 400px) {
+  #outer-container {
+    padding: 10px;
+  }
+}
+
+#header {
+  @include font-srf;
+  font-size: 40px;
+}
+
+#amount-selector-container {
+  display: flex;
+  justify-content: center;
+}
+
+#amount-selector {
+  height: 40px;
+  display: flex;
+
+  border: 5px solid $clr-background-0;
+  padding: 3px;
+  border-radius: 100vw;
+  width: fit-content;
+
+  button, input {
+    background-color: transparent;
+    border: none;
+  }
+
+  button {
+    cursor: pointer;
+    width: 40px;
+    border-radius: 100vw;
+
+    &:hover {
+      background-color: #f6f6f6;
+    }
+  }
+
+  input {
+    width: 50px;
+    outline: none;
+    text-align: center;
+    font-size: 150%;
+  }
+}
+
+#launch-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  button {
+    @include primary-button;
+    width: 250px;
+    height: 50px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  #launch-buttons-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* --- remove arrows from input field --- */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */

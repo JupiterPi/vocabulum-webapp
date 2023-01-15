@@ -1,0 +1,25 @@
+<div id="outer-container">
+  <div id="container">
+
+    <div id="header">Übungstest</div>
+
+    <div>Du hast <b>{{vocabulariesAmount}}</b> Vokabeln ausgewählt.</div>
+    <div>Wie viele davon sollen zufällig für deinen Test ausgewählt werden?</div>
+
+    <div id="amount-selector-container">
+      <div id="amount-selector">
+        <button id="amount-subtract-5" mat-ripple (click)="changeChosenAmount(-5)">-5</button>
+        <button id="amount-subtract-1" mat-ripple (click)="changeChosenAmount(-1)">-</button>
+        <input type="number" [(ngModel)]="chosenAmount">
+        <button id="amount-add-1" mat-ripple (click)="changeChosenAmount(+1)">+</button>
+        <button id="amount-add-5" mat-ripple (click)="changeChosenAmount(+5)">+5</button>
+      </div>
+    </div>
+
+    <div id="launch-buttons-container">
+      <button mat-ripple (click)="openTest()">Test drucken</button>
+      <button mat-ripple (click)="openSolutions()">Lösungen</button>
+    </div>
+
+  </div>
+</div>

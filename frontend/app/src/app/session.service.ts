@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {UserDetails, UsersService} from "./data/users.service";
 import {CookieService} from "ngx-cookie";
-import {CardsSessionService, ChatSessionService} from "./data/sessions.service";
+import {CardsSessionService, ChatSessionService, TestTrainerService} from "./data/sessions.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class SessionService {
     private usersService: UsersService,
     private chatSessionsService: ChatSessionService,
     private cardsSessionService: CardsSessionService,
+    private testTrainerService: TestTrainerService,
     private cookieService: CookieService
   ) {
     const auth = this.cookieService.get("auth");
@@ -34,6 +35,7 @@ export class SessionService {
       this.usersService.authHeaders = this.authHeaders;
       this.chatSessionsService.authHeaders = this.authHeaders;
       this.cardsSessionService.authHeaders = this.authHeaders;
+      this.testTrainerService.authHeaders = this.authHeaders;
 
       this.cookieService.put("auth", auth, {
         secure: true,

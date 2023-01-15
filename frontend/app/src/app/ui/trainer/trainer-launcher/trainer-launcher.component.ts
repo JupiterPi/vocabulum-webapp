@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Direction} from "../../../data/sessions.service";
 
-type Mode = "cards" | "chat";
+type Mode = "cards" | "chat" | "test";
 
 interface VocabularySelectorNode {
   name: string;

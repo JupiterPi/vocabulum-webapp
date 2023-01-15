@@ -18,7 +18,17 @@
           Chat
         </div>
       </div>
+      <div class="option" mat-ripple (click)="selectMode('test')" [class.selected]="selectedMode == 'test'">
+        <div class="mode-icon">
+          <fa-icon icon="file-lines" size="xl"></fa-icon>
+        </div>
+        <div class="mode-title">
+          Übungstest
+        </div>
+      </div>
     </div>
+
+    <div id="option-groups-separator"></div>
 
     <div id="direction-selection" class="options-container">
       <div class="option" mat-ripple (click)="selectDirection('lg')" [class.selected]="selectedDirection == 'lg'">
@@ -35,7 +45,9 @@
     <app-vocabulary-selector (selectionString)="selectionString = $event"></app-vocabulary-selector>
 
     <div id="start-button-container">
-      <button id="start-button" mat-ripple (click)="submitStart()" [disabled]="!checkReady()">Starten</button>
+      <button id="start-button" mat-ripple (click)="submitStart()" [disabled]="!checkReady()">
+        {{selectedMode == "test" ? "Öffnen" : "Starten"}}
+      </button>
     </div>
 
   </div>
