@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Direction, TestTrainerService} from "../../../data/sessions.service";
+import {DataService} from "../../../data/data.service";
 
 @Component({
   selector: 'app-test-trainer',
@@ -30,6 +31,7 @@ export class TestTrainerComponent {
     this.chosenAmount = Math.max( 1, Math.min(this.vocabulariesAmount, this.chosenAmount + operation));
   }
 
-  openTest() {}
-  openSolutions() {}
+  openTest() {
+    window.open(this.testTrainerService.getTestDocumentUrl(this.direction, this.selection, this.chosenAmount), "_blank");
+  }
 }

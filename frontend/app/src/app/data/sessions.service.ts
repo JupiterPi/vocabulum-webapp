@@ -158,4 +158,8 @@ export class TestTrainerService {
       responseType: "text"
     });
   }
+
+  getTestDocumentUrl(direction: Direction, selection: string, amount: number) {
+    return `${this.dataService.backendRoot}/api/testtrainer/test?direction=${direction}&selection=${selection}&amount=${amount}`;
+  }
 }

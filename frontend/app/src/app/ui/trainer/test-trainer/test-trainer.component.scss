@@ -67,7 +67,7 @@
   }
 }
 
-#launch-buttons-container {
+#buttons-container {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -76,13 +76,6 @@
     @include primary-button;
     width: 250px;
     height: 50px;
-  }
-}
-
-@media screen and (max-width: 450px) {
-  #launch-buttons-container {
-    flex-direction: column;
-    align-items: center;
   }
 }
 
