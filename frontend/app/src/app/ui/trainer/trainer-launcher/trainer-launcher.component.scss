@@ -153,3 +153,58 @@ mat-tree-node {
   cursor: not-allowed;
   color: $clr-muted-alt;
 }
+
+/* vkpro-required */
+
+.container:has(.vkpro-required-container) {
+  position: relative;
+}
+
+.vkpro-required-container {
+  @include rounded-container;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(227, 227, 227, 0.8);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.vkpro-icon {
+  height: 40px;
+  width: 40px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.vkpro-text {
+  font-size: 90%;
+  padding: 0 50px;
+  text-align: center;
+
+  a {
+    @include font-def-bolder;
+    color: $clr-vkpro;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .vkpro-icon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .vkpro-text:has(a) {
+    display: none;
+  }
+}

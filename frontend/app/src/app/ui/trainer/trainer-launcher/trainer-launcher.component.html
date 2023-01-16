@@ -18,12 +18,19 @@
           Chat
         </div>
       </div>
-      <div class="option" mat-ripple (click)="selectMode('test')" [class.selected]="selectedMode == 'test'">
+      <div class="option" mat-ripple (click)="session.hasPro && selectMode('test')" [class.selected]="selectedMode == 'test'">
         <div class="mode-icon">
           <fa-icon icon="file-lines" size="xl"></fa-icon>
         </div>
         <div class="mode-title">
           Übungstest
+        </div>
+        <div class="vkpro-required-container" *ngIf="!session.hasPro">
+          <div class="vkpro-icon">
+            <img src="/assets/logo/vkpro_logo_circle.png">
+          </div>
+          <div class="vkpro-text">Du benötigst Vocabulum Pro, um Übungstests nutzen zu können!</div>
+          <div class="vkpro-text"><a routerLink="/pro">Jetzt kaufen</a></div>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Direction} from "../../../data/sessions.service";
+import {SessionService} from "../../../session.service";
 
 type Mode = "cards" | "chat" | "test";
 
@@ -29,7 +30,7 @@ export class TrainerLauncherComponent {
 
   selectionString = "";
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, public session: SessionService) {}
 
   checkReady() {
     return this.selectedMode && this.selectedDirection && this.selectionString != "";
@@ -45,5 +46,9 @@ export class TrainerLauncherComponent {
         }
       });
     }
+  }
+
+  userDetails() {
+    return JSON.stringify(this.session.user);
   }
 }
