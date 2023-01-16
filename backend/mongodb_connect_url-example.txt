@@ -1,1 +1,5 @@
 mongodb://localhost
+
+# Would need following files:
+# mongodb_connect_url-vocabulum_core.txt
+# mongodb_connect_url-vocabulum_webapp.txt

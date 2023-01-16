@@ -32,4 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 
-mongodb_connect_url.txt
+mongodb_connect_url-vocabulum_core.txt
+mongodb_connect_url-vocabulum_webapp.txt

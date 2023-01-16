@@ -28,7 +28,7 @@ public class WebappDatabase {
     public MongoCollection<Document> collection_vouchers;
 
     public WebappDatabase() {
-        String mongoConnectUrl = new TextFile("mongodb_connect_url.txt").getLine(0);
+        String mongoConnectUrl = new TextFile("mongodb_connect_url-vocabulum_webapp.txt").getLine(0);
         mongoClient = MongoClients.create(mongoConnectUrl);
         database = mongoClient.getDatabase("vocabulum_webapp");
 
