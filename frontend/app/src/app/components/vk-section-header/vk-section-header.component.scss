@@ -1,0 +1,8 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+#section-header {
+  font-size: 40px;
+  @include font-srf;
+}

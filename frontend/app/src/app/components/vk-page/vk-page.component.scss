@@ -1,0 +1,13 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+#outer-container {
+  @include outer-container;
+}
+
+@media screen and (max-width: 900px) {
+  #outer-container {
+    @include outer-container-sm;
+  }
+}

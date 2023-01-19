@@ -49,6 +49,10 @@ import { VoucherComponent } from './ui/account/voucher/voucher.component';
 import { VouchersPrintableComponent } from './admin/ui/vouchers-printable/vouchers-printable.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { TestTrainerComponent } from './ui/trainer/test-trainer/test-trainer.component';
+import { VkPageComponent } from './components/vk-page/vk-page.component';
+import { TestComponent } from './components/test/test.component';
+import { VkSectionComponent } from './components/vk-section/vk-section.component';
+import { VkSectionHeaderComponent } from './components/vk-section-header/vk-section-header.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +76,11 @@ import { TestTrainerComponent } from './ui/trainer/test-trainer/test-trainer.com
     AdminOverviewComponent,
     VoucherComponent,
     VouchersPrintableComponent,
-    TestTrainerComponent
+    TestTrainerComponent,
+    VkPageComponent,
+    TestComponent,
+    VkSectionComponent,
+    VkSectionHeaderComponent
   ],
     imports: [
         BrowserModule,
@@ -98,7 +106,9 @@ import { TestTrainerComponent } from './ui/trainer/test-trainer/test-trainer.com
             {path: "translationAssistance", component: TranslationAssistanceComponent},
 
             {path: "admin", component: AdminOverviewComponent},
-            {path: "admin/printVouchers", component: VouchersPrintableComponent}
+            {path: "admin/printVouchers", component: VouchersPrintableComponent},
+
+            {path: "test", component: TestComponent}
         ]),
         HttpClientModule,
         BrowserAnimationsModule,
