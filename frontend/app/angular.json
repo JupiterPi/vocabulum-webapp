@@ -32,7 +32,8 @@
               "src/styles/styles.scss",
               "src/styles/_variables.scss",
               "src/styles/_blocks.scss",
-              "src/styles/_fonts.scss"
+              "src/styles/_fonts.scss",
+              "src/app/components/vk-styles.scss"
             ],
             "scripts": [],
             "serviceWorker": true,

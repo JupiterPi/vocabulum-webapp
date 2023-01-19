@@ -49,10 +49,14 @@ import { VoucherComponent } from './ui/account/voucher/voucher.component';
 import { VouchersPrintableComponent } from './admin/ui/vouchers-printable/vouchers-printable.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { TestTrainerComponent } from './ui/trainer/test-trainer/test-trainer.component';
-import { VkPageComponent } from './components/vk-page/vk-page.component';
 import { TestComponent } from './components/test/test.component';
-import { VkSectionComponent } from './components/vk-section/vk-section.component';
-import { VkSectionHeaderComponent } from './components/vk-section-header/vk-section-header.component';
+import {
+  VkButtonDirective,
+  VkButtonsComponent,
+  VkPageComponent,
+  VkSectionComponent,
+  VkSectionHeaderComponent
+} from './components/vk-components';
 
 @NgModule({
   declarations: [
@@ -80,7 +84,9 @@ import { VkSectionHeaderComponent } from './components/vk-section-header/vk-sect
     VkPageComponent,
     TestComponent,
     VkSectionComponent,
-    VkSectionHeaderComponent
+    VkSectionHeaderComponent,
+    VkButtonsComponent,
+    VkButtonDirective
   ],
     imports: [
         BrowserModule,

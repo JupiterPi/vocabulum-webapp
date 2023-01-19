@@ -1,0 +1,35 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+.vk-page {
+  @include outer-container;
+}
+
+.vk-section {
+  @include rounded-container;
+  @include container-in-outer-container;
+}
+
+@media screen and (max-width: 900px) {
+  .vk-page {
+    @include outer-container-sm;
+  }
+
+  .vk-section {
+    @include container-in-outer-container-sm;
+  }
+}
+
+.vk-section-header {
+  font-size: 40px;
+  @include font-srf;
+}
+
+.vk-buttons {
+  @include buttons;
+}
+
+.vk-button {
+  @include button;
+}
