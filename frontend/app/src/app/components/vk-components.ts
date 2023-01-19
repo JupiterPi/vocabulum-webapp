@@ -1,4 +1,4 @@
-import {Component, Directive, ElementRef} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 
 @Component({
@@ -17,9 +17,20 @@ export class VkSectionComponent {}
 
 @Component({
   selector: 'vk-section-header',
-  template: '<div class="vk-section-header"><ng-content></ng-content></div>'
+  template: `
+    <div class="vk-section-header"
+         [class.vk-section-header-small]="textSize == 'small'"
+         [class.vk-section-header-medium]="textSize == 'medium'"
+         [class.vk-section-header-large]="textSize == 'large'"
+    ><ng-content></ng-content></div>
+  `
 })
-export class VkSectionHeaderComponent {}
+export class VkSectionHeaderComponent {
+  @Input("size") textSize: "small" | "medium" | "large" = "medium";
+}
+
+
+/* ----- buttons ----- */
 
 
 @Component({
@@ -29,12 +40,51 @@ export class VkSectionHeaderComponent {}
 export class VkButtonsComponent {}
 
 
-@Directive({
-  selector: '[vk-button]'
+@Component({
+  selector: 'vk-button',
+  template: `
+    <div class='vk-primary-button-container'>
+      <button
+        mat-ripple [disabled]='disabled'
+        [ngClass]='variant == \"basic\" ? \"vk-basic-button\" : \"vk-primary-button\"'
+      >
+        <ng-content></ng-content>
+      </button>
+    </div>
+  `
 })
-export class VkButtonDirective {
-  constructor(private el: ElementRef<HTMLButtonElement>) {
-    this.el.nativeElement.classList.add("vk-button");
-    //TODO ...
-  }
+export class VkButtonComponent {
+  @Input() variant: "basic" | "primary" = "basic";
+  @Input() disabled = false;
 }
+
+
+/* ----- meta ----- */
+
+
+@Component({
+  selector: 'vk-meta-container',
+  template: '<div class="vk-meta-container"><ng-content></ng-content></div>'
+})
+export class VkMetaContainerComponent {}
+
+
+@Component({
+  selector: 'vk-meta',
+  template: '<div class="vk-meta"><ng-content></ng-content></div>'
+})
+export class VkMetaComponent {}
+
+
+@Component({
+  selector: 'vk-meta-key',
+  template: '<div class="vk-meta-key"><ng-content></ng-content></div>'
+})
+export class VkMetaKeyComponent {}
+
+
+@Component({
+  selector: 'vk-meta-value',
+  template: '<div class="vk-meta-value"><ng-content></ng-content></div>'
+})
+export class VkMetaValueComponent {}

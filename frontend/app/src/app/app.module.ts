@@ -46,11 +46,14 @@ import { VouchersPrintableComponent } from './admin/ui/vouchers-printable/vouche
 import { TestTrainerComponent } from './ui/trainer/test-trainer/test-trainer.component';
 import { TestComponent } from './components/test/test.component';
 import {
-  VkButtonDirective,
+  VkButtonComponent,
   VkButtonsComponent,
   VkPageComponent,
   VkSectionComponent,
-  VkSectionHeaderComponent
+  VkSectionHeaderComponent,
+  VkMetaComponent,
+  VkMetaKeyComponent,
+  VkMetaValueComponent, VkMetaContainerComponent,
 } from './components/vk-components';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
@@ -84,7 +87,11 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     VkSectionComponent,
     VkSectionHeaderComponent,
     VkButtonsComponent,
-    VkButtonDirective
+    VkButtonComponent,
+    VkMetaContainerComponent,
+    VkMetaComponent,
+    VkMetaKeyComponent,
+    VkMetaValueComponent,
   ],
   imports: [
     BrowserModule,

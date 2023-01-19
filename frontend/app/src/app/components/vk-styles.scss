@@ -22,14 +22,61 @@
 }
 
 .vk-section-header {
-  font-size: 40px;
   @include font-srf;
+
+  &.vk-section-header-small {
+    font-size: 30px;
+  }
+
+  &.vk-section-header-medium {
+    font-size: 40px;
+  }
+
+  &.vk-section-header-large {
+    font-size: 60px;
+  }
 }
+
+/* ----- buttons ----- */
 
 .vk-buttons {
   @include buttons;
 }
 
-.vk-button {
+.vk-basic-button {
   @include button;
+
+  &[disabled] {
+    color: grey;
+    cursor: not-allowed;
+  }
+}
+
+.vk-primary-button-container {
+  display: flex;
+  justify-content: center;
+
+  .vk-primary-button {
+    @include primary-button;
+    width: 250px;
+    height: 50px;
+
+    &[disabled] {
+      @include primary-button-disabled;
+    }
+  }
+}
+
+/* ----- meta ----- */
+
+.vk-meta-container {
+  @include meta-outer-container;
+}
+
+.vk-meta {
+  @include meta-container;
+}
+
+.vk-meta-key {
+  @include meta-name;
 }
