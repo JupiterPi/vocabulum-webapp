@@ -50,6 +50,16 @@
     color: grey;
     cursor: not-allowed;
   }
+
+  &.vk-basic-button-black {
+    color: black;
+    border-color: black;
+  }
+
+  &.vk-basic-button-red {
+    color: red;
+    border-color: red;
+  }
 }
 
 .vk-primary-button-container {

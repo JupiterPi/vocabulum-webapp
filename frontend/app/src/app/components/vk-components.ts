@@ -46,7 +46,9 @@ export class VkButtonsComponent {}
     <div class='vk-primary-button-container'>
       <button
         mat-ripple [disabled]='disabled'
-        [ngClass]='variant == \"basic\" ? \"vk-basic-button\" : \"vk-primary-button\"'
+        [ngClass]="variant == 'basic' ? 'vk-basic-button' : 'vk-primary-button'"
+        [class.vk-basic-button-black]="color == 'black'"
+        [class.vk-basic-button-red]="color == 'red'"
       >
         <ng-content></ng-content>
       </button>
@@ -55,6 +57,7 @@ export class VkButtonsComponent {}
 })
 export class VkButtonComponent {
   @Input() variant: "basic" | "primary" = "basic";
+  @Input() color: "none" | "black" | "red" = "none";
   @Input() disabled = false;
 }
 
