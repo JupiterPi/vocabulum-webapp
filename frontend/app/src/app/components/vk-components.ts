@@ -5,7 +5,7 @@ import {Component, Directive, HostBinding, Input} from '@angular/core';
   selector: 'vk-page',
   template: `
     <div class="vk-page"
-         [class.vk-page-slim]="size == 'slim'"
+         [ngClass]="size == 'slim' ? 'vk-page-slim' : 'vk-page-regular'"
     >
       <ng-content></ng-content>
     </div>

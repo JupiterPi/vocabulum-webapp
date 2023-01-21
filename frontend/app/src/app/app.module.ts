@@ -44,7 +44,6 @@ import {AdminOverviewComponent} from './admin/ui/admin-overview/admin-overview.c
 import { VoucherComponent } from './ui/account/voucher/voucher.component';
 import { VouchersPrintableComponent } from './admin/ui/vouchers-printable/vouchers-printable.component';
 import { TestTrainerComponent } from './ui/trainer/test-trainer/test-trainer.component';
-import { TestComponent } from './components/test/test.component';
 import {
   VkButtonComponent,
   VkButtonsComponent,
@@ -118,9 +117,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
       {path: "translationAssistance", component: TranslationAssistanceComponent},
 
       {path: "admin", component: AdminOverviewComponent},
-      {path: "admin/printVouchers", component: VouchersPrintableComponent},
-
-      {path: "test", component: TestComponent}
+      {path: "admin/printVouchers", component: VouchersPrintableComponent}
     ]),
     HttpClientModule,
     BrowserAnimationsModule,

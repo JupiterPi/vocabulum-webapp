@@ -16,7 +16,7 @@
 }
 
 @media screen and (max-width: 900px) {
-  .vk-page:not(.vk-page-slim) {
+  .vk-page-regular {
     @include outer-container-sm;
 
     .vk-section {
@@ -48,6 +48,30 @@
 
   &.vk-section-header-large {
     font-size: 60px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .vk-page {
+    padding: 10px;
+  }
+
+  .vk-section {
+    padding: 20px !important;
+  }
+
+  .vk-section-header {
+    &.vk-section-header-small {
+      font-size: 20px;
+    }
+
+    &.vk-section-header-medium {
+      font-size: 30px;
+    }
+
+    &.vk-section-header-large {
+      font-size: 45px;
+    }
   }
 }
 
