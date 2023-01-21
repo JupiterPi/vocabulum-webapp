@@ -1,5 +1,5 @@
-<div id="outer-container" *ngIf="vocabulary">
-  <div class="container">
+<vk-page *ngIf="vocabulary">
+  <vk-section>
 
     <div id="kind">
       <span>{{formatKind(vocabulary.kind)}}</span>
@@ -13,27 +13,23 @@
       <div class="translation" *ngFor="let translation of vocabulary.translations" [class.important]="translation.important">{{translation.translation}}</div>
     </div>
 
-    <div id="meta-outer-container">
-      <div class="meta-container" *ngFor="let meta of vocabulary.meta">
-        <span class="meta-name">{{meta.name}}</span>
-        <span class="meta-value">{{meta.value}}</span>
-      </div>
-    </div>
+    <vk-meta-container>
+      <vk-meta *ngFor="let meta of vocabulary.meta">
+        <vk-meta-key>{{meta.name}}</vk-meta-key>
+        <vk-meta-value>{{meta.value}}</vk-meta-value>
+      </vk-meta>
+    </vk-meta-container>
 
-    <div id="actions-container">
-      <a class="button" mat-ripple routerLink="/search" [queryParams]="{q: vocabulary.base_form}">
-        Form bestimmen
-      </a>
-      <a class="button" mat-ripple>
-        Form bilden
-      </a>
-    </div>
+    <vk-buttons>
+      <vk-button routerLink="/search" [queryParams]="{q: vocabulary.base_form}">Form bestimmen</vk-button>
+      <vk-button>Form bilden</vk-button>
+    </vk-buttons>
 
-  </div>
+  </vk-section>
 
-  <div class="container">
+  <vk-section>
 
-    <div class="container-header">Beispielsätze</div>
+    <vk-section-header>Beispielsätze</vk-section-header>
 
     <div id="example-sentences-container" *ngIf="vocabulary.exampleSentences.length > 0">
       <div class="example-sentence-container" *ngFor="let sentence of exampleSentencesShown">
@@ -54,5 +50,5 @@
       Keine Beispielsätze verfügbar!
     </div>
 
-  </div>
-</div>
+  </vk-section>
+</vk-page>

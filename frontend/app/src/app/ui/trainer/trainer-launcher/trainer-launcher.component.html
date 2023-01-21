@@ -1,5 +1,5 @@
-<div id="outer-container">
-  <div id="container">
+<vk-page>
+  <vk-section>
 
     <div id="mode-selection" class="options-container">
       <div class="option" mat-ripple (click)="selectMode('cards')" [class.selected]="selectedMode == 'cards'">
@@ -51,11 +51,9 @@
 
     <app-vocabulary-selector (selectionString)="selectionString = $event"></app-vocabulary-selector>
 
-    <div id="start-button-container">
-      <button id="start-button" mat-ripple (click)="submitStart()" [disabled]="!checkReady()">
-        {{selectedMode == "test" ? "Öffnen" : "Starten"}}
-      </button>
-    </div>
+    <vk-button variant="primary" (click)="submitStart()" [disabled]="!checkReady()">
+      {{selectedMode == "test" ? "Öffnen" : "Starten"}}
+    </vk-button>
 
-  </div>
-</div>
+  </vk-section>
+</vk-page>

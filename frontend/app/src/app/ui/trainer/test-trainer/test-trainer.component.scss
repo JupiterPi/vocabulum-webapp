@@ -2,34 +2,6 @@
 @import "src/styles/blocks";
 @import "src/styles/fonts";
 
-#outer-container {
-  @include outer-container;
-}
-
-#container {
-  @include rounded-container;
-  @include container-in-outer-container($width: 700px);
-}
-
-@media screen and (max-width: 900px) {
-  #outer-container {
-    @include outer-container-sm;
-  }
-  #container {
-    @include container-in-outer-container-sm;
-  }
-}
-@media screen and (max-width: 400px) {
-  #outer-container {
-    padding: 10px;
-  }
-}
-
-#header {
-  @include font-srf;
-  font-size: 40px;
-}
-
 #amount-selector-container {
   display: flex;
   justify-content: center;
@@ -64,18 +36,6 @@
     outline: none;
     text-align: center;
     font-size: 150%;
-  }
-}
-
-#buttons-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-
-  button {
-    @include primary-button;
-    width: 250px;
-    height: 50px;
   }
 }
 

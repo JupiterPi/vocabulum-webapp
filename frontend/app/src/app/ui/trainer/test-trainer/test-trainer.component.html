@@ -1,7 +1,7 @@
-<div id="outer-container">
-  <div id="container">
+<vk-page>
+  <vk-section>
 
-    <div id="header">Übungstest</div>
+    <vk-section-header>Übungstest</vk-section-header>
 
     <div>Du hast <b>{{vocabulariesAmount}}</b> Vokabeln ausgewählt.</div>
     <div>Wie viele davon sollen zufällig für deinen Test ausgewählt werden?</div>
@@ -16,9 +16,7 @@
       </div>
     </div>
 
-    <div id="buttons-container">
-      <button mat-ripple (click)="openTest()">Test drucken</button>
-    </div>
+    <vk-button variant="primary" (click)="openTest()">Test drucken</vk-button>
 
-  </div>
-</div>
+  </vk-section>
+</vk-page>

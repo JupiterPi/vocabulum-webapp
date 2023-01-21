@@ -1,19 +1,17 @@
-<div id="outer-container">
-  <div id="container">
+<vk-page size="slim">
+  <vk-section>
 
-    <div id="header">Anmelden</div>
+    <vk-section-header>Anmelden</vk-section-header>
 
-    <input placeholder="E-Mail" autocomplete="email" type="text" [(ngModel)]="username">
+    <input vk-input placeholder="E-Mail" autocomplete="email" type="text" [(ngModel)]="username">
 
-    <input placeholder="Passwort" autocomplete="current-password" type="password" [(ngModel)]="password">
+    <input vk-input placeholder="Passwort" autocomplete="current-password" type="password" [(ngModel)]="password">
 
-    <div id="confirm-container">
-      <button id="confirm" mat-ripple [disabled]="!ready()" (click)="login()">Anmelden</button>
-    </div>
+    <vk-button variant="primary" [disabled]="!ready()" (click)="login()">Anmelden</vk-button>
 
     <div class="footnote" style="color: #ee2727">{{errorMessage}}</div>
 
     <div class="footnote">Du hast noch kein Profil? <a routerLink="/register">Registriere</a> dich.</div>
 
-  </div>
-</div>
+  </vk-section>
+</vk-page>

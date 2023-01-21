@@ -1,19 +1,17 @@
-<div id="outer-container">
-  <div id="container">
+<vk-page size="slim">
+  <vk-section>
 
-    <div id="header">Registrieren</div>
+    <vk-section-header>Registrieren</vk-section-header>
 
-    <input placeholder="Benutzername" [(ngModel)]="username">
+    <input vk-input placeholder="Benutzername" [(ngModel)]="username">
 
-    <input placeholder="E-Mail" autocomplete="username" type="email" [(ngModel)]="email">
+    <input vk-input placeholder="E-Mail" autocomplete="username" type="email" [(ngModel)]="email">
 
-    <input placeholder="Passwort" autocomplete="new-password" type="password" [(ngModel)]="password">
+    <input vk-input placeholder="Passwort" autocomplete="new-password" type="password" [(ngModel)]="password">
 
-    <input placeholder="Passwort wiederholen" autocomplete="new-password" type="password" [(ngModel)]="passwordRepeat" [class.invalid]="!passwordRepeatedCorrectly()">
+    <input vk-input placeholder="Passwort wiederholen" autocomplete="new-password" type="password" [(ngModel)]="passwordRepeat" [class.invalid]="!passwordRepeatedCorrectly()">
 
-    <div id="confirm-container">
-      <button id="confirm" mat-ripple [disabled]="success || !ready()" (click)="register()">Registrieren</button>
-    </div>
+    <vk-button variant="primary" [disabled]="success || !ready()" (click)="register()">Registrieren</vk-button>
 
     <div *ngIf="success">
       <div style="color: #107e10">Registrierung erfolgreich!</div>
@@ -28,5 +26,5 @@
       Des weiteren wird es im Klartext als Cookie für 24h gespeichert.
     </p>
 
-  </div>
-</div>
+  </vk-section>
+</vk-page>

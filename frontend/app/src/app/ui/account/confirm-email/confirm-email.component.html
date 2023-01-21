@@ -1,15 +1,15 @@
-<div id="outer-container">
-<div id="container">
+<vk-page size="slim">
+  <vk-section>
 
-  <div id="greeting">Willkommen, {{username}}!</div>
+    <vk-section-header size="small">Willkommen, {{username}}!</vk-section-header>
 
-  <div>Dein Account ist jetzt fertig eingerichtet und du kannst dich anmelden: </div>
+    Dein Account ist fertig eingerichtet und du kannst dich anmelden:
 
-  <div class="footnote" style="color: #ee2727" *ngIf="showError">
-    Die Registrierung konnte nicht abgeschlossen werden! (Ist sie das vielleicht schon?)
-  </div>
+    <div class="footnote" style="color: #ee2727" *ngIf="showError">
+      Die Registrierung konnte nicht abgeschlossen werden! (Ist sie das vielleicht schon?)
+    </div>
 
-  <a class="button" routerLink="/login" mat-ripple>Login</a>
+    <vk-button variant="primary" routerLink="/login">Login</vk-button>
 
-</div>
-</div>
+  </vk-section>
+</vk-page>

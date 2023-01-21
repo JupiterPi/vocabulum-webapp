@@ -1,11 +1,19 @@
-import {Component, Input} from '@angular/core';
+import {Component, Directive, HostBinding, Input} from '@angular/core';
 
 
 @Component({
   selector: 'vk-page',
-  template: '<div class="vk-page"><ng-content></ng-content></div>'
+  template: `
+    <div class="vk-page"
+         [class.vk-page-slim]="size == 'slim'"
+    >
+      <ng-content></ng-content>
+    </div>
+  `
 })
-export class VkPageComponent {}
+export class VkPageComponent {
+  @Input() size: "regular" | "slim" = "regular";
+}
 
 
 @Component({
@@ -45,7 +53,7 @@ export class VkButtonsComponent {}
   template: `
     <div class='vk-primary-button-container'>
       <button
-        mat-ripple [disabled]='disabled'
+        mat-ripple [disabled]="disabled" [matRippleDisabled]="disabled"
         [ngClass]="variant == 'basic' ? 'vk-basic-button' : 'vk-primary-button'"
         [class.vk-basic-button-black]="color == 'black'"
         [class.vk-basic-button-red]="color == 'red'"
@@ -91,3 +99,14 @@ export class VkMetaKeyComponent {}
   template: '<div class="vk-meta-value"><ng-content></ng-content></div>'
 })
 export class VkMetaValueComponent {}
+
+
+/* ----- input ----- */
+
+
+@Directive({
+  selector: '[vk-input]'
+})
+export class VkInput {
+  @HostBinding("class") className = "vk-input";
+}

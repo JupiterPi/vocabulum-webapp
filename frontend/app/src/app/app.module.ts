@@ -53,7 +53,7 @@ import {
   VkSectionHeaderComponent,
   VkMetaComponent,
   VkMetaKeyComponent,
-  VkMetaValueComponent, VkMetaContainerComponent,
+  VkMetaValueComponent, VkMetaContainerComponent, VkInput,
 } from './components/vk-components';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
@@ -92,6 +92,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     VkMetaComponent,
     VkMetaKeyComponent,
     VkMetaValueComponent,
+    VkInput,
   ],
   imports: [
     BrowserModule,

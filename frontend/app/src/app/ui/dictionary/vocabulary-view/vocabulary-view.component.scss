@@ -2,30 +2,6 @@
 @import "src/styles/blocks";
 @import "src/styles/fonts";
 
-#outer-container {
-  @include outer-container;
-}
-
-.container {
-  @include rounded-container;
-  @include container-in-outer-container;
-
-  display: flex;
-  flex-direction: column;
-  padding: 30px;
-  gap: 20px;
-}
-
-@media screen and (max-width: 900px) {
-  .container {
-    @include container-in-outer-container-sm;
-  }
-
-  #outer-container {
-    @include outer-container-sm;
-  }
-}
-
 
 #kind {
   font-size: 20px;
@@ -78,27 +54,8 @@
   }
 }
 
-#meta-outer-container {
-  @include meta-outer-container;
-}
-.meta-container {
-  @include meta-container;
-}
-.meta-name {
-  @include meta-name;
-}
-
-#actions-container {
-  @include buttons;
-}
-
 
 /* --- example sentences --- */
-
-.container-header {
-  font-size: 40px;
-  @include font-srf;
-}
 
 #example-sentences-container {
   counter-reset: example-sentences-counter;

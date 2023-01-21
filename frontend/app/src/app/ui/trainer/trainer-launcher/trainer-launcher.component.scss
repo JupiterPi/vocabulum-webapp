@@ -1,37 +1,6 @@
 @import "src/styles/variables";
 @import "src/styles/blocks";
 
-/* ----- container ----- */
-
-#outer-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  gap: 20px;
-}
-
-#container {
-  @include rounded-container;
-  width: 800px;
-
-  display: flex;
-  flex-direction: column;
-  padding: 30px;
-  gap: 30px;
-}
-
-@media screen and (max-width: 900px) {
-  #container {
-    width: auto;
-  }
-
-  #outer-container {
-    align-items: stretch;
-  }
-}
-
-
 /* ----- options ----- */
 
 .options-container {
@@ -64,7 +33,6 @@
 #mode-selection {
   justify-content: space-evenly;
   height: 200px;
-  //max-height: 20vh;
 }
 
 #direction-selection .option {
@@ -131,28 +99,6 @@ mat-tree-node {
   min-height: 40px;
 }
 
-
-/* ----- start button ----- */
-
-#start-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-#start-button {
-  width: 250px;
-  height: 50px;
-  background-color: $clr-background-1;
-  border: $clr-bold-border 1px solid;
-  border-radius: 100vw;
-  font-size: 18px;
-  cursor: pointer;
-}
-#start-button[disabled] {
-  cursor: not-allowed;
-  color: $clr-muted-alt;
-}
 
 /* vkpro-required */
 

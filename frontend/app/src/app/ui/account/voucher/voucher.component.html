@@ -1,11 +1,11 @@
-<div id="outer-container">
-  <div id="container">
+<vk-page size="slim">
+  <vk-section>
 
-    <div id="header">Code einlösen</div>
+    <vk-section-header size="small">Code einlösen</vk-section-header>
 
-    <input type="text" [(ngModel)]="code" placeholder="C0deHi3r" id="code-input" maxlength="8">
+    <input vk-input type="text" [(ngModel)]="code" placeholder="C0deHi3r" maxlength="8">
 
-    <button (click)="useCode()" mat-ripple [disabled]="!codeValid()">Code verwenden</button>
+    <vk-button variant="primary" [disabled]="!codeValid()" (click)="useCode()">Code verwenden</vk-button>
 
     <div *ngIf="success">
       <span style="color: green">Erfolg!</span><br>
@@ -20,5 +20,5 @@
       Hast du bereits Vocabulum Pro?
     </div>
 
-  </div>
-</div>
+  </vk-section>
+</vk-page>

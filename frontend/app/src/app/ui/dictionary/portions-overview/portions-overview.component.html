@@ -1,7 +1,7 @@
-<div id="container">
+<div id="outer-container" class="vk-page">
 
   <div id="search-button-container">
-    <a class="button" routerLink="/search" mat-ripple>Suche</a>
+    <vk-button routerLink="/search">Suche</vk-button>
   </div>
 
   <div class="portion-container" *ngFor="let portion of portions; let i = index">

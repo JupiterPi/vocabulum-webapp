@@ -11,13 +11,27 @@
   @include container-in-outer-container;
 }
 
-@media screen and (max-width: 900px) {
-  .vk-page {
-    @include outer-container-sm;
-  }
+.vk-page-slim .vk-section {
+  @include container-in-outer-container($width: 500px);
+}
 
-  .vk-section {
-    @include container-in-outer-container-sm;
+@media screen and (max-width: 900px) {
+  .vk-page:not(.vk-page-slim) {
+    @include outer-container-sm;
+
+    .vk-section {
+      @include container-in-outer-container-sm;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .vk-page-slim {
+    @include outer-container-sm;
+
+    .vk-section {
+      @include container-in-outer-container-sm;
+    }
   }
 }
 
@@ -63,17 +77,23 @@
 }
 
 .vk-primary-button-container {
-  display: flex;
-  justify-content: center;
+  &:has(.vk-primary-button) {
+    display: flex;
+    justify-content: center;
 
-  .vk-primary-button {
-    @include primary-button;
-    width: 250px;
-    height: 50px;
+    .vk-primary-button {
+      @include primary-button;
+      width: 250px;
+      height: 50px;
 
-    &[disabled] {
-      @include primary-button-disabled;
+      &[disabled] {
+        @include primary-button-disabled;
+      }
     }
+  }
+
+  &:not(:has(.vk-primary-button)) {
+    display: inline-block;
   }
 }
 
@@ -89,4 +109,13 @@
 
 .vk-meta-key {
   @include meta-name;
+}
+
+/* ----- input ----- */
+
+.vk-input {
+  height: 50px;
+  @include rounded-container;
+  padding: 0 20px;
+  font-size: 16px;
 }

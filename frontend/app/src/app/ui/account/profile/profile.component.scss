@@ -2,95 +2,33 @@
 @import "src/styles/blocks";
 @import "src/styles/fonts";
 
-/* layout */
-
-#outer-container {
-  @include outer-container;
-}
-
-.container {
-  @include rounded-container;
-  @include container-in-outer-container;
-}
-
-@media screen and (max-width: 900px) {
-  #outer-container {
-    @include outer-container-sm;
-    padding: 15px;
-    gap: 15px;
-  }
-
-  .container {
-    @include container-in-outer-container-sm;
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .container {
-    padding: 20px;
-  }
-}
-
-/* contents */
-
-.container-header {
-  font-size: 40px;
-  @include font-srf;
-}
-.container-header#greeting {
-  font-size: 60px;
-}
-
-#meta-outer-container {
-  @include meta-outer-container;
-}
-.meta-container {
-  @include meta-container;
-}
-.meta-name {
-  @include meta-name;
-}
-
-.actions-container {
-  @include buttons;
-}
-
 .click-to-show {
   cursor: pointer;
-}
 
-.click-to-show mat-icon {
-  font-size: 16px;
-  color: $clr-muted;
-}
-
-@media screen and (max-width: 450px) {
-  .container-header {
-    font-size: 30px;
-  }
-  .container-header#greeting {
-    font-size: 45px;
+  fa-icon {
+    font-size: 16px;
+    color: $clr-muted;
   }
 }
 
-/* discord-container */
+/* discord */
 
 $clr-discord-primary: #5865F2;
 
-#discord-container {
+#discord-banner {
   border-color: $clr-discord-primary;
   border-width: 2px;
 }
 
-#discord-container p {
+#discord-banner p {
   margin: 0;
   padding: 0;
   line-height: 130%;
 }
 
-/* vkpro-container */
+/* vkpro-banner */
 
-.vkpro-container {
+#vkpro-banner {
   outline: $clr-vkpro solid 3px;
   outline-offset: 4px;
   animation: vkpro-pulse 3s infinite linear;
@@ -110,7 +48,7 @@ $clr-discord-primary: #5865F2;
 
 /* vkpro-required */
 
-.container:has(.vkpro-required-container) {
+vk-section:has(.vkpro-required-container) {
   position: relative;
 }
 
@@ -155,16 +93,6 @@ $clr-discord-primary: #5865F2;
 
 #bottom-actions-container {
   width: 800px;
-
-  .button-red {
-    color: red;
-    border-color: red;
-  }
-
-  .button-black {
-    color: black;
-    border-color: black;
-  }
 }
 
 @media screen and (max-width: 900px) {
