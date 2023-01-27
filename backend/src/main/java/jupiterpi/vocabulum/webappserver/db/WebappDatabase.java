@@ -29,6 +29,7 @@ public class WebappDatabase {
 
     public WebappDatabase() {
         String mongoConnectUrl = new TextFile("mongodb_connect_url-vocabulum_webapp.txt").getLine(0);
+        System.out.println("WebappDatabase: mongoConnectUrl = '" + mongoConnectUrl + "'");
         mongoClient = MongoClients.create(mongoConnectUrl);
         database = mongoClient.getDatabase("vocabulum_webapp");
 

@@ -29,8 +29,8 @@ public class CoreService {
     public I18n i18n;
 
     public CoreService() throws LoadingDataException, ParserException, DeclinedFormDoesNotExistException, I18nException, LexerException, VerbFormDoesNotExistException, ReflectiveOperationException {
-        String connectUrl = new TextFile("mongodb_connect_url-vocabulum_core.txt").getLine(0);
-        System.out.println("connectUrl = " + connectUrl);
+        String connectUrl = new TextFile("mongodb_connect_url-vocabulum_data.txt").getLine(0);
+        System.out.println("CoreService: connectUrl = '" + connectUrl + "'");
         Database.get().connectAndLoad(connectUrl);
         Database.get().prepareWordbase();
         i18n = Database.get().getI18ns().de();
