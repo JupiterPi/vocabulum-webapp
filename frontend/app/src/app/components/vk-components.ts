@@ -18,9 +18,19 @@ export class VkPageComponent {
 
 @Component({
   selector: 'vk-section',
-  template: '<div class="vk-section"><ng-content></ng-content></div>'
+  template: `
+    <div class="vk-section"
+        [class.vk-section-clr-pro]="color == 'pro'"
+        [class.vk-section-clr-discord]="color == 'discord'"
+        [class.vk-section-clr-ai]="color == 'ai'"
+    >
+      <ng-content></ng-content>
+    </div>
+  `
 })
-export class VkSectionComponent {}
+export class VkSectionComponent {
+  @Input() color: "none" | "pro" | "discord" | "ai" = "none";
+}
 
 
 @Component({

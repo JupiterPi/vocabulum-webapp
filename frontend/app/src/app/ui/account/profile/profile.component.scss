@@ -13,13 +13,6 @@
 
 /* discord */
 
-$clr-discord-primary: #5865F2;
-
-#discord-banner {
-  border-color: $clr-discord-primary;
-  border-width: 2px;
-}
-
 #discord-banner p {
   margin: 0;
   padding: 0;
@@ -27,19 +20,6 @@ $clr-discord-primary: #5865F2;
 }
 
 /* vkpro-banner */
-
-#vkpro-banner {
-  outline: $clr-vkpro solid 3px;
-  outline-offset: 4px;
-  animation: vkpro-pulse 3s infinite linear;
-}
-
-@keyframes vkpro-pulse {
-  50% {
-    outline-color: mix($clr-vkpro, white, 40%);
-    /*outline-offset: 5px;*/
-  }
-}
 
 #voucher-link {
   text-decoration: underline;

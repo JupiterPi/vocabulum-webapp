@@ -82,7 +82,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     VouchersPrintableComponent,
     TestTrainerComponent,
     VkPageComponent,
-    TestComponent,
     VkSectionComponent,
     VkSectionHeaderComponent,
     VkButtonsComponent,

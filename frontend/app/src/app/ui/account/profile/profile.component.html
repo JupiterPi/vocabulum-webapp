@@ -31,7 +31,7 @@
 
   </vk-section>
 
-  <div class="vk-section" id="discord-banner">
+  <div class="vk-section vk-section-clr-discord" id="discord-banner">
 
     <vk-section-header>Vocabulum auf Discord</vk-section-header>
 
@@ -74,11 +74,11 @@
 
   </div>
 
-  <div class="vk-section" id="vkpro-banner" *ngIf="!session.hasPro">
+  <vk-section color="pro" *ngIf="!session.hasPro">
     <vk-section-header>Vocabulum Pro</vk-section-header>
     <app-plans></app-plans>
     <a routerLink="/voucher" id="voucher-link">Code einlösen</a>
-  </div>
+  </vk-section>
 
   <vk-section>
     <vk-section-header>Verlauf</vk-section-header>

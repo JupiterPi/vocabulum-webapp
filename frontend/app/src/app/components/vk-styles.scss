@@ -9,6 +9,22 @@
 .vk-section {
   @include rounded-container;
   @include container-in-outer-container;
+
+  &.vk-section-clr-pro {
+    border-color: $clr-vkpro;
+  }
+
+  &.vk-section-clr-discord {
+    border-color: #5865F2;
+  }
+
+  &.vk-section-clr-ai {
+    border-color: #b115da;
+  }
+
+  &.vk-section-clr-pro , &.vk-section-clr-discord , &.vk-section-clr-ai {
+    border-width: 2px;
+  }
 }
 
 .vk-page-slim .vk-section {
