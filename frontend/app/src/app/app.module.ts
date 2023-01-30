@@ -33,7 +33,9 @@ import {
   faDisplay, faEye,
   faPaperPlane,
   faWindowRestore,
-  faFileLines
+  faFileLines,
+  faPlay,
+  faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import {MatTreeModule} from "@angular/material/tree";
 import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vocabulary-selector.component';
@@ -57,6 +59,7 @@ import {
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { AiBlockComponent } from './ui/ai/ai-block/ai-block.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +94,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     VkMetaKeyComponent,
     VkMetaValueComponent,
     VkInput,
+    AiBlockComponent,
   ],
   imports: [
     BrowserModule,
@@ -144,7 +148,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 export class AppModule {
   constructor(fontawesome: FaIconLibrary) {
     fontawesome.addIcons(
-      faBook, faComments, faDisplay, faWindowRestore, faChevronLeft, faPaperPlane, faEye, faFileLines
+      faBook, faComments, faDisplay, faWindowRestore, faChevronLeft, faPaperPlane, faEye, faFileLines, faPlay, faRotateLeft
     );
   }
 }

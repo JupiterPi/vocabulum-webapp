@@ -15,11 +15,11 @@
   }
 
   &.vk-section-clr-discord {
-    border-color: #5865F2;
+    border-color: $clr-discord;
   }
 
   &.vk-section-clr-ai {
-    border-color: #b115da;
+    border-color: $clr-ai;
   }
 
   &.vk-section-clr-pro , &.vk-section-clr-discord , &.vk-section-clr-ai {

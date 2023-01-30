@@ -34,3 +34,4 @@ build/
 
 mongodb_connect_url-vocabulum_data.txt
 mongodb_connect_url-vocabulum_webapp.txt
+openai_api_key.txt

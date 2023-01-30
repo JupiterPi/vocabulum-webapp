@@ -1,0 +1,121 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+@import "src/styles/fonts";
+
+#container {
+  @include rounded-container($border-radius: 10px);
+  background-color: $clr-background-0;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 15px;
+
+  #header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .chip {
+      background-color: $clr-ai-background;
+      border-radius: 100vw;
+      padding: 5px 8px;
+    }
+
+    #header-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      #chip-logo {
+        height: 17px;
+        width: 17px;
+      }
+    }
+
+    #prompt {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      cursor: help;
+    }
+
+    #button-container {
+      flex-grow: 1;
+
+      display: flex;
+      justify-content: flex-end;
+
+      #button {
+        width: 30px;
+        height: 30px;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        transition: background-color 200ms ease;
+        &:not(.loading):hover {
+          background-color: mix($clr-ai, $clr-ai-background, 50%);
+        }
+
+        position: relative;
+        &.loading {
+          cursor: initial;
+          overflow: visible;
+
+          &::after {
+            content: "";
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            animation: spinner 2.5s linear infinite;
+
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            border-radius: 100vw;
+            border: 3px solid $clr-ai;
+            border-left-color: transparent;
+          }
+
+          @keyframes spinner {
+            100% { transform: translate(-50%, -50%) rotate(360deg) }
+          }
+        }
+      }
+    }
+  }
+
+  #result {
+    padding: 0 5px 8px;
+  }
+}
+
+/* responsive */
+
+hr#prompt-sm-separator {
+  border: 1.5px solid $clr-ai;
+  border-radius: 100vw;
+  margin: 0 10px;
+}
+
+#prompt-sm {
+  display: none;
+
+  padding: 0 4px;
+}
+@media screen and (max-width: 450px) {
+  #prompt {
+    display: none;
+  }
+
+  #prompt-sm {
+    display: initial;
+  }
+}

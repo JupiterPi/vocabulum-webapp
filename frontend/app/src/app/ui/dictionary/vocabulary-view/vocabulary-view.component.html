@@ -51,4 +51,16 @@
     </div>
 
   </vk-section>
+
+  <vk-section color="ai">
+
+    <ai-block title="Erklärung der Vokabel" [prompt]="'Erkläre das lateinische Wort ' + vocabulary.base_form"></ai-block>
+
+    <ai-block title="Übersetzungen" [prompt]="'Nenne mir mögliche Übersetzungen des lateinischen Wortes ' + vocabulary.base_form"></ai-block>
+
+    <ai-block title="Beispielsätze" [prompt]="'Nenne mir drei Beispielsätze mit dem lateinischen Wort ' + vocabulary.base_form + ' mit Übersetzung'"></ai-block>
+
+    <ai-block title="Merkhilfe" [prompt]="'Nenne mir eine Merkhilfe für die lateinische Vokabel ' + vocabulary.base_form"></ai-block>
+
+  </vk-section>
 </vk-page>
