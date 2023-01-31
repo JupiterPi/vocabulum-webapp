@@ -1,17 +1,36 @@
-package jupiterpi.vocabulum.webappserver.controller.ai;
+package jupiterpi.vocabulum.webappserver.controller
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.theokanning.openai.OpenAiService
+import com.theokanning.openai.completion.CompletionRequest
+import jupiterpi.tools.files.TextFile
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/ai")
-public class AiController {
-    private AiService aiService = new AiService();
+class AiController {
+    private val aiService = AiService()
 
     @PostMapping("/completion")
-    public String createCompletion(@RequestBody AiCompletionDTO dto) {
-        return aiService.createCompletion(dto.getPrompt());
+    fun createCompletion(@RequestBody dto: AiCompletionDTO) = aiService.createCompletion(dto.prompt)
+}
+
+data class AiCompletionDTO(
+    val prompt: String,
+)
+
+class AiService {
+    private val openaiApiKey = TextFile("openai_api_key.txt").getLine(0)
+    private val openAiService: OpenAiService = OpenAiService(openaiApiKey)
+
+    fun createCompletion(prompt: String): String {
+        val completionRequest = CompletionRequest.builder()
+            .prompt(prompt)
+            .model("text-davinci-003")
+            .maxTokens(128)
+            .build()
+        return openAiService.createCompletion(completionRequest).choices[0].text.trim()
     }
 }

@@ -1,37 +1,38 @@
-package jupiterpi.vocabulum.webappserver.testtrainer;
+package jupiterpi.vocabulum.webappserver.testtrainer
 
-import jupiterpi.vocabulum.core.sessions.selection.PortionBasedVocabularySelection;
-import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
-import jupiterpi.vocabulum.webappserver.sessions.Direction;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.ByteArrayOutputStream;
+import jupiterpi.vocabulum.core.sessions.selection.PortionBasedVocabularySelection
+import jupiterpi.vocabulum.webappserver.sessions.Direction
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 @RestController
 @RequestMapping("/api/testtrainer")
-public class TestTrainerController {
-    private TestTrainer testTrainer = new TestTrainer();
+class TestTrainerController {
+    private val testTrainer = TestTrainer()
 
     @GetMapping("/vocabulariesAmount/{selectionStr}")
-    public int vocabulariesAmount(@PathVariable String selectionStr) {
-        VocabularySelection selection = PortionBasedVocabularySelection.fromString(selectionStr);
-        return selection.getVocabularies().size();
-    }
+    fun vocabulariesAmount(@PathVariable selectionStr: String) = PortionBasedVocabularySelection.fromString(selectionStr).vocabularies.size
 
     @GetMapping("/test")
-    public ResponseEntity<byte[]> getTestDocument(@RequestParam("direction") String directionStr, @RequestParam("selection") String selectionStr, @RequestParam("amount") int vocabulariesAmount) {
-        Direction direction = Direction.valueOf(directionStr.toUpperCase());
-        VocabularySelection selection = PortionBasedVocabularySelection.fromString(selectionStr);
+    fun getTestDocument(
+        @RequestParam("direction") directionStr: String,
+        @RequestParam("selection") selectionStr: String,
+        @RequestParam("amount") vocabulariesAmount: Int,
+    ): ResponseEntity<ByteArray> {
+        val direction = Direction.valueOf(directionStr.uppercase())
+        val selection = PortionBasedVocabularySelection.fromString(selectionStr)
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        testTrainer.createTest(direction, selection, selectionStr, vocabulariesAmount, stream);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        return new ResponseEntity<>(stream.toByteArray(), headers, HttpStatus.OK);
+        val stream = ByteArrayOutputStream()
+        testTrainer.createTest(direction, selection, selectionStr, vocabulariesAmount, stream)
+        return ResponseEntity(
+            stream.toByteArray(),
+            HttpHeaders().apply { contentType = MediaType.APPLICATION_PDF },
+            HttpStatus.OK
+        )
     }
-
 }

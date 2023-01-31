@@ -1,55 +1,41 @@
-package jupiterpi.vocabulum.webappserver.sessions.cards;
+package jupiterpi.vocabulum.webappserver.sessions.cards
 
-import jupiterpi.vocabulum.core.sessions.Session;
-import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
-import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
-import jupiterpi.vocabulum.webappserver.sessions.Direction;
-import jupiterpi.vocabulum.webappserver.sessions.WebappSession;
+import jupiterpi.vocabulum.core.sessions.Session
+import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection
+import jupiterpi.vocabulum.core.vocabularies.Vocabulary
+import jupiterpi.vocabulum.webappserver.sessions.Direction
+import jupiterpi.vocabulum.webappserver.sessions.WebappSession
 
-import java.util.List;
-import java.util.Map;
+class CardsSession(
+    val direction: Direction,
+    selection: VocabularySelection,
+    private val onComplete: Runnable,
+) : WebappSession {
+    private val session = Session(selection)
 
-public class CardsSession implements WebappSession {
-    private Session session;
-    private Direction direction;
-
-    private Runnable onComplete;
-
-    public CardsSession(Direction direction, VocabularySelection selection, Runnable onComplete) throws Session.SessionLifecycleException {
-        session = new Session(selection);
-        this.direction = direction;
-        this.onComplete = onComplete;
-
-        session.start();
-        setNextRound();
+    init {
+        session.start()
+        setNextRound()
     }
 
-    public Direction getDirection() {
-        return direction;
+    lateinit var nextRound: List<Vocabulary>
+        private set
+
+    private fun setNextRound() {
+        nextRound = session.currentVocabularies
     }
 
-    private List<Vocabulary> nextRound;
-    private void setNextRound() throws Session.SessionLifecycleException {
-        nextRound = session.getCurrentVocabularies();
-    }
+    fun submitFeedback(feedback: Map<Vocabulary, Session.Feedback>): Session.Result
+    = session.apply { provideFeedback(feedback) }.result
 
-    public List<Vocabulary> getNextRound() {
-        return nextRound;
-    }
-
-    public Session.Result submitFeedback(Map<Vocabulary, Session.Feedback> feedback) throws Session.SessionLifecycleException {
-        session.provideFeedback(feedback);
-        return session.getResult();
-    }
-
-    public void submitFinish(boolean repeat) throws Session.SessionLifecycleException {
+    fun submitFinish(repeat: Boolean) {
         if (repeat) {
-            if (session.isDone()) {
-                session.restart();
+            if (session.isDone) {
+                session.restart()
             }
-            setNextRound();
+            setNextRound()
         } else {
-            onComplete.run();
+            onComplete.run()
         }
     }
 }

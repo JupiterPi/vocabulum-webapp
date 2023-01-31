@@ -1,66 +1,79 @@
-package jupiterpi.vocabulum.webappserver.auth.user;
+package jupiterpi.vocabulum.webappserver.auth
 
-import jupiterpi.vocabulum.core.db.Database;
-import jupiterpi.vocabulum.core.users.User;
-import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider;
-import jupiterpi.vocabulum.webappserver.auth.discord.DiscordUsernameDTO;
-import jupiterpi.vocabulum.webappserver.auth.dtos.UserDetailsDTO;
-import jupiterpi.vocabulum.webappserver.auth.registration.RegistrationDTO;
-import jupiterpi.vocabulum.webappserver.db.WebappDatabase;
-import jupiterpi.vocabulum.webappserver.db.histories.History;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
+import jupiterpi.vocabulum.core.db.Database
+import jupiterpi.vocabulum.core.sessions.selection.VocabularySelections
+import jupiterpi.vocabulum.webappserver.db.HistoryItem
+import jupiterpi.vocabulum.webappserver.db.WebappDatabase
+import jupiterpi.vocabulum.webappserver.sessions.Direction
+import jupiterpi.vocabulum.webappserver.sessions.Mode
+import org.springframework.web.bind.annotation.*
+import java.security.Principal
+import java.util.*
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
-    /* user details*/
+class UserController {
+
+    /* user details */
 
     @GetMapping("")
-    public UserDetailsDTO getUserDetails(Principal principal) {
-        User user = DbAuthenticationProvider.getUser(principal);
-        return UserDetailsDTO.fromUser(user);
-    }
+    fun getUserDetails(principal: Principal): UserDetailsDTO = UserDetailsDTO(DbAuthenticationProvider.getUser(principal))
 
     @PutMapping("/username")
-    public UserDetailsDTO changeUsername(Principal principal, @RequestBody RegistrationDTO dto) {
-        User user = DbAuthenticationProvider.getUser(principal);
-        if (!user.getName().equals(dto.getUsername())) {
-            boolean usernameTaken = Database.get().getUsers().getAll().stream().anyMatch(webappUser -> webappUser.getName().equals(dto.getUsername()));
+    fun changeUsername(principal: Principal, @RequestBody dto: RegistrationDTO): UserDetailsDTO {
+        val user = DbAuthenticationProvider.getUser(principal)
+        if (user.name != dto.username) {
+            val usernameTaken = Database.get().users.all.any { it.name == dto.username }
             if (!usernameTaken) {
-                user.setName(dto.getUsername());
-                user.saveEntity();
+                user.name = dto.username
+                user.saveEntity()
             }
         }
-        return UserDetailsDTO.fromUser(user);
+        return UserDetailsDTO(user)
     }
 
     @PutMapping("/password")
-    public void changePassword(Principal principal, @RequestBody RegistrationDTO dto) {
-        User user = DbAuthenticationProvider.getUser(principal);
-        user.setPassword(dto.getPassword());
-        user.saveEntity();
+    fun changePassword(principal: Principal, @RequestBody dto: RegistrationDTO): UserDetailsDTO {
+        DbAuthenticationProvider.getUser(principal).let {
+            it.password = dto.password
+            it.saveEntity()
+            return UserDetailsDTO(it)
+        }
     }
 
     @PutMapping("/discordUsername")
-    public UserDetailsDTO changeDiscordUsername(Principal principal, @RequestBody DiscordUsernameDTO dto) {
-        User user = DbAuthenticationProvider.getUser(principal);
-        user.setDiscordUsername(dto.getDiscordUsername());
-        user.saveEntity();
-        return UserDetailsDTO.fromUser(user);
+    fun changeDiscordUsername(principal: Principal, @RequestBody dto: DiscordUsernameDTO): UserDetailsDTO {
+        DbAuthenticationProvider.getUser(principal).let {
+            it.discordUsername = dto.discordUsername
+            it.saveEntity()
+            return UserDetailsDTO(it)
+        }
     }
+
+    data class DiscordUsernameDTO(
+        val discordUsername: String,
+    )
 
     /* history */
 
     @GetMapping("/history")
-    public List<HistoryItemDTO> getHistory(Principal principal) {
-        User user = DbAuthenticationProvider.getUser(principal);
-        History history = WebappDatabase.get().getHistories().getHistoryOrCreate(user);
-        return history.getHistoryItems().stream()
-                .map(historyItem -> HistoryItemDTO.fromHistoryItem(historyItem))
-                .collect(Collectors.toList());
+    fun getHistory(principal: Principal): List<HistoryItemDTO> {
+        val user = DbAuthenticationProvider.getUser(principal)
+        return WebappDatabase.Histories.getHistoryOrCreate(user)
+            .historyItems.map { HistoryItemDTO(it) }
+    }
+
+    data class HistoryItemDTO(
+        val time: Date,
+        val mode: Mode,
+        val direction: Direction,
+        val selection: String,
+    ) {
+        constructor(historyItem: HistoryItem) : this(
+            historyItem.time,
+            historyItem.sessionConfiguration.mode,
+            historyItem.sessionConfiguration.direction,
+            VocabularySelections.getPortionBasedString(historyItem.sessionConfiguration.selection)
+        )
     }
 }

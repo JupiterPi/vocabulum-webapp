@@ -1,68 +1,93 @@
-package jupiterpi.vocabulum.webappserver.sessions.cards;
+package jupiterpi.vocabulum.webappserver.sessions.cards
 
-import jupiterpi.vocabulum.core.sessions.Session;
-import jupiterpi.vocabulum.core.users.User;
-import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
-import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider;
-import jupiterpi.vocabulum.webappserver.controller.CoreService;
-import jupiterpi.vocabulum.webappserver.sessions.Mode;
-import jupiterpi.vocabulum.webappserver.sessions.SessionOptionsDTO;
-import jupiterpi.vocabulum.webappserver.sessions.SessionService;
-import jupiterpi.vocabulum.webappserver.sessions.SessionConfiguration;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
+import jupiterpi.vocabulum.core.sessions.Session
+import jupiterpi.vocabulum.core.sessions.Session.Feedback
+import jupiterpi.vocabulum.core.users.User
+import jupiterpi.vocabulum.core.vocabularies.Vocabulary
+import jupiterpi.vocabulum.webappserver.CoreService
+import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider
+import jupiterpi.vocabulum.webappserver.sessions.*
+import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/session/cards")
-public class CardsSessionController {
-    public CardsSessionController() {
-        CoreService.get();
-    }
+class CardsSessionController {
+    private val sessions: SessionService = SessionService()
 
-    private SessionService sessions = new SessionService();
-    private CardsSession getSession(String id) {
-        return (CardsSession) sessions.getSession(id);
-    }
+    private fun getSession(id: String) = sessions.getSession(id) as CardsSession
 
     @PostMapping("/create")
-    public String createSession(Principal principal, @RequestBody SessionOptionsDTO options) throws Session.SessionLifecycleException {
-        User user = DbAuthenticationProvider.getUser(principal);
-        SessionConfiguration sessionConfiguration = SessionConfiguration.fromDTO(Mode.CARDS, options);
-        return sessions.createSession(user, sessionConfiguration);
+    fun createSession(principal: Principal, @RequestBody options: SessionConfiguration.SessionOptionsDTO): String {
+        val user: User = DbAuthenticationProvider.getUser(principal)
+        val sessionConfiguration = SessionConfiguration(Mode.CARDS, options)
+        return sessions.createSession(user, sessionConfiguration)
     }
 
     @GetMapping("/{sessionId}/nextRound")
-    public List<CardsVocabularyDTO> getNextRound(@PathVariable String sessionId) {
-        CardsSession session = getSession(sessionId);
-        return session.getNextRound().stream()
-                .map(vocabulary -> CardsVocabularyDTO.fromVocabulary(session.getDirection().resolveRandom(), vocabulary))
-                .collect(Collectors.toList());
+    fun getNextRound(@PathVariable sessionId: String): List<CardsVocabularyDTO> {
+        val session = getSession(sessionId)
+        return session.nextRound.map { CardsVocabularyDTO(session.direction.resolveRandom(), it) }
+    }
+    data class CardsVocabularyDTO(
+        val base_form: String,
+        val direction: Direction.ResolvedDirection,
+        val latin: String,
+        val german: String,
+    ) {
+        constructor(direction: Direction.ResolvedDirection, vocabulary: Vocabulary) : this(
+            vocabulary.baseForm, 
+            direction,
+            vocabulary.getDefinition(CoreService.i18n),
+            vocabulary.translations.map { it.translation }.joinToString(),
+        )
     }
 
     @PostMapping("/{sessionId}/feedback")
-    public ResultDTO submitSentiment(@PathVariable String sessionId, @RequestBody List<FeedbackDTO> feedbackDtos) throws Session.SessionLifecycleException {
-        CardsSession session = getSession(sessionId);
-        List<Vocabulary> vocabularies = session.getNextRound();
-        Map<Vocabulary, Session.Feedback> feedback = new HashMap<>();
-        for (FeedbackDTO dto : feedbackDtos) {
-            Vocabulary vocabulary = vocabularies.stream()
-                    .filter(v -> v.getBaseForm().equals(dto.getVocabulary()))
-                    .findFirst().get();
-            FeedbackDTO.Sentiment sentiment = dto.getSentiment();
-            boolean passed = sentiment != FeedbackDTO.Sentiment.BAD;
-            feedback.put(vocabulary, new Session.Feedback(passed));
+    fun submitSentiment(@PathVariable sessionId: String, @RequestBody feedbackDTOs: List<FeedbackDTO>): ResultDTO {
+        val session = getSession(sessionId)
+        val vocabularies = session.nextRound
+        val feedback = mutableMapOf<Vocabulary, Feedback>()
+        feedbackDTOs.forEach { dto ->
+            val vocabulary = vocabularies.first { it.baseForm == dto.vocabulary }
+            val passed = dto.sentiment != FeedbackDTO.Sentiment.BAD
+            feedback[vocabulary] = Feedback(passed)
         }
-        Session.Result result = session.submitFeedback(feedback);
-        return ResultDTO.fromResult(result);
+        return ResultDTO(session.submitFeedback(feedback))
+    }
+    data class FeedbackDTO(
+        val vocabulary: String,
+        val sentiment: Sentiment,
+    ) {
+        enum class Sentiment {
+            GOOD, PASSABLE, BAD;
+
+            @JsonValue
+            fun getCode() = toString().lowercase()
+
+            companion object {
+                @JsonCreator
+                fun decode(value: String) = valueOf(value.uppercase())
+            }
+        }
+    }
+    data class ResultDTO(
+        val score: Float,
+        val isDone: Boolean,
+    ) {
+        constructor(result: Session.Result) : this(
+            result.score,
+            result.isDone,
+        )
     }
 
     @PostMapping("/{sessionId}/finish")
-    public void submitFinishType(@PathVariable String sessionId, @RequestBody FinishTypeDTO finishType) throws Session.SessionLifecycleException {
-        getSession(sessionId).submitFinish(finishType.isRepeat());
+    fun submitFinishType(@PathVariable sessionId: String, @RequestBody finishType: FinishTypeDTO) {
+        getSession(sessionId).submitFinish(finishType.repeat)
     }
+    data class FinishTypeDTO(
+        val repeat: Boolean,
+    )
 }

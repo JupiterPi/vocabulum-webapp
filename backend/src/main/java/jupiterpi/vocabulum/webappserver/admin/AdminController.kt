@@ -1,126 +1,72 @@
-package jupiterpi.vocabulum.webappserver.admin;
+package jupiterpi.vocabulum.webappserver.admin
 
-import jupiterpi.vocabulum.core.db.Database;
-import jupiterpi.vocabulum.webappserver.auth.AuthController;
-import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider;
-import jupiterpi.vocabulum.webappserver.auth.registration.Registration;
-import jupiterpi.vocabulum.webappserver.db.WebappDatabase;
-import jupiterpi.vocabulum.webappserver.db.vouchers.Voucher;
-import jupiterpi.vocabulum.webappserver.db.vouchers.Vouchers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import jupiterpi.vocabulum.core.db.Database
+import jupiterpi.vocabulum.webappserver.auth.AuthController
+import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider
+import jupiterpi.vocabulum.webappserver.db.WebappDatabase
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.*
+import java.security.Principal
+import java.util.*
 
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
-
+class AdminController {
     @Autowired
-    AuthController authController;
+    lateinit var authController: AuthController
 
-    private boolean unauthorized(Principal principal) {
-        return principal == null || !DbAuthenticationProvider.getUser(principal).isAdmin();
+    private fun unauthorized(principal: Principal?): Boolean {
+        return principal == null || !DbAuthenticationProvider.getUser(principal).isAdmin
     }
 
     @GetMapping("/pendingRegistrations")
-    public List<String> getPendingRegistrations(Principal principal) {
-        if (unauthorized(principal)) return null;
-
-        Map<String, Registration> registrations = authController.pendingRegistrations.getRegistrations();
-        if (registrations.size() == 0) return List.of("<No pending registrations>");
-        List<String> registrationsStr = new ArrayList<>();
-        registrations.forEach((id, registration) -> {
-            registrationsStr.add(id + " " + (registration.isExpired() ? "expired" : "expiring") + " " + registration.getExpiration().toString());
-        });
-        return registrationsStr;
+    fun getPendingRegistrations(principal: Principal?): List<String>? {
+        if (unauthorized(principal)) return null
+        val registrations = authController.pendingRegistrations.registrations
+        if (registrations.isEmpty()) return listOf("<No pending registrations>")
+        return registrations.map { (id, registration) ->
+            id + " " + (if (registration.isExpired) "expired" else "expiring") + " " + registration.expiration.toString()
+        }
     }
 
     @PostMapping("/reloadUsers")
-    public void reloadUsers(Principal principal) {
-        if (unauthorized(principal)) return;
-
-        Database.get().getUsers().load();
+    fun reloadUsers(principal: Principal?) {
+        if (unauthorized(principal)) return
+        Database.get().users.load()
     }
 
     @PostMapping("/reloadHistories")
-    public void reloadHistories(Principal principal) {
-        if (unauthorized(principal)) return;
-
-        WebappDatabase.get().getHistories().load();
+    fun reloadHistories(principal: Principal?) {
+        if (unauthorized(principal)) return
+        WebappDatabase.Histories.load()
     }
 
     @GetMapping("/vouchers")
-    public List<String> getVouchers(Principal principal) {
-        if (unauthorized(principal)) return null;
-
-        List<String> vouchersStr = new ArrayList<>();
-        List<Voucher> vouchers = WebappDatabase.get().getVouchers().getAll();
-        if (vouchers.size() == 0) return List.of("<No vouchers>");
-        for (Voucher voucher : vouchers) {
-            String expirationStr = (voucher.isExpired() ? "expired" : "expiring") + " " + voucher.getExpiration().toString();
-
-            boolean used = !voucher.getUsedBy().isEmpty();
-            String usedStr = (used ? "used by " + voucher.getUsedBy() + " at " + voucher.getUsedAt() : "not used");
-
-            vouchersStr.add(voucher.getCode() + " ;; " + expirationStr + " ;; " + usedStr + " ;; " + voucher.getNote());
+    fun getVouchers(principal: Principal?): List<String>? {
+        if (unauthorized(principal)) return null
+        val vouchers = WebappDatabase.Vouchers.getAll()
+        if (vouchers.isEmpty()) return listOf("<No vouchers>")
+        return vouchers.map {
+            val expirationStr = (if (it.isExpired) "expired" else "expiring") + " " + it.expiration.toString()
+            val usedStr = if (it.usedBy.isNotEmpty()) "used by " + it.usedBy + " at " + it.usedAt else "not used"
+            it.code + " ;; " + expirationStr + " ;; " + usedStr + " ;; " + it.note
         }
-        return vouchersStr;
     }
 
     @PostMapping("/vouchers")
-    public List<String> createVouchers(Principal principal, @RequestBody CreateVouchersDTO dto) {
-        if (unauthorized(principal)) return null;
-
-        if (dto.getExpiration() == null) return null;
-        return WebappDatabase.get().getVouchers().createVouchers(dto.getExpiration(), dto.getAmount(), dto.getNote()).stream()
-                .map(voucher -> voucher.getCode())
-                .collect(Collectors.toList());
+    fun createVouchers(principal: Principal?, @RequestBody dto: CreateVouchersDTO): List<String>? {
+        if (unauthorized(principal)) return null
+        return WebappDatabase.Vouchers.createVouchers(dto.expiration, dto.amount, dto.note).map { it.code }
     }
-    static class CreateVouchersDTO {
-        private Date expiration;
-        private int amount;
-        private String note;
-
-        public CreateVouchersDTO() {}
-        public CreateVouchersDTO(Date expiration, int amount, String note) {
-            this.expiration = expiration;
-            this.amount = amount;
-            this.note = note;
-        }
-
-        public Date getExpiration() {
-            return expiration;
-        }
-
-        public int getAmount() {
-            return amount;
-        }
-
-        public String getNote() {
-            return note;
-        }
-
-        @Override
-        public String toString() {
-            return "CreateVouchersDTO{" +
-                    "expiration=" + expiration +
-                    ", amount=" + amount +
-                    ", note='" + note + '\'' +
-                    '}';
-        }
-    }
+    data class CreateVouchersDTO(
+        val expiration: Date,
+        val amount: Int,
+        val note: String,
+    )
 
     @PostMapping("/reloadVouchers")
-    public void reloadVouchers(Principal principal) {
-        if (unauthorized(principal)) return;
-
-        WebappDatabase.get().getVouchers().load();
+    fun reloadVouchers(principal: Principal?) {
+        if (unauthorized(principal)) return
+        WebappDatabase.Vouchers.load()
     }
-
 }

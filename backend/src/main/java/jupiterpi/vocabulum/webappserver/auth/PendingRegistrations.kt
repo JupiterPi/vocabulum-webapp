@@ -1,46 +1,38 @@
-package jupiterpi.vocabulum.webappserver.auth.registration;
+package jupiterpi.vocabulum.webappserver.auth
 
-import jupiterpi.vocabulum.core.db.Database;
-import jupiterpi.vocabulum.core.users.User;
+import jupiterpi.vocabulum.core.db.Database
+import jupiterpi.vocabulum.core.users.User
+import java.util.*
 
-import javax.xml.crypto.Data;
-import java.util.*;
+class PendingRegistrations {
+    val registrations: MutableMap<String, Registration> = mutableMapOf()
 
-public class PendingRegistrations {
-    private Map<String, Registration> registrations = new HashMap<>();
+    class Registration(
+        val dto: RegistrationDTO,
+        val expiration: Date,
+    ) {
+        val isExpired: Boolean
+            get() = expiration.time <= Date().time
+    }
 
-    private void cleanupRegistrations() {
-        List<String> toRemove = new ArrayList<>();
-        registrations.forEach((id, registration) -> {
-            if (registration.isExpired()) toRemove.add(id);
-        });
-        for (String id : toRemove) {
-            registrations.remove(id);
+    private fun cleanupRegistrations() = registrations.filter { (_, registration) -> registration.isExpired }.forEach { registrations.remove(it.key) }
+
+    fun addPendingRegistration(registration: RegistrationDTO): String {
+        cleanupRegistrations()
+        val id = UUID.randomUUID().toString()
+        registrations[id] = Registration(registration, Calendar.getInstance().apply { add(Calendar.MINUTE, 5) }.time)
+        return id
+    }
+
+    fun confirmRegistration(id: String): User? {
+        cleanupRegistrations()
+        val registration = registrations[id] ?: return null
+        registrations.remove(id)
+        val user = registration.dto.let {
+            User.createUser(it.username, it.email, it.password)
         }
-    }
-
-    public String addPendingRegistration(RegistrationDTO registration) {
-        cleanupRegistrations();
-
-        String id = UUID.randomUUID().toString();
-        registrations.put(id, new Registration(registration, new Date(new Date().getTime() + 1000*60*5)));
-        return id;
-    }
-
-    public Map<String, Registration> getRegistrations() {
-        return registrations;
-    }
-
-    public User confirmRegistration(String id) {
-        cleanupRegistrations();
-
-        Registration registration = registrations.get(id);
-        if (registration == null) return null;
-        registrations.remove(id);
-        RegistrationDTO dto = registration.getDto();
-        User user = User.createUser(dto.getUsername(), dto.getEmail(), dto.getPassword());
-        Database.get().getUsers().addUser(user);
-        Database.get().getUsers().save();
-        return user;
+        Database.get().users.addUser(user)
+        Database.get().users.save()
+        return user
     }
 }

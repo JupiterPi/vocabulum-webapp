@@ -1,50 +1,37 @@
-package jupiterpi.vocabulum.webappserver.auth;
+package jupiterpi.vocabulum.webappserver.auth
 
-import jupiterpi.vocabulum.core.db.Database;
-import jupiterpi.vocabulum.core.users.User;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import jupiterpi.vocabulum.core.db.Database
+import jupiterpi.vocabulum.core.users.User
+import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import java.security.Principal
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+class DbAuthenticationProvider : AuthenticationProvider {
+    override fun authenticate(authentication: Authentication): Authentication {
+        val email = authentication.name
+        val password = authentication.credentials.toString()
 
-public class DbAuthenticationProvider implements AuthenticationProvider {
-    private static final String USER_ROLE = "VK_USER";
-
-    public static User getUser(Principal principal) {
-        if (principal == null) return null;
-        return Database.get().getUsers().getAll().stream()
-                .filter(user -> user.getEmail().equals(principal.getName()))
-                .findFirst().get();
-    }
-
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String email = authentication.getName();
-        String password = authentication.getCredentials().toString();
-
-        Optional<User> authenticatedUser = Database.get().getUsers().getAll().stream().filter(
-                user -> user.getEmail().equals(email) && user.getPassword().equals(password)
-        ).findFirst();
-
-        if (authenticatedUser.isEmpty()){
-            throw new BadCredentialsException("Username or password wrong");
+        if (Database.get().users.all.filter { user: User -> user.email == email && user.password == password }.size != 1) {
+            throw BadCredentialsException("Username or password wrong, or unknown user")
+        } else {
+            return UsernamePasswordAuthenticationToken(email, password, listOf(SimpleGrantedAuthority(USER_ROLE)))
         }
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(USER_ROLE));
-        return new UsernamePasswordAuthenticationToken(email, password, authorities);
     }
 
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return aClass.equals(UsernamePasswordAuthenticationToken.class);
+    override fun supports(aClass: Class<*>): Boolean {
+        return aClass == UsernamePasswordAuthenticationToken::class.java
+    }
+
+    companion object {
+        private const val USER_ROLE = "VK_USER"
+
+        fun getUser(principal: Principal): User = try {
+            Database.get().users.all.first { it.email == principal.name }
+        } catch (e: NoSuchElementException) {
+            throw Exception("could not find user from principal: ${principal.name}")
+        }
     }
 }

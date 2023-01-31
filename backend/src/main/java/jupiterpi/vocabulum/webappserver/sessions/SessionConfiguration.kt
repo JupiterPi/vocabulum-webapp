@@ -1,61 +1,98 @@
-package jupiterpi.vocabulum.webappserver.sessions;
+package jupiterpi.vocabulum.webappserver.sessions
 
-import jupiterpi.vocabulum.core.sessions.selection.PortionBasedVocabularySelection;
-import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
-import jupiterpi.vocabulum.core.sessions.selection.VocabularySelections;
-import org.bson.Document;
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
+import jupiterpi.vocabulum.core.sessions.selection.PortionBasedVocabularySelection
+import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection
+import jupiterpi.vocabulum.core.sessions.selection.VocabularySelections
+import org.bson.Document
+import java.util.*
 
-public class SessionConfiguration {
-    private VocabularySelection selection;
-    private Mode mode;
-    private Direction direction;
+class SessionConfiguration(
+    val selection: VocabularySelection,
+    val mode: Mode,
+    val direction: Direction,
+) {
+    /* SessionOptionsDTO */
 
-    public SessionConfiguration(VocabularySelection selection, Mode mode, Direction direction) {
-        this.selection = selection;
-        this.mode = mode;
-        this.direction = direction;
+    data class SessionOptionsDTO(
+        var direction: Direction,
+        var selection: String,
+    )
+
+    constructor(mode: Mode, dto: SessionOptionsDTO) : this(
+        PortionBasedVocabularySelection.fromString(dto.selection),
+        mode,
+        dto.direction,
+    )
+
+    fun toSessionOptionsDTO()
+    = SessionOptionsDTO(direction, VocabularySelections.getPortionBasedString(selection))
+
+    /* Document */
+
+    constructor(document: Document) : this(
+        PortionBasedVocabularySelection.fromString(document.getString("selection")),
+        Mode.valueOf(document.getString("mode").uppercase(Locale.getDefault())),
+        Direction.valueOf(document.getString("direction").uppercase(Locale.getDefault())),
+    )
+
+    fun toDocument()
+            = Document().apply {
+        this["selection"] = VocabularySelections.getPortionBasedString(selection)
+        this["mode"] = mode.toString().lowercase(Locale.getDefault())
+        this["direction"] = direction.toString().lowercase(Locale.getDefault())
+    }
+}
+
+enum class Mode {
+    CARDS, CHAT;
+
+    @JsonValue
+    fun getCode() = toString().lowercase(Locale.getDefault())
+
+    companion object {
+        @JsonCreator
+        fun decode(value: String) = valueOf(value.uppercase(Locale.getDefault()))
+    }
+}
+
+enum class Direction {
+    LG,  // latin -> german
+    GL,  // german -> latin
+    RAND;
+
+    @JsonValue
+    fun getCode() = toString().lowercase(Locale.getDefault())
+
+    companion object {
+        @JsonCreator
+        fun decode(value: String): Direction {
+            return valueOf(value.uppercase(Locale.getDefault()))
+        }
     }
 
-    /* getters */
-
-    public VocabularySelection getSelection() {
-        return selection;
+    fun resolveRandom(): ResolvedDirection {
+        return if (this == RAND) {
+            if (Math.random() > 0.5) ResolvedDirection.LG else ResolvedDirection.GL
+        } else {
+            when (this) {
+                LG -> ResolvedDirection.LG
+                GL -> ResolvedDirection.GL
+                else -> throw Exception("not reachable")
+            }
+        }
     }
 
-    public Mode getMode() {
-        return mode;
-    }
+    enum class ResolvedDirection {
+        LG, GL;
 
-    public Direction getDirection() {
-        return direction;
-    }
+        @JsonValue
+        fun getCode() = toString().lowercase(Locale.getDefault())
 
-    /* dto */
-
-    public static SessionConfiguration fromDTO(Mode mode, SessionOptionsDTO dto) {
-        VocabularySelection selection = PortionBasedVocabularySelection.fromString(dto.getSelection());
-        return new SessionConfiguration(selection, mode, dto.getDirection());
-    }
-
-    public SessionOptionsDTO toDTO() {
-        return new SessionOptionsDTO(direction, VocabularySelections.getPortionBasedString(selection));
-    }
-
-    /* Documents */
-
-    public static SessionConfiguration fromDocument(Document document) {
-        return new SessionConfiguration(
-                PortionBasedVocabularySelection.fromString(document.getString("selection")),
-                Mode.valueOf(document.getString("mode").toUpperCase()),
-                Direction.valueOf(document.getString("direction").toUpperCase())
-        );
-    }
-
-    public Document toDocument() {
-        Document document = new Document();
-        document.put("selection", VocabularySelections.getPortionBasedString(selection));
-        document.put("mode", mode.toString().toLowerCase());
-        document.put("direction", direction.toString().toLowerCase());
-        return document;
+        companion object {
+            @JsonCreator
+            fun decode(value: String) = valueOf(value.uppercase(Locale.getDefault()))
+        }
     }
 }

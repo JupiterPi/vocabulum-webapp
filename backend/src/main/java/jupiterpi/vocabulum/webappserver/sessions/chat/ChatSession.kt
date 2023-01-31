@@ -1,234 +1,268 @@
-package jupiterpi.vocabulum.webappserver.sessions.chat;
+package jupiterpi.vocabulum.webappserver.sessions.chat
 
-import jupiterpi.vocabulum.core.sessions.Session;
-import jupiterpi.vocabulum.core.sessions.SessionRound;
-import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection;
-import jupiterpi.vocabulum.core.vocabularies.Vocabulary;
-import jupiterpi.vocabulum.core.vocabularies.translations.TranslationSequence;
-import jupiterpi.vocabulum.core.vocabularies.translations.VocabularyTranslation;
-import jupiterpi.vocabulum.core.vocabularies.translations.parts.container.InputMatchedPart;
-import jupiterpi.vocabulum.webappserver.controller.CoreService;
-import jupiterpi.vocabulum.webappserver.sessions.Direction;
-import jupiterpi.vocabulum.webappserver.sessions.WebappSession;
+import jupiterpi.vocabulum.core.sessions.Session
+import jupiterpi.vocabulum.core.sessions.Session.SessionLifecycleException
+import jupiterpi.vocabulum.core.sessions.SessionRound
+import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection
+import jupiterpi.vocabulum.core.vocabularies.Vocabulary
+import jupiterpi.vocabulum.core.vocabularies.translations.TranslationSequence.ValidatedTranslation
+import jupiterpi.vocabulum.webappserver.CoreService
+import jupiterpi.vocabulum.webappserver.sessions.Direction
+import jupiterpi.vocabulum.webappserver.sessions.WebappSession
+import jupiterpi.vocabulum.webappserver.sessions.chat.MessageDTO.ButtonDTO
+import jupiterpi.vocabulum.webappserver.sessions.chat.MessageDTO.MessagePartDTO
+import kotlin.math.floor
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ChatSession implements WebappSession {
-    private Session session;
-    private Direction direction;
-
-    private Runnable onComplete;
-
-    public ChatSession(Direction direction, VocabularySelection selection, Runnable onComplete) {
-        session = new Session(selection);
-        this.direction = direction;
-        this.onComplete = onComplete;
-    }
+class ChatSession(
+    private val direction: Direction,
+    selection: VocabularySelection,
+    private val onComplete: Runnable,
+) : WebappSession {
+    private val session = Session(selection)
 
     //TODO implement richer texts
-
-    public List<MessageDTO> start(boolean isRestart) {
+    fun start(isRestart: Boolean = false): List<MessageDTO> {
         try {
             if (isRestart) {
-                session.restart();
+                session.restart()
             } else {
-                session.start();
+                session.start()
             }
-            setNextVocabulary();
+            setNextVocabulary()
 
-            List<MessageDTO> messages = new ArrayList<>();
-            if (!isRestart) messages.addAll(List.of(
-                    MessageDTO.fromMessage("Hi, willkommen zu deiner Abfrage!"),
-                    MessageDTO.fromMessage(switch (direction) {
-                        case LG -> "Ich sage dir immer das lateinische Wort und du schreibst die deutschen Bedeutungen zurück.";
-                        case GL -> "Ich sage dir immer die deutsche Bedeutung, und du schreibst mir die lateinische Vokabel zurück.";
-                        case RAND -> "Ich sage dir manchmal die deutsche Bedeutung und manchmal die latinische Vokabel, und du schreibst mir das jeweils andere zurück.";
-                    }),
-                    MessageDTO.fromMessage("Alles klar? Los geht's!")
-            ));
+            val messages = mutableListOf<MessageDTO>()
+            if (!isRestart) messages.addAll(listOf(
+                MessageDTO.fromMessage("Hi, willkommen zu deiner Abfrage!"),
+                MessageDTO.fromMessage(
+                    when (direction) {
+                        Direction.LG -> "Ich sage dir immer das lateinische Wort und du schreibst die deutschen Bedeutungen zurück."
+                        Direction.GL -> "Ich sage dir immer die deutsche Bedeutung, und du schreibst mir die lateinische Vokabel zurück."
+                        Direction.RAND -> "Ich sage dir manchmal die deutsche Bedeutung und manchmal die latinische Vokabel, und du schreibst mir das jeweils andere zurück."
+                    }
+                ),
+                MessageDTO.fromMessage("Alles klar? Los geht's!")
+            ))
 
-            List<MessageDTO.MessagePartDTO> messageParts = new ArrayList<>();
-            messageParts.add(new MessageDTO.MessagePartDTO("Die erste Vokabel: "));
-            messageParts.addAll(getQuestionMessage());
-            messages.add(new MessageDTO(messageParts, false, false, List.of(), false));
+            val messageParts = mutableListOf<MessagePartDTO>()
+            messageParts.add(MessagePartDTO("Die erste Vokabel: "))
+            messageParts.addAll(getQuestionMessage())
+            messages.add(MessageDTO(messageParts, forceNewBlock = false, hasButtons = false, listOf(), false))
 
-            return messages;
-        } catch (Session.SessionLifecycleException e) {
-            return errorMessage(e);
+            return messages
+        } catch (e: SessionLifecycleException) {
+            return errorMessage(e)
         }
     }
 
-    private SessionRound round;
-    private Vocabulary currentVocabulary;
-    private Direction.ResolvedDirection currentDirection;
+    private var round: SessionRound? = null
+    private lateinit var currentVocabulary: Vocabulary
+    private lateinit var currentDirection: Direction.ResolvedDirection
 
-    private void setNextVocabulary() throws Session.SessionLifecycleException {
-        if (round == null) round = new SessionRound(session.getCurrentVocabularies());
-        currentVocabulary = round.getNextVocabulary();
-        currentDirection = direction.resolveRandom();
+    private fun setNextVocabulary() {
+        if (round == null) round = SessionRound(session.currentVocabularies)
+        currentVocabulary = round!!.nextVocabulary
+        currentDirection = direction.resolveRandom()
     }
-    private List<MessageDTO.MessagePartDTO> getQuestionMessage() {
-        switch (currentDirection) {
-            case LG -> {
-                return List.of(new MessageDTO.MessagePartDTO(currentVocabulary.getBaseForm(), true, "default"));
-            }
-            case GL -> {
-                List<MessageDTO.MessagePartDTO> messageParts = new ArrayList<>();
-                for (VocabularyTranslation translation : currentVocabulary.getTranslations()) {
-                    messageParts.add(new MessageDTO.MessagePartDTO(", ", false, "default"));
-                    messageParts.add(new MessageDTO.MessagePartDTO(translation.getTranslation(), translation.isImportant(), "default"));
-                }
-                messageParts = messageParts.subList(1, messageParts.size());
-                return messageParts;
-            }
+
+    private fun getQuestionMessage(): List<MessagePartDTO>
+    = when (currentDirection) {
+        Direction.ResolvedDirection.LG -> {
+            listOf(MessagePartDTO(currentVocabulary.baseForm, true, "default"))
         }
-        return null;
+
+        Direction.ResolvedDirection.GL -> {
+            val messageParts = mutableListOf<MessagePartDTO>()
+            currentVocabulary.translations.forEach {
+                messageParts.add(MessagePartDTO(", ", false, "default"))
+                messageParts.add(MessagePartDTO(it.translation, it.isImportant, "default"))
+            }
+            messageParts.apply { removeLast() }
+        }
     }
 
-    public List<MessageDTO> handleUserInput(String input) {
+    fun handleUserInput(input: String): List<MessageDTO> {
         try {
-            List<MessageDTO> messages = new ArrayList<>();
+            val messages = mutableListOf<MessageDTO>()
 
-            boolean passed;
-            float score;
-            List<MessageDTO> directionSpecificMessages = new ArrayList<>();
-            if (currentDirection == Direction.ResolvedDirection.LG) {
+            val passed: Boolean
+            val score: Float
+            val directionSpecificMessages = mutableListOf<MessageDTO>()
+            when (currentDirection) {
+                Direction.ResolvedDirection.LG -> {
 
-                List<TranslationSequence.ValidatedTranslation> translations = currentVocabulary.getTranslations().validateInput(input);
-                int amountRight = 0;
-                for (TranslationSequence.ValidatedTranslation translation : translations) {
-                    if (translation.isValid()) {
-                        amountRight++;
-                    }
+                    passed = input.trim().equals(currentVocabulary.getDefinition(CoreService.i18n), ignoreCase = true)
+                    score = if (passed) 1f else 0f
+                    directionSpecificMessages.add(
+                        MessageDTO(
+                            listOf(
+                                MessagePartDTO(
+                                    currentVocabulary.getDefinition(CoreService.i18n),
+                                    false,
+                                    if (passed) "green" else "red"
+                                )
+                            ), forceNewBlock = false, hasButtons = false, listOf(), false
+                        )
+                    )
+
                 }
-                score = ((float) amountRight) / ((float) translations.size());
-                passed = score >= 0.5f;
+                Direction.ResolvedDirection.GL -> {
 
-                directionSpecificMessages.add(generateFullLgFeedback(currentVocabulary, translations));
+                    val translations = currentVocabulary.translations.validateInput(input)
+                    var amountRight = 0
+                    translations.forEach {
+                        if (it.isValid) amountRight++
+                    }
+                    score = amountRight.toFloat() / translations.size.toFloat()
+                    passed = score >= 0.5f
+                    directionSpecificMessages.add(generateFullLgFeedback(currentVocabulary, translations))
 
-            } else {
-
-                passed = input.trim().equalsIgnoreCase(currentVocabulary.getDefinition(CoreService.get().i18n));
-                score = passed ? 1f : 0f;
-                directionSpecificMessages.add(new MessageDTO(List.of(
-                        new MessageDTO.MessagePartDTO(currentVocabulary.getDefinition(CoreService.get().i18n), false, passed ? "green" : "red")
-                ), false, false, List.of(), false));
-
+                }
             }
 
-            round.provideFeedback(currentVocabulary, passed);
-            messages.add(MessageDTO.fromMessageParts(false,
-                    new MessageDTO.MessagePartDTO("Das ist "),
-                    (passed
-                            ? (score > 0.75f
-                            ? new MessageDTO.MessagePartDTO("richtig!", true, "green")
-                            : new MessageDTO.MessagePartDTO("ungefähr richtig", true, "orange")
+            round!!.provideFeedback(currentVocabulary, passed)
+            messages.add(
+                MessageDTO.fromMessageParts(
+                    false,
+                    MessagePartDTO("Das ist "),
+                    if (passed) (if (score > 0.75f) MessagePartDTO(
+                        "richtig!",
+                        true,
+                        "green"
+                    ) else MessagePartDTO("ungefähr richtig", true, "orange"))
+                    else MessagePartDTO(
+                        "leider falsch",
+                        true,
+                        "red"
                     )
-                            : new MessageDTO.MessagePartDTO("leider falsch", true, "red")
+                )
+            )
+
+            messages.addAll(directionSpecificMessages)
+
+            if (round!!.isDone) {
+                session.provideFeedback(round!!.feedback)
+                round = null
+                messages.add(generateRoundFeedback(session.result))
+                if (session.isDone) {
+                    messages.add(
+                        MessageDTO.fromMessageParts(
+                            false,
+                            MessagePartDTO("Juhu! Jetzt hast du "),
+                            MessagePartDTO("alle Vokabeln fertig", true, "default"),
+                            MessagePartDTO(". Herzlichen Glückwunsch!")
+                        )
                     )
-            ));
-
-            messages.addAll(directionSpecificMessages);
-
-            if (round.isDone()) {
-                session.provideFeedback(round.getFeedback());
-                round = null;
-
-                messages.add(generateRoundFeedback(session.getResult()));
-                if (session.isDone()) {
-                    messages.add(MessageDTO.fromMessageParts(false,
-                            new MessageDTO.MessagePartDTO("Juhu! Jetzt hast du "),
-                            new MessageDTO.MessagePartDTO("alle Vokabeln fertig", true, "default"),
-                            new MessageDTO.MessagePartDTO(". Herzlichen Glückwunsch!")
-                    ));
-                    messages.add(MessageDTO.fromMessage(
+                    messages.add(
+                        MessageDTO.fromMessage(
                             "Möchtest du die Abfrage beenden, oder alle Vokabeln nochmal wiederholen?"
-                    ));
-                    messages.add(MessageDTO.fromButtons(
-                            new MessageDTO.ButtonDTO("Wiederholen", BUTTON_RESTART),
-                            new MessageDTO.ButtonDTO("Beenden", BUTTON_EXIT)
-                    ));
+                        )
+                    )
+                    messages.add(
+                        MessageDTO.fromButtons(
+                            ButtonDTO("Wiederholen", BUTTON_RESTART),
+                            ButtonDTO("Beenden", BUTTON_EXIT)
+                        )
+                    )
                 } else {
-                    messages.add(MessageDTO.fromMessage(
+                    messages.add(
+                        MessageDTO.fromMessage(
                             "Dann werde ich jetzt die Vokabeln, die du letzte Runde noch falsch hattest, nochmal wiederholen."
-                    ));
+                        )
+                    )
                 }
             }
 
-            if (!session.isDone()) {
-                setNextVocabulary();
-
-                List<MessageDTO.MessagePartDTO> messageParts = new ArrayList<>();
-                messageParts.add(new MessageDTO.MessagePartDTO("Die nächste Vokabel: "));
-                messageParts.addAll(getQuestionMessage());
-                messages.add(new MessageDTO(messageParts, true, false, List.of(), false));
+            if (!session.isDone) {
+                setNextVocabulary()
+                val messageParts = mutableListOf<MessagePartDTO>()
+                messageParts.add(MessagePartDTO("Die nächste Vokabel: "))
+                messageParts.addAll(getQuestionMessage())
+                messages.add(MessageDTO(messageParts, forceNewBlock = true, hasButtons = false, listOf(), false))
             }
 
-            return messages;
-        } catch (Session.SessionLifecycleException e) {
-            return errorMessage(e);
+            return messages
+        } catch (e: SessionLifecycleException) {
+            return errorMessage(e)
         }
     }
 
-    private static final String BUTTON_RESTART = "restart";
-    private static final String BUTTON_EXIT = "exit";
-
-    public List<MessageDTO> handleButtonAction(String action) {
-        if (action.equals(BUTTON_RESTART)) {
-            List<MessageDTO> messages = new ArrayList<>();
-            messages.add(MessageDTO.fromMessageParts(true,
-                    new MessageDTO.MessagePartDTO("Alles klar, ich werde alle Vokabeln noch einmal wiederholen.")));
-            messages.addAll(start(true));
-            messages.add(MessageDTO.clearButtons());
-            return messages;
-        }
-        if (action.equals(BUTTON_EXIT)) {
-            onComplete.run();
-            return List.of(MessageDTO.exit());
-        }
-        return errorMessage(new Exception("Unknown button action: " + action));
+    companion object {
+        private const val BUTTON_RESTART = "restart"
+        private const val BUTTON_EXIT = "exit"
     }
 
-    private MessageDTO generateFullLgFeedback(Vocabulary vocabulary, List<TranslationSequence.ValidatedTranslation> validation) {
-        List<MessageDTO.MessagePartDTO> items = new ArrayList<>();
+    fun handleButtonAction(action: String): List<MessageDTO>
+    = when (action) {
+        BUTTON_RESTART -> {
+            val messages = mutableListOf<MessageDTO>()
+            messages.add(
+                MessageDTO.fromMessageParts(
+                    true,
+                    MessagePartDTO("Alles klar, ich werde alle Vokabeln noch einmal wiederholen.")
+                )
+            )
+            messages.addAll(start(true))
+            messages.add(MessageDTO.clearButtons())
+            messages
+        }
+        BUTTON_EXIT -> {
+            onComplete.run()
+            listOf(MessageDTO.exit())
+        }
+        else -> {
+            errorMessage(Exception("Unknown button action: $action"))
+        }
+    }
 
-        items.add(new MessageDTO.MessagePartDTO(vocabulary.getDefinition(CoreService.get().i18n)));
-        items.add(new MessageDTO.MessagePartDTO(" - "));
+    private fun generateFullLgFeedback(vocabulary: Vocabulary?, validation: List<ValidatedTranslation>): MessageDTO {
+        val items = mutableListOf<MessagePartDTO>()
 
-        for (TranslationSequence.ValidatedTranslation translation : validation) {
-            if (translation.isValid()) {
-                List<InputMatchedPart> inputMatchedParts = translation.getVocabularyTranslation().matchValidInput(translation.getInput());
-                for (InputMatchedPart part : inputMatchedParts) {
-                    if (part.isDecorative()) {
-                        items.add(new MessageDTO.MessagePartDTO(part.getDecorativeString()));
+        items.add(MessagePartDTO(vocabulary!!.getDefinition(CoreService.i18n)))
+        items.add(MessagePartDTO(" - "))
+
+        for (translation in validation) {
+            if (translation.isValid) {
+                val inputMatchedParts = translation.vocabularyTranslation.matchValidInput(translation.input)
+                for (part in inputMatchedParts) {
+                    if (part.isDecorative) {
+                        items.add(MessagePartDTO(part.decorativeString))
                     } else {
-                        items.add(new MessageDTO.MessagePartDTO(part.getTranslationPart().getBasicString(), false, (part.isMatched() ? "green" : "default")));
+                        items.add(
+                            MessagePartDTO(
+                                part.translationPart.basicString,
+                                false,
+                                if (part.isMatched) "green" else "default"
+                            )
+                        )
                     }
                 }
             } else {
-                items.add(new MessageDTO.MessagePartDTO(translation.getVocabularyTranslation().getTranslation(), false, "red"));
+                items.add(MessagePartDTO(translation.vocabularyTranslation.translation, false, "red"))
             }
-            items.add(new MessageDTO.MessagePartDTO(", "));
+            items.add(MessagePartDTO(", "))
         }
-        items.remove(items.size()-1);
+        items.removeAt(items.size - 1)
 
-        return new MessageDTO(items, false, false, List.of(), false);
+        return MessageDTO(items, forceNewBlock = false, hasButtons = false, listOf(), false)
     }
 
-    private MessageDTO generateRoundFeedback(Session.Result result) {
-        String score = Math.floor(result.getScore() * 100) + "%";
-        return MessageDTO.fromMessageParts(false,
-                new MessageDTO.MessagePartDTO("Du hast diese Runde Vokabeln durch, und "),
-                new MessageDTO.MessagePartDTO(score, true, "default"),
-                new MessageDTO.MessagePartDTO(" davon hast du richtig beantwortet.")
-        );
+    private fun generateRoundFeedback(result: Session.Result): MessageDTO {
+        val score = floor((result.score * 100).toDouble()).toString() + "%"
+        return MessageDTO.fromMessageParts(
+            false,
+            MessagePartDTO("Du hast diese Runde Vokabeln durch, und "),
+            MessagePartDTO(score, true, "default"),
+            MessagePartDTO(" davon hast du richtig beantwortet.")
+        )
     }
 
-    private List<MessageDTO> errorMessage(Exception e) {
-        return List.of(MessageDTO.fromMessageParts(true,
-                new MessageDTO.MessagePartDTO("FEHLER! ", false, "red"),
-                new MessageDTO.MessagePartDTO(e.getClass().getSimpleName() + ": " + e.getMessage())
-        ));
+    private fun errorMessage(e: Exception): List<MessageDTO> {
+        return listOf(
+            MessageDTO.fromMessageParts(
+                true,
+                MessagePartDTO("FEHLER! ", false, "red"),
+                MessagePartDTO(e.javaClass.simpleName + ": " + e.message)
+            )
+        )
     }
 }
