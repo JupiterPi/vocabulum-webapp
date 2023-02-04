@@ -87,6 +87,12 @@ export class ProfileComponent {
     }
   }
 
+  clearHistory() {
+    this.users.clearHistory().subscribe(_ => {
+      alert("Bitte lade die Seite neu, um die Aktualisierung zu laden.");
+    });
+  }
+
   logout() {
     this.session.logout();
     this.router.navigate(["login"]);

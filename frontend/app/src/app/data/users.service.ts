@@ -115,4 +115,8 @@ export class UsersService {
   getHistory() {
     return this.http.get<HistoryItemDTO[]>(this.dataService.backendRoot + "/user/history", this.authHeaders);
   }
+
+  clearHistory() {
+    return this.http.delete<HistoryItemDTO>(this.dataService.backendRoot + "/user/history", this.authHeaders);
+  }
 }

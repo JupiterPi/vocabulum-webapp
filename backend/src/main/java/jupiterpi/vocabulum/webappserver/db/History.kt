@@ -18,6 +18,11 @@ class History(
         saveEntity()
     }
 
+    fun clearAndSave() {
+        historyItems.clear()
+        saveEntity()
+    }
+
     /* Entity */
 
     constructor(entityProvider: EntityProvider, documentId: String) : this(
@@ -37,7 +42,7 @@ class History(
     override fun toDocument()
     = Document().apply {
         this["user"] = user
-        this["historyItems"] = historyItems.map { it.toDocument() }
+        this["items"] = historyItems.map { it.toDocument() }
     }
 }
 

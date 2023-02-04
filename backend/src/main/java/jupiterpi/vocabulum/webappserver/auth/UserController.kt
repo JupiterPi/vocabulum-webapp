@@ -76,4 +76,12 @@ class UserController {
             VocabularySelections.getPortionBasedString(historyItem.sessionConfiguration.selection)
         )
     }
+
+    @DeleteMapping("/history")
+    fun clearHistory(principal: Principal): List<HistoryItemDTO> {
+        val user = DbAuthenticationProvider.getUser(principal)
+        val history = WebappDatabase.Histories.getHistoryOrCreate(user)
+        history.clearAndSave()
+        return history.historyItems.map { HistoryItemDTO(it) }
+    }
 }
