@@ -97,7 +97,13 @@
   </vk-section>
 
   <vk-section>
-    <vk-section-header>Verlauf</vk-section-header>
+    <div id="history-header">
+      <vk-section-header>Verlauf</vk-section-header>
+      <vk-button (click)="clearHistory()">Verlauf löschen</vk-button>
+    </div>
+
+    <vk-button id="history-clear-btn-alt" (click)="clearHistory()">Verlauf löschen</vk-button>
+
     <app-history></app-history>
     <div class="vkpro-required-container" *ngIf="!session.hasPro">
       <div class="vkpro-icon">

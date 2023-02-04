@@ -24,6 +24,26 @@ p {
   color: $clr-muted;
 }
 
+/* history */
+
+#history-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#history-clear-btn-alt {
+  display: none;
+}
+@media screen and (max-width: 350px) {
+  #history-header vk-button {
+    display: none;
+  }
+
+  #history-clear-btn-alt {
+    display: initial;
+  }
+}
+
 /* vkpro-required */
 
 vk-section:has(.vkpro-required-container) {
