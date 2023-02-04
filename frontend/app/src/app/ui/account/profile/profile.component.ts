@@ -65,7 +65,7 @@ export class ProfileComponent {
     if (password == null || newPassword == null) return;
 
     if (this.session.user == null) return;
-    this.users.verifyCredentials(this.session.user?.username, password).subscribe(verification => {
+    this.users.verifyCredentials(this.session.user?.email, password).subscribe(verification => {
       if (verification.valid) {
         this.users.changePassword(newPassword).subscribe();
       } else {

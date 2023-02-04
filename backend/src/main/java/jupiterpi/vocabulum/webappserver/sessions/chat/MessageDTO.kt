@@ -5,11 +5,11 @@ class MessageDTO(
     val forceNewBlock: Boolean,
     val hasButtons: Boolean,
     val buttons: List<ButtonDTO>,
-    val isExit: Boolean,
+    val exit: Boolean,
 ) {
     data class MessagePartDTO(
         val message: String,
-        val isBold: Boolean = false,
+        val bold: Boolean = false,
         val color: String = "default",
     )
 

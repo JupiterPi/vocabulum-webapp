@@ -36,7 +36,7 @@ class AuthController {
         val password: String,
     )
     data class CredentialsVerificationDTO(
-        val isValid: Boolean,
+        val valid: Boolean,
         val email: String,
     )
 
@@ -59,9 +59,9 @@ class AuthController {
 }
 
 data class RegistrationDTO(
-    val username: String,
-    val email: String,
-    val password: String,
+    val username: String?,
+    val email: String?,
+    val password: String?,
 )
 
 data class UserDetailsDTO(

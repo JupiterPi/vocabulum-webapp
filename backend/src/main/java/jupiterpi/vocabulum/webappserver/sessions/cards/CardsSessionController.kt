@@ -75,7 +75,7 @@ class CardsSessionController {
     }
     data class ResultDTO(
         val score: Float,
-        val isDone: Boolean,
+        val done: Boolean,
     ) {
         constructor(result: Session.Result) : this(
             result.score,

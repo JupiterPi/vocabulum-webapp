@@ -76,7 +76,7 @@ class ChatSession(
                 messageParts.add(MessagePartDTO(", ", false, "default"))
                 messageParts.add(MessagePartDTO(it.translation, it.isImportant, "default"))
             }
-            messageParts.apply { removeLast() }
+            messageParts.apply { removeFirst() }
         }
     }
 
@@ -89,6 +89,18 @@ class ChatSession(
             val directionSpecificMessages = mutableListOf<MessageDTO>()
             when (currentDirection) {
                 Direction.ResolvedDirection.LG -> {
+
+                    val translations = currentVocabulary.translations.validateInput(input)
+                    var amountRight = 0
+                    translations.forEach {
+                        if (it.isValid) amountRight++
+                    }
+                    score = amountRight.toFloat() / translations.size.toFloat()
+                    passed = score >= 0.5f
+                    directionSpecificMessages.add(generateFullLgFeedback(currentVocabulary, translations))
+
+                }
+                Direction.ResolvedDirection.GL -> {
 
                     passed = input.trim().equals(currentVocabulary.getDefinition(CoreService.i18n), ignoreCase = true)
                     score = if (passed) 1f else 0f
@@ -103,18 +115,6 @@ class ChatSession(
                             ), forceNewBlock = false, hasButtons = false, listOf(), false
                         )
                     )
-
-                }
-                Direction.ResolvedDirection.GL -> {
-
-                    val translations = currentVocabulary.translations.validateInput(input)
-                    var amountRight = 0
-                    translations.forEach {
-                        if (it.isValid) amountRight++
-                    }
-                    score = amountRight.toFloat() / translations.size.toFloat()
-                    passed = score >= 0.5f
-                    directionSpecificMessages.add(generateFullLgFeedback(currentVocabulary, translations))
 
                 }
             }
@@ -241,7 +241,7 @@ class ChatSession(
             }
             items.add(MessagePartDTO(", "))
         }
-        items.removeAt(items.size - 1)
+        items.removeLast()
 
         return MessageDTO(items, forceNewBlock = false, hasButtons = false, listOf(), false)
     }
