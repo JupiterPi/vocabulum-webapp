@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {DataService, Vocabulary} from "./data.service";
+import {DataService} from "./data.service";
+import {SessionService} from "../session.service";
+import {Observable} from "rxjs";
 
 export type Direction = "lg" | "rand" | "gl";
 type SessionOptions = {
@@ -34,18 +36,20 @@ type UserInput = {
   providedIn: 'root'
 })
 export class ChatSessionService {
-  constructor(private http: HttpClient, private dataService: DataService) {}
-
-  authHeaders?: { headers: { Authorization: string } };
+  constructor(private http: HttpClient, private dataService: DataService, private session: SessionService) {}
 
   // POST /create
   createSession(direction: Direction, selection: string) {
     const options: SessionOptions = {
       direction, selection
     };
-    return this.http.post(this.dataService.backendRoot + "/api/session/chat/create", options, {
-      responseType: "text",
-      headers: this.authHeaders?.headers
+    return new Observable<string>(subscriber => {
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.post(this.dataService.backendRoot + "/api/session/chat/create", options, {
+          responseType: "text",
+          headers: authHeaders.headers
+        }).subscribe(subscriber);
+      });
     });
   }
 
@@ -109,18 +113,20 @@ export type Result = {
   providedIn: 'root'
 })
 export class CardsSessionService {
-  constructor(private http: HttpClient, private dataService: DataService) {}
-
-  authHeaders?: { headers: { Authorization: string } };
+  constructor(private http: HttpClient, private dataService: DataService, private session: SessionService) {}
 
   // POST /create
   createSession(direction: Direction, selection: string) {
     const options: SessionOptions = {
       direction, selection
     };
-    return this.http.post(this.dataService.backendRoot + "/api/session/cards/create", options, {
-      responseType: "text",
-      headers: this.authHeaders?.headers
+    return new Observable<string>(subscriber => {
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.post(this.dataService.backendRoot + "/api/session/cards/create", options, {
+          responseType: "text",
+          headers: authHeaders.headers
+        }).subscribe(subscriber);
+      });
     });
   }
 
@@ -150,8 +156,6 @@ export class CardsSessionService {
 })
 export class TestTrainerService {
   constructor(private http: HttpClient, private dataService: DataService) {}
-
-  authHeaders?: { headers: { Authorization: string } };
 
   getVocabulariesAmount(selection: string) {
     return this.http.get(this.dataService.backendRoot + "/api/testtrainer/vocabulariesAmount/" + selection, {

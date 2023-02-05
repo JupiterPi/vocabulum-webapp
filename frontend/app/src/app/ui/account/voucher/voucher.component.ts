@@ -12,15 +12,17 @@ import {UserDetails} from "../../../data/users.service";
 })
 export class VoucherComponent {
   constructor(private data: DataService, private http: HttpClient, private session: SessionService, private route: ActivatedRoute, private router: Router) {
-    if (!this.session.loggedIn) {
-      alert("Melde dich zuerst an!");
-      this.router.navigate(["login"]);
-    } else {
-      if (this.session.user?.isProUser) {
-        alert("Du hast anscheinend schon Pro! Warte, bis dein Abo ausgelaufen ist und versuche es dann erneut.");
-        this.router.navigate(["/"]);
+    this.session.getLoggedIn().subscribe(loggedIn => {
+      if (!loggedIn) {
+        alert("Melde dich zuerst an!");
+        this.router.navigate(["login"]);
+      } else {
+        if (this.session.user?.isProUser) {
+          alert("Du hast anscheinend schon Pro! Warte, bis dein Abo ausgelaufen ist und versuche es dann erneut.");
+          this.router.navigate(["/"]);
+        }
       }
-    }
+    });
 
     this.route.queryParams.subscribe(queryParams => {
       this.code = queryParams["code"] ?? "";
@@ -37,9 +39,11 @@ export class VoucherComponent {
 
   useCode() {
     if (this.codeValid()) {
-      this.http.post<UserDetails>(this.data.backendRoot + "/auth/useVoucher/" + this.code, null, this.session.authHeaders).subscribe(user => {
-        if (user.isProUser) this.success = true;
-        else this.failure = true;
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.post<UserDetails>(this.data.backendRoot + "/auth/useVoucher/" + this.code, null, authHeaders).subscribe(user => {
+          if (user.isProUser) this.success = true;
+          else this.failure = true;
+        });
       });
     }
   }

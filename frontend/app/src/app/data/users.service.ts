@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DataService} from "./data.service";
+import {Observable} from "rxjs";
+import {SessionService} from "../session.service";
 
 export type CredentialsVerification = {
   email: string,
@@ -32,7 +34,7 @@ export type HistoryItem = {
   providedIn: 'root'
 })
 export class UsersService {
-  constructor(private http: HttpClient, private dataService: DataService) {}
+  constructor(private http: HttpClient, private dataService: DataService, private session: SessionService) {}
 
   /*devHistory: HistoryItem[] = [
     {
@@ -80,43 +82,59 @@ export class UsersService {
     });
   }
 
-  authHeaders?: { headers: { Authorization: string } };
-
   // POST /login
-  login(authHeaders: { headers: { Authorization: string } }) {
-    return this.http.post<UserDetails>(this.dataService.backendRoot + "/auth/login", null, authHeaders);
-  }
+  // in session.service.ts
 
   /* user details */
 
   // PUT /username
   changeUsername(newUsername: string) {
-    return this.http.put<UserDetails>(this.dataService.backendRoot + "/user/username", {
-      username: newUsername
-    }, this.authHeaders);
+    return new Observable<UserDetails>(subscriber => {
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.put<UserDetails>(this.dataService.backendRoot + "/user/username", {
+          username: newUsername
+        }, authHeaders).subscribe(subscriber);
+      });
+    });
   }
 
   // PUT /password
   changePassword(newPassword: string) {
-    return this.http.put(this.dataService.backendRoot + "/user/password", {
-      password: newPassword
-    }, this.authHeaders);
+    return new Observable(subscriber => {
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.put(this.dataService.backendRoot + "/user/password", {
+          password: newPassword
+        }, authHeaders).subscribe(subscriber);
+      });
+    });
   }
 
   // PUT /discordUsername
   changeDiscordUsername(newDiscordUsername: string) {
-    return this.http.put<UserDetails>(this.dataService.backendRoot + "/user/discordUsername", {
-      discordUsername: newDiscordUsername
-    }, this.authHeaders);
+    return new Observable<UserDetails>(subscriber => {
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.put<UserDetails>(this.dataService.backendRoot + "/user/discordUsername", {
+          discordUsername: newDiscordUsername
+        }, authHeaders).subscribe(subscriber);
+      });
+    });
   }
 
   /* history */
 
   getHistory() {
-    return this.http.get<HistoryItemDTO[]>(this.dataService.backendRoot + "/user/history", this.authHeaders);
+    return new Observable<HistoryItemDTO[]>(subscriber => {
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.get<HistoryItemDTO[]>(this.dataService.backendRoot + "/user/history", authHeaders).subscribe(subscriber);
+      });
+    });
   }
 
   clearHistory() {
-    return this.http.delete<HistoryItemDTO>(this.dataService.backendRoot + "/user/history", this.authHeaders);
+    return new Observable<HistoryItemDTO>(subscriber => {
+      this.session.getAuthHeaders().subscribe(authHeaders => {
+        this.http.delete<HistoryItemDTO>(this.dataService.backendRoot + "/user/history", authHeaders).subscribe(subscriber);
+      });
+    });
   }
 }

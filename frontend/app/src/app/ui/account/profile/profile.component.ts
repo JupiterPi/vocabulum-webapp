@@ -11,9 +11,11 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class ProfileComponent {
   constructor(public session: SessionService, private router: Router, private users: UsersService, public sanitizer: DomSanitizer) {
-    if (!session.loggedIn) {
-      this.router.navigate(["login"]);
-    }
+    this.session.getLoggedIn().subscribe(loggedIn => {
+      if (!loggedIn) {
+        this.router.navigate(["login"]);
+      }
+    });
   }
 
   obfuscateEmail(email?: string) {

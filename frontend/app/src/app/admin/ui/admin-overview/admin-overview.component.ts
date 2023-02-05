@@ -31,39 +31,51 @@ export class AdminOverviewComponent {
     private http: HttpClient,
     private data: DataService
   ) {
-    if (!this.session.loggedIn) this.router.navigate(["login"]);
-    else {
-      setTimeout(() => {
-        if (!this.session.user?.isAdmin) {
-          alert("You are not an administrator.");
-          this.router.navigate([""]);
-        }
-      }, this.session.user ? 5000 : 0);
-    }
+    this.session.getLoggedIn().subscribe(loggedIn => {
+      if (!loggedIn) this.router.navigate(["login"]);
+      else {
+        setTimeout(() => {
+          if (!this.session.user?.isAdmin) {
+            alert("You are not an administrator.");
+            this.router.navigate([""]);
+          }
+        }, this.session.user ? 5000 : 0);
+      }
+    });
+
+    this.session.getAuthHeaders().subscribe(authHeaders => this.authHeaders = authHeaders);
   }
 
+  authHeaders: any | null = null;
+
   pendingRegistrations = new Interface((done, setValue) => {
-    this.http.get<string[]>(this.data.backendRoot + "/admin/pendingRegistrations", this.session.authHeaders).subscribe(pendingRegistrations => {
-      setValue(pendingRegistrations.join("\n"));
+    this.http.get<string[]>(this.data.backendRoot + "/admin/pendingRegistrations", {
+      observe: "response",
+      headers: this.authHeaders.headers,
+    }).subscribe(pendingRegistrations => {
+      setValue((pendingRegistrations.body ?? []).join("\n"));
       done();
     });
   });
 
   reloadUsers = new Interface((done) => {
-    this.http.post(this.data.backendRoot + "/admin/reloadUsers", null, this.session.authHeaders).subscribe(() => {
+    this.http.post(this.data.backendRoot + "/admin/reloadUsers", null, this.authHeaders).subscribe(() => {
       done();
     });
   });
 
   reloadHistories = new Interface((done) => {
-    this.http.post(this.data.backendRoot + "/admin/reloadHistories", null, this.session.authHeaders).subscribe(() => {
+    this.http.post(this.data.backendRoot + "/admin/reloadHistories", null, this.authHeaders).subscribe(() => {
       done();
     });
   });
 
   vouchers = new Interface((done, setValue) => {
-    this.http.get<string[]>(this.data.backendRoot + "/admin/vouchers", this.session.authHeaders).subscribe(vouchers => {
-      setValue(vouchers.join("\n"));
+    this.http.get<string[]>(this.data.backendRoot + "/admin/vouchers", {
+      observe: "response",
+      headers: this.authHeaders.headers,
+    }).subscribe(vouchers => {
+      setValue((vouchers.body ?? []).join("\n"));
       done();
     });
   });
@@ -77,9 +89,11 @@ export class AdminOverviewComponent {
       expiration: new Date(this.newVoucherExpirationDate + "T" + this.newVoucherExpirationTime).toJSON(),
       amount: this.newVoucherAmount,
       note: this.newVoucherNote
-    }, this.session.authHeaders).subscribe(ids => {
-      console.log(ids);
-      setValue(ids.join("\n"));
+    }, {
+      observe: "response",
+      headers: this.authHeaders.headers
+    }).subscribe(ids => {
+      setValue((ids.body ?? []).join("\n"));
 
       this.newVoucherExpirationDate = null;
       this.newVoucherExpirationTime = "00:00";
@@ -90,7 +104,7 @@ export class AdminOverviewComponent {
   });
 
   reloadVouchers = new Interface((done, setValue) => {
-    this.http.post(this.data.backendRoot + "/admin/reloadVouchers", null, this.session.authHeaders).subscribe(() => {
+    this.http.post(this.data.backendRoot + "/admin/reloadVouchers", null, this.authHeaders).subscribe(() => {
       done();
     });
   });

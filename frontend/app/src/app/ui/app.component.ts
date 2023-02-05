@@ -37,11 +37,13 @@ export class AppComponent {
   }
 
   authClicked() {
-    if (this.session.loggedIn) {
-      this.router.navigate(["my"]);
-    } else {
-      this.router.navigate(["login"]);
-    }
+    this.session.getLoggedIn().subscribe(loggedIn => {
+      if (loggedIn) {
+        this.router.navigate(["my"]);
+      } else {
+        this.router.navigate(["login"]);
+      }
+    });
   }
 
   scrollbarVisible = false;
