@@ -6,7 +6,6 @@ import jupiterpi.vocabulum.core.sessions.SessionRound
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary
 import jupiterpi.vocabulum.core.vocabularies.translations.TranslationSequence.ValidatedTranslation
-import jupiterpi.vocabulum.webappserver.CoreService
 import jupiterpi.vocabulum.webappserver.sessions.Direction
 import jupiterpi.vocabulum.webappserver.sessions.WebappSession
 import jupiterpi.vocabulum.webappserver.sessions.chat.MessageDTO.ButtonDTO
@@ -102,13 +101,13 @@ class ChatSession(
                 }
                 Direction.ResolvedDirection.GL -> {
 
-                    passed = input.trim().equals(currentVocabulary.getDefinition(CoreService.i18n), ignoreCase = true)
+                    passed = input.trim().equals(currentVocabulary.definition, ignoreCase = true)
                     score = if (passed) 1f else 0f
                     directionSpecificMessages.add(
                         MessageDTO(
                             listOf(
                                 MessagePartDTO(
-                                    currentVocabulary.getDefinition(CoreService.i18n),
+                                    currentVocabulary.definition,
                                     false,
                                     if (passed) "green" else "red"
                                 )
@@ -217,7 +216,7 @@ class ChatSession(
     private fun generateFullLgFeedback(vocabulary: Vocabulary?, validation: List<ValidatedTranslation>): MessageDTO {
         val items = mutableListOf<MessagePartDTO>()
 
-        items.add(MessagePartDTO(vocabulary!!.getDefinition(CoreService.i18n)))
+        items.add(MessagePartDTO(vocabulary!!.definition))
         items.add(MessagePartDTO(" - "))
 
         for (translation in validation) {

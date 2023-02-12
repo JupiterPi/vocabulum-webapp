@@ -7,7 +7,6 @@ import com.itextpdf.text.Paragraph
 import com.itextpdf.text.pdf.PdfWriter
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection
 import jupiterpi.vocabulum.core.vocabularies.translations.VocabularyTranslation
-import jupiterpi.vocabulum.webappserver.CoreService
 import jupiterpi.vocabulum.webappserver.sessions.Direction
 import jupiterpi.vocabulum.webappserver.sessions.Direction.ResolvedDirection
 import java.io.OutputStream
@@ -39,8 +38,9 @@ class TestTrainer {
 
         val solutionLines = createHeader(selectionStr, true)
         vocabularies.forEachIndexed { i, vocabulary ->
-            val translationsStr = vocabulary.translations.map { vocabularyTranslation: VocabularyTranslation -> vocabularyTranslation.translation }.joinToString()
-            solutionLines.add("${i+1}. ${vocabulary.getDefinition(CoreService.i18n)} - $translationsStr")
+            val translationsStr =
+                vocabulary.translations.joinToString { vocabularyTranslation: VocabularyTranslation -> vocabularyTranslation.translation }
+            solutionLines.add("${i+1}. ${vocabulary.definition} - $translationsStr")
         }
         pages.add(solutionLines)
 

@@ -6,7 +6,6 @@ import jupiterpi.vocabulum.core.sessions.Session
 import jupiterpi.vocabulum.core.sessions.Session.Feedback
 import jupiterpi.vocabulum.core.users.User
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary
-import jupiterpi.vocabulum.webappserver.CoreService
 import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider
 import jupiterpi.vocabulum.webappserver.sessions.*
 import org.springframework.web.bind.annotation.*
@@ -40,7 +39,7 @@ class CardsSessionController {
         constructor(direction: Direction.ResolvedDirection, vocabulary: Vocabulary) : this(
             vocabulary.baseForm, 
             direction,
-            vocabulary.getDefinition(CoreService.i18n),
+            vocabulary.definition,
             vocabulary.translations.map { it.translation }.joinToString(),
         )
     }

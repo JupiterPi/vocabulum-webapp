@@ -8,6 +8,6 @@ class App
 
 fun main(args: Array<String>) {
     println("++++++++++ Vocabulum App (Server) ++++++++++")
-    println("With CoreService, i18n=${CoreService.i18n}")
+    println("With CoreService: $CoreService")
     runApplication<App>(*args)
 }

@@ -48,7 +48,7 @@ data class PreviewVocabularyDTO(
         vocabulary.translations.map { VocabularyTranslationDTO(it) },
         vocabulary.kind.toString().lowercase(),
         vocabulary.baseForm,
-        vocabulary.getDefinition(CoreService.i18n)
+        vocabulary.definition
     )
 }
 
@@ -66,9 +66,9 @@ data class DetailedVocabularyDTO(
         vocabulary.translations.map { VocabularyTranslationDTO(it) },
         vocabulary.kind.toString().lowercase(),
         vocabulary.baseForm,
-        vocabulary.getDefinition(CoreService.i18n),
+        vocabulary.definition,
         generateMeta(vocabulary),
-        Database.get().lectures.getExampleLines(vocabulary).map { ExampleSentenceDTO(it) }
+        CoreService.getExampleLines(vocabulary).map { ExampleSentenceDTO(it) }
     )
 
     companion object {

@@ -4,12 +4,16 @@ import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
 import jupiterpi.tools.files.TextFile
 import jupiterpi.vocabulum.core.db.Database
-import jupiterpi.vocabulum.core.i18n.I18n
-
+import jupiterpi.vocabulum.core.db.lectures.Lectures.ExampleLine
+import jupiterpi.vocabulum.core.vocabularies.Vocabulary
 import org.slf4j.LoggerFactory
 
 object CoreService {
-    val i18n: I18n
+    private val exampleLines: Map<String, List<ExampleLine>> by lazy {
+        Database.get().lectures.allExampleLines
+    }
+    fun getExampleLines(vocabulary: Vocabulary)
+    = exampleLines.entries.firstOrNull { it.key == vocabulary.baseForm }?.value ?: listOf()
 
     init {
         val loggerContext = LoggerFactory.getILoggerFactory() as LoggerContext
@@ -20,6 +24,5 @@ object CoreService {
         println("CoreService: connectUrl = '$connectUrl'")
         Database.get().connectAndLoad(connectUrl)
         Database.get().prepareWordbase()
-        i18n = Database.get().i18ns.de()
     }
 }

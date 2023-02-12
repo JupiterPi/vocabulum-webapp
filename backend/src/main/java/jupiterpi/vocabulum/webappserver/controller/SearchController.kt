@@ -8,7 +8,6 @@ import jupiterpi.vocabulum.core.vocabularies.declined.adjectives.AdjectiveForm
 import jupiterpi.vocabulum.core.vocabularies.declined.nouns.Noun
 import jupiterpi.vocabulum.core.vocabularies.declined.nouns.NounForm
 import jupiterpi.vocabulum.core.vocabularies.inflexible.Inflexible
-import jupiterpi.vocabulum.webappserver.CoreService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -52,7 +51,7 @@ class SearchController {
                         matchedForm,
                         matchStart,
                         matchEnd,
-                        inForm.formToString(CoreService.i18n),
+                        inForm.formToString(),
                         result.forms.size - 1,
                         PreviewVocabularyDTO(vocabulary)
                     )

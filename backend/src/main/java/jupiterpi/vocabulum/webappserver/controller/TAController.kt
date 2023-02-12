@@ -5,7 +5,6 @@ import jupiterpi.vocabulum.core.ta.result.TAResult.TAResultItem
 import jupiterpi.vocabulum.core.ta.result.TAResultPunctuation
 import jupiterpi.vocabulum.core.ta.result.TAResultWord
 import jupiterpi.vocabulum.core.vocabularies.inflexible.Inflexible
-import jupiterpi.vocabulum.webappserver.CoreService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -47,8 +46,8 @@ data class TAResultItemDTO(
                     TAResultPossibleWordDTO(
                         false,
                         word.vocabulary is Inflexible,
-                        word.getForms(CoreService.i18n),
-                        word.vocabulary.getDefinition(CoreService.i18n),
+                        word.forms,
+                        word.vocabulary.definition,
                         word.translations,
                         word.vocabulary.baseForm
                     )
