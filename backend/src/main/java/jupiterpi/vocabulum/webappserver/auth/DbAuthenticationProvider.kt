@@ -1,7 +1,7 @@
 package jupiterpi.vocabulum.webappserver.auth
 
-import jupiterpi.vocabulum.core.db.Database
-import jupiterpi.vocabulum.core.users.User
+import jupiterpi.vocabulum.webappserver.db.models.User
+import jupiterpi.vocabulum.webappserver.db.models.Users
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -14,7 +14,7 @@ class DbAuthenticationProvider : AuthenticationProvider {
         val email = authentication.name
         val password = authentication.credentials.toString()
 
-        if (Database.get().users.all.filter { user: User -> user.email == email && user.password == password }.size != 1) {
+        if (Users.findByCredentials(email, password) == null) {
             throw BadCredentialsException("Username or password wrong, or unknown user")
         } else {
             return UsernamePasswordAuthenticationToken(email, password, listOf(SimpleGrantedAuthority(USER_ROLE)))
@@ -28,10 +28,8 @@ class DbAuthenticationProvider : AuthenticationProvider {
     companion object {
         private const val USER_ROLE = "VK_USER"
 
-        fun getUser(principal: Principal): User = try {
-            Database.get().users.all.first { it.email == principal.name }
-        } catch (e: NoSuchElementException) {
-            throw Exception("could not find user from principal: ${principal.name}")
-        }
+        fun getUser(principal: Principal): User
+        = Users.findByEmail(principal.name)
+            ?: throw Exception("Could not find user from principal: ${principal.name}")
     }
 }

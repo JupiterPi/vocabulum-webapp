@@ -1,9 +1,9 @@
 package jupiterpi.vocabulum.webappserver.auth
 
-import jupiterpi.vocabulum.core.db.Database
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelections
-import jupiterpi.vocabulum.webappserver.db.HistoryItem
-import jupiterpi.vocabulum.webappserver.db.WebappDatabase
+import jupiterpi.vocabulum.webappserver.db.models.Histories
+import jupiterpi.vocabulum.webappserver.db.models.History
+import jupiterpi.vocabulum.webappserver.db.models.Users
 import jupiterpi.vocabulum.webappserver.sessions.Direction
 import jupiterpi.vocabulum.webappserver.sessions.Mode
 import org.springframework.web.bind.annotation.*
@@ -23,10 +23,10 @@ class UserController {
     fun changeUsername(principal: Principal, @RequestBody dto: RegistrationDTO): UserDetailsDTO {
         val user = DbAuthenticationProvider.getUser(principal)
         if (user.name != dto.username) {
-            val usernameTaken = Database.get().users.all.any { it.name == dto.username }
+            val usernameTaken = Users.findByUsername(dto.username) != null
             if (!usernameTaken) {
                 user.name = dto.username
-                user.saveEntity()
+                user.save()
             }
         }
         return UserDetailsDTO(user)
@@ -36,7 +36,7 @@ class UserController {
     fun changePassword(principal: Principal, @RequestBody dto: RegistrationDTO): UserDetailsDTO {
         DbAuthenticationProvider.getUser(principal).let {
             it.password = dto.password
-            it.saveEntity()
+            it.save()
             return UserDetailsDTO(it)
         }
     }
@@ -45,7 +45,7 @@ class UserController {
     fun changeDiscordUsername(principal: Principal, @RequestBody dto: DiscordUsernameDTO): UserDetailsDTO {
         DbAuthenticationProvider.getUser(principal).let {
             it.discordUsername = dto.discordUsername
-            it.saveEntity()
+            it.save()
             return UserDetailsDTO(it)
         }
     }
@@ -59,8 +59,8 @@ class UserController {
     @GetMapping("/history")
     fun getHistory(principal: Principal): List<HistoryItemDTO> {
         val user = DbAuthenticationProvider.getUser(principal)
-        return WebappDatabase.Histories.getHistoryOrCreate(user)
-            .historyItems.map { HistoryItemDTO(it) }
+        return Histories.findByUser(user.completeKey)
+            .map { HistoryItemDTO(it) }
     }
 
     data class HistoryItemDTO(
@@ -69,19 +69,18 @@ class UserController {
         val direction: Direction,
         val selection: String,
     ) {
-        constructor(historyItem: HistoryItem) : this(
-            historyItem.time,
-            historyItem.sessionConfiguration.mode,
-            historyItem.sessionConfiguration.direction,
-            VocabularySelections.getPortionBasedString(historyItem.sessionConfiguration.selection)
+        constructor(history: History) : this(
+            history.time.toDate(),
+            history.sessionConfiguration.mode,
+            history.sessionConfiguration.direction,
+            VocabularySelections.getPortionBasedString(history.sessionConfiguration.selection)
         )
     }
 
     @DeleteMapping("/history")
     fun clearHistory(principal: Principal): List<HistoryItemDTO> {
         val user = DbAuthenticationProvider.getUser(principal)
-        val history = WebappDatabase.Histories.getHistoryOrCreate(user)
-        history.clearAndSave()
-        return history.historyItems.map { HistoryItemDTO(it) }
+        Histories.deleteByUser(user.completeKey)
+        return listOf()
     }
 }

@@ -1,8 +1,8 @@
 package jupiterpi.vocabulum.webappserver.auth
 
-import jupiterpi.vocabulum.core.db.Database
-import jupiterpi.vocabulum.core.users.User
-import jupiterpi.vocabulum.webappserver.db.WebappDatabase
+import jupiterpi.vocabulum.webappserver.db.models.User
+import jupiterpi.vocabulum.webappserver.db.models.Users
+import jupiterpi.vocabulum.webappserver.db.models.Vouchers
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -24,11 +24,11 @@ class AuthController {
 
     @PostMapping("/verifyCredentials")
     fun verifyCredentials(@RequestBody dto: CredentialsDTO): CredentialsVerificationDTO {
-        val usersFound = Database.get().users.all.filter { it.email == dto.username && it.password == dto.password }
-        return if (usersFound.size != 1) {
+        val userFound = Users.findByCredentials(dto.username, dto.password)
+        return if (userFound == null) {
             CredentialsVerificationDTO(false, "")
         } else {
-            CredentialsVerificationDTO(true, usersFound[0].email)
+            CredentialsVerificationDTO(true, userFound.email)
         }
     }
     data class CredentialsDTO(
@@ -46,12 +46,14 @@ class AuthController {
     @PostMapping("/useVoucher/{code}")
     fun useVoucher(principal: Principal, @PathVariable code: String): UserDetailsDTO {
         val user = DbAuthenticationProvider.getUser(principal)
-        val voucher = WebappDatabase.Vouchers.getVoucher(code)
+        val voucher = Vouchers.findByCode(code)
         if (voucher != null && !voucher.isExpired && !voucher.isUsed) {
             if (!user.isProUser) {
-                voucher.useAndSave(user.email, Date())
+                voucher.useNow(user.completeKey)
+                voucher.save()
+
                 user.proExpiration = voucher.expiration
-                user.saveEntity()
+                user.save()
             }
         }
         return UserDetailsDTO(user)
@@ -59,16 +61,16 @@ class AuthController {
 }
 
 data class RegistrationDTO(
-    val username: String?,
-    val email: String?,
-    val password: String?,
+    val username: String,
+    val email: String,
+    val password: String,
 )
 
 data class UserDetailsDTO(
     val username: String,
     val email: String,
     val isProUser: Boolean,
-    val discordUsername: String,
+    val discordUsername: String?,
     val isAdmin: Boolean,
 ) {
     constructor(user: User) : this(

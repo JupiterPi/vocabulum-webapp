@@ -1,7 +1,6 @@
 package jupiterpi.vocabulum.webappserver.auth
 
-import jupiterpi.vocabulum.core.db.Database
-import jupiterpi.vocabulum.core.users.User
+import jupiterpi.vocabulum.webappserver.db.models.User
 import java.util.*
 
 class PendingRegistrations {
@@ -28,11 +27,8 @@ class PendingRegistrations {
         cleanupRegistrations()
         val registration = registrations[id] ?: return null
         registrations.remove(id)
-        val user = registration.dto.let {
-            User.createUser(it.username, it.email, it.password)
-        }
-        Database.get().users.addUser(user)
-        Database.get().users.save()
-        return user
+        return registration.dto.let {
+            User(it.username, it.email, it.password)
+        }.also { it.save() }
     }
 }

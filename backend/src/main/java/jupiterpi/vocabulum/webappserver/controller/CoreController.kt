@@ -23,7 +23,8 @@ class CoreController {
     fun getPortions() = Database.get().portions.portions.values.map { PortionDTO(it) }
 
     @GetMapping("/vocabulary/{base_form}")
-    fun getVocabulary(@PathVariable base_form: String) = DetailedVocabularyDTO(Database.get().wordbase.loadVocabulary(base_form))
+    fun getVocabulary(@PathVariable base_form: String)
+    = DetailedVocabularyDTO(Database.get().dictionary.getVocabulary(base_form))
 }
 
 data class PortionDTO(

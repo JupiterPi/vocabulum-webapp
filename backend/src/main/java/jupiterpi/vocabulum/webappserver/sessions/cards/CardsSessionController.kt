@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import jupiterpi.vocabulum.core.sessions.Session
 import jupiterpi.vocabulum.core.sessions.Session.Feedback
-import jupiterpi.vocabulum.core.users.User
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary
 import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider
 import jupiterpi.vocabulum.webappserver.sessions.*
@@ -20,7 +19,7 @@ class CardsSessionController {
 
     @PostMapping("/create")
     fun createSession(principal: Principal, @RequestBody options: SessionConfiguration.SessionOptionsDTO): String {
-        val user: User = DbAuthenticationProvider.getUser(principal)
+        val user = DbAuthenticationProvider.getUser(principal)
         val sessionConfiguration = SessionConfiguration(Mode.CARDS, options)
         return sessions.createSession(user, sessionConfiguration)
     }

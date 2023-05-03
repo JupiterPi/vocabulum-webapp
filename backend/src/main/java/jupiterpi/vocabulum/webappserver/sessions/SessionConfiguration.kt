@@ -2,17 +2,19 @@ package jupiterpi.vocabulum.webappserver.sessions
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
+import com.google.cloud.datastore.FullEntity
+import com.google.cloud.datastore.Key
 import jupiterpi.vocabulum.core.sessions.selection.PortionBasedVocabularySelection
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelection
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelections
-import org.bson.Document
+import jupiterpi.vocabulum.webappserver.db.EntitySerializable
 import java.util.*
 
 class SessionConfiguration(
     val selection: VocabularySelection,
     val mode: Mode,
     val direction: Direction,
-) {
+) : EntitySerializable() {
     /* SessionOptionsDTO */
 
     data class SessionOptionsDTO(
@@ -26,23 +28,19 @@ class SessionConfiguration(
         dto.direction,
     )
 
-    fun toSessionOptionsDTO()
-    = SessionOptionsDTO(direction, VocabularySelections.getPortionBasedString(selection))
+    /* Entity */
 
-    /* Document */
-
-    constructor(document: Document) : this(
-        PortionBasedVocabularySelection.fromString(document.getString("selection")),
-        Mode.valueOf(document.getString("mode").uppercase(Locale.getDefault())),
-        Direction.valueOf(document.getString("direction").uppercase(Locale.getDefault())),
+    constructor(entity: FullEntity<Key>) : this(
+        PortionBasedVocabularySelection.fromString(entity.getString(SessionConfiguration::selection.name)),
+        Mode.valueOf(entity.getString(SessionConfiguration::mode.name).uppercase(Locale.getDefault())),
+        Direction.valueOf(entity.getString(SessionConfiguration::direction.name).uppercase(Locale.getDefault())),
     )
 
-    fun toDocument()
-            = Document().apply {
-        this["selection"] = VocabularySelections.getPortionBasedString(selection)
-        this["mode"] = mode.toString().lowercase(Locale.getDefault())
-        this["direction"] = direction.toString().lowercase(Locale.getDefault())
-    }
+    override fun toMap() = mapOf(
+        ::selection.name to VocabularySelections.getPortionBasedString(selection),
+        ::mode.name to mode.toString().lowercase(Locale.getDefault()),
+        ::direction.name to direction.toString().lowercase(Locale.getDefault())
+    )
 }
 
 enum class Mode {

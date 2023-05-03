@@ -19,7 +19,7 @@ class SearchController {
     @GetMapping("/{query}")
     fun performSearch(@PathVariable query: String): List<SearchResultDTO> {
         val dtos: MutableList<SearchResultDTO> = mutableListOf()
-        Database.get().wordbase.identifyWord(query, true).forEach { result ->
+        Database.get().dictionary.identifyWord(query, true).forEach { result ->
             val vocabulary = result.vocabulary
             if (vocabulary is Inflexible) {
                 val matchStart = vocabulary.baseForm.indexOf(query)
