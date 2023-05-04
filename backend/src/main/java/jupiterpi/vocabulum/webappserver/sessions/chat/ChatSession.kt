@@ -92,7 +92,7 @@ class ChatSession(
                     val translations = currentVocabulary.translations.validateInput(input)
                     var amountRight = 0
                     translations.forEach {
-                        if (it.isValid) amountRight++
+                        if (it.valid) amountRight++
                     }
                     score = amountRight.toFloat() / translations.size.toFloat()
                     passed = score >= 0.5f
@@ -220,7 +220,7 @@ class ChatSession(
         items.add(MessagePartDTO(" - "))
 
         for (translation in validation) {
-            if (translation.isValid) {
+            if (translation.valid) {
                 val inputMatchedParts = translation.vocabularyTranslation.matchValidInput(translation.input)
                 for (part in inputMatchedParts) {
                     if (part.isDecorative) {

@@ -38,12 +38,12 @@ class SearchController {
             } else {
                 val inForm = result.forms[0]
                 val matchedForm = when (vocabulary) {
-                    is Noun -> vocabulary.makeFormOrDash(inForm as NounForm)
-                    is Adjective -> vocabulary.makeFormOrDash(inForm as AdjectiveForm)
-                    is Verb -> vocabulary.makeFormOrDash(inForm as VerbForm)
+                    is Noun -> vocabulary.makeForm(inForm as NounForm)
+                    is Adjective -> vocabulary.makeForm(inForm as AdjectiveForm)
+                    is Verb -> vocabulary.makeForm(inForm as VerbForm)
                     else -> throw Exception("should not be called")
-                }
-                val matchStart = matchedForm?.indexOf(query) ?: 0
+                }.toString()
+                val matchStart = matchedForm.indexOf(query)
                 val matchEnd = matchStart + query.length
                 dtos.add(
                     SearchResultDTO(

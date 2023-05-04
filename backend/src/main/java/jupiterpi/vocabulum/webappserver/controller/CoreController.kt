@@ -83,25 +83,11 @@ data class DetailedVocabularyDTO(
             meta += MetaItem("Lektion", vocabulary.portion)
             when (vocabulary) {
                 is Noun -> listOf(
-                    MetaItem("Deklinationsschema", when(vocabulary.declensionSchema) {
-                        "a" -> "a-Deklination"
-                        "o" -> "o-Deklination"
-                        "cons" -> "konsonantische Deklination"
-                        "e" -> "e-Deklination"
-                        "u" -> "u-Deklination"
-                        else -> vocabulary.declensionSchema
-                    })
+                    MetaItem("Deklinationsschema", vocabulary.declensionSchema.displayName)
                 )
                 is Adjective -> listOf()
                 is Verb -> listOf(
-                    MetaItem("Konjugationsschema", when(vocabulary.conjugationSchema) {
-                        "a" -> "a-Konjugation"
-                        "e" -> "e-Konjugation"
-                        "ii" -> "i-Konjugation"
-                        "cons" -> "konsonantische Konjugation"
-                        "i" -> "kurzvokalische i-Konjugation"
-                        else -> vocabulary.conjugationSchema
-                    })
+                    MetaItem("Konjugationsschema", vocabulary.conjugationSchema.displayName)
                 )
                 is Inflexible -> listOf()
             }
