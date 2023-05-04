@@ -2,7 +2,7 @@ package jupiterpi.vocabulum.webappserver.controller
 
 import com.theokanning.openai.OpenAiService
 import com.theokanning.openai.completion.CompletionRequest
-import jupiterpi.vocabulum.core.util.TextFile
+import jupiterpi.vocabulum.webappserver.db.Secrets
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,7 +22,8 @@ data class AiCompletionDTO(
 )
 
 class AiService {
-    private val openaiApiKey = TextFile.readFile("openai_api_key.txt").lines.first()
+    /*private val openaiApiKey = TextFile.readFile("openai_api_key.txt").lines.first()*/
+    private val openaiApiKey = Secrets.openaiApiKey
     private val openAiService: OpenAiService = OpenAiService(openaiApiKey)
 
     fun createCompletion(prompt: String): String {
