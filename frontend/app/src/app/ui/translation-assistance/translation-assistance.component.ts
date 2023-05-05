@@ -96,7 +96,7 @@ export class TranslationAssistanceComponent implements OnInit {
     });
   }
 
-  timer?: NodeJS.Timeout;
+  timerId?: number;
   updateChange(query: string) {
     if (query == "") {
       const url = this.router.createUrlTree([], {relativeTo: this.route});
@@ -108,10 +108,10 @@ export class TranslationAssistanceComponent implements OnInit {
 
     this.ready = false;
     this.error = false;
-    clearTimeout(this.timer);
+    clearTimeout(this.timerId);
 
     if (query === "") return;
-    this.timer = setTimeout(() => {
+    this.timerId = setTimeout(() => {
       this.data.getTAItems(query).subscribe({
         next: (items) => {
           this.items = items;

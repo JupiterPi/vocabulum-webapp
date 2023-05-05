@@ -60,6 +60,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { AiBlockComponent } from './ui/ai/ai-block/ai-block.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth,getAuth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -141,6 +143,8 @@ import { AiBlockComponent } from './ui/ai/ai-block/ai-block.component';
     MatCheckboxModule,
     MatButtonModule,
     MatTooltipModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
   ],
   providers: [],
   bootstrap: [AppComponent]

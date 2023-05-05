@@ -7,6 +7,9 @@ import jupiterpi.vocabulum.core.db.lectures.Lectures
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
+import java.util.Date
 
 fun main(args: Array<String>) {
     println("++++++++++ Vocabulum App (Server) ++++++++++")
@@ -18,6 +21,12 @@ fun main(args: Array<String>) {
 class App
 
 val datastore: Datastore = DatastoreOptions.getDefaultInstance().service
+
+@RestController
+class Controller {
+    @GetMapping("/")
+    fun root() = "Vocabulum Webapp server working!\n<br>\n${Date()}"
+}
 
 object CoreService {
     private val exampleLines: Map<String, List<Lectures.ExampleLine>> by lazy {
