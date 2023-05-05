@@ -1,0 +1,11 @@
+.git
+.gitignore
+
+node_modules/
+
+# Ignore everything except dist directory
+# as by https://gist.github.com/cbandy/b58d32fe44dcbaa91f35e821efb72066
+/[!.]*
+/.?*
+
+!/dist/**

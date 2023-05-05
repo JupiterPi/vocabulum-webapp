@@ -11,7 +11,7 @@ object Secrets {
             .setSecret(name)
             .setSecretVersion(version)
             .build()
-        val secret = client.accessSecretVersion(secretName).also { println(it) }
+        val secret = client.accessSecretVersion(secretName)
         return secret.payload.data.toStringUtf8()
     }
 

@@ -1,0 +1,13 @@
+runtime: nodejs16
+
+service: webapp-frontend
+
+handlers:
+- url: /(.*\..+)$
+  static_files: dist/vocabulum-webapp-pwa/\1
+  upload: dist/vocabulum-webapp-pwa/(.*\..+)$
+- url: /.*
+  static_files: dist/vocabulum-webapp-pwa/index.html
+  upload: dist/vocabulum-webapp-pwa/index.html
+
+# as by https://medium.com/@rgoyard/how-to-deploy-a-single-page-application-and-its-backend-to-google-app-engine-353ff93bd38c

@@ -1,0 +1,5 @@
+runtime: java17
+
+service: webapp-backend
+
+instance_class: F1

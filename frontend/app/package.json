@@ -2,11 +2,9 @@
   "name": "vocabulum-webapp-pwa",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "deploy": "ng build && gcloud app deploy --quiet"
   },
   "private": true,
   "dependencies": {

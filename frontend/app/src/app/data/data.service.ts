@@ -78,7 +78,7 @@ export class DataService {
   constructor(private http: HttpClient) {
     const url = window.location.href;
     const isOnLocalhost = url.indexOf("localhost") > 0;
-    this.backendRoot = isOnLocalhost ? "http://localhost:63109" : "https://api.vocabulum.de";
+    this.backendRoot = isOnLocalhost ? "http://localhost:8080" : "https://api.vocabulum.de";
     console.log(this.backendRoot);
     /*this.http.get("/backendHost", {responseType: "text"}).subscribe((backendHost) => {
       console.log("backendRoot: " + backendHost);
