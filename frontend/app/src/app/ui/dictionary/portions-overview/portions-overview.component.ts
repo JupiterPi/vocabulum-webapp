@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {DataService, Portion} from "../../../data/data.service";
+import {CoreService, Portion} from "../../../data/core.service";
 
 @Component({
   selector: 'app-portions-overview',
@@ -10,7 +10,7 @@ import {DataService, Portion} from "../../../data/data.service";
 export class PortionsOverviewComponent implements OnInit {
   portions?: Portion[];
 
-  constructor(private router: Router, private dataService: DataService) {}
+  constructor(private router: Router, private dataService: CoreService) {}
 
   ngOnInit() {
     this.dataService.getPortions().subscribe((portions) => {

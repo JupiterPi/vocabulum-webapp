@@ -39,7 +39,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {MatTreeModule} from "@angular/material/tree";
 import { VocabularySelectorComponent } from './ui/trainer/vocabulary-selector/vocabulary-selector.component';
-import { ConfirmEmailComponent } from './ui/account/confirm-email/confirm-email.component';
 import { DiscordBannerComponent } from './ui/account/profile/discord-banner/discord-banner.component';
 import {CookieModule} from "ngx-cookie";
 import {AdminOverviewComponent} from './admin/ui/admin-overview/admin-overview.component';
@@ -80,7 +79,6 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
     PlansComponent,
     CardsTrainerSessionComponent,
     VocabularySelectorComponent,
-    ConfirmEmailComponent,
     DiscordBannerComponent,
     AdminOverviewComponent,
     VoucherComponent,
@@ -105,7 +103,6 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 
       {path: "login", component: LoginComponent},
       {path: "register", component: RegisterComponent},
-      {path: "confirmEmail", component: ConfirmEmailComponent},
       {path: "my", component: ProfileComponent},
       {path: "pro", redirectTo: "/my", pathMatch: "full"},
       {path: "voucher", component: VoucherComponent},

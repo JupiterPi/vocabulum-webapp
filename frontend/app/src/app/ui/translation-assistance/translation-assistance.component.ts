@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {DataService, TAItem} from "../../data/data.service";
+import {CoreService, TAItem} from "../../data/core.service";
 import {Location} from "@angular/common";
 
 @Component({
@@ -84,7 +84,7 @@ export class TranslationAssistanceComponent implements OnInit {
   hasPro = true;
   usesLeft = 3;
 
-  constructor(private router: Router, private data: DataService, private route: ActivatedRoute, private location: Location) {}
+  constructor(private router: Router, private data: CoreService, private route: ActivatedRoute, private location: Location) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

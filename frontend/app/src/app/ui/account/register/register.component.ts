@@ -25,9 +25,10 @@ export class RegisterComponent {
   }
 
   register() {
-    if (this.success) return;
+    alert("Registrierungen sind derzeit in Arbeit... Bitte kontaktiere uns unter support@vocabulum.de");
+    /*if (this.success) return;
     this.users.registerNewUser(this.username, this.email, this.password).subscribe(() => {
       this.success = true;
-    });
+    });*/
   }
 }

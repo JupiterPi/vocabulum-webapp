@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
-import {DataService, SearchResult} from "../../../data/data.service";
+import {CoreService, SearchResult} from "../../../data/core.service";
 
 @Component({
   selector: 'app-search',
@@ -12,7 +12,7 @@ export class SearchComponent implements OnInit {
   query = "";
   results?: SearchResult[];
 
-  constructor(private route: ActivatedRoute, private router: Router, private location: Location, private dataService: DataService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private location: Location, private dataService: CoreService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

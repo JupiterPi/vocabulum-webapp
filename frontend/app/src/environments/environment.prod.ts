@@ -1,4 +1,5 @@
 export const environment = {
+  apiRoot: "https://api.vocabulum.de",
   firebase: {
     projectId: 'vocabulum-de',
     appId: '1:635640434089:web:ad4df09ef058b10055c8b8',

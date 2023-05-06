@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  apiRoot: "http://localhost:8080",
   firebase: {
     projectId: 'vocabulum-de',
     appId: '1:635640434089:web:ad4df09ef058b10055c8b8',

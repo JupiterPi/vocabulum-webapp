@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Auth, signInWithEmailAndPassword} from "@angular/fire/auth";
 import {Router} from "@angular/router";
+import {SessionService} from "../../../session.service";
 
 @Component({
   selector: 'app-login',
@@ -13,18 +13,18 @@ export class LoginComponent {
 
   errorMessage = "";
 
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(private session: SessionService, private router: Router) {
+    this.session.loggedIn$.subscribe(loggedIn => {
+      if (loggedIn) this.router.navigate(["my"]);
+    });
+  }
 
   ready() {
     return this.username != "" && this.password != "";
   }
 
   login() {
-    signInWithEmailAndPassword(this.auth, this.username, this.password)
-      .catch(_ => this.errorMessage = "Benutzername oder Passwort falsch")
-      .then(user => {
-        console.log(user);
-        this.router.navigate(["my"]);
-      });
+    this.session.login(this.username, this.password)
+      .catch(_ => this.errorMessage = "Benutzername oder Passwort falsch");
   }
 }

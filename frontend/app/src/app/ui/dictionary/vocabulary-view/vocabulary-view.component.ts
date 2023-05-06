@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {DataService, Vocabulary} from "../../../data/data.service";
+import {CoreService, Vocabulary} from "../../../data/core.service";
 
 @Component({
   selector: 'app-vocabulary-view',
@@ -10,7 +10,7 @@ import {DataService, Vocabulary} from "../../../data/data.service";
 export class VocabularyViewComponent implements OnInit {
   vocabulary?: Vocabulary;
 
-  constructor(private route: ActivatedRoute, private dataService: DataService) {}
+  constructor(private route: ActivatedRoute, private dataService: CoreService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

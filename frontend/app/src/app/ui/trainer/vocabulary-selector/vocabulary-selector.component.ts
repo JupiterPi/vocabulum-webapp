@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {DataService, Portion, VocabularyInPortion} from "../../../data/data.service";
+import {CoreService, Portion, VocabularyInPortion} from "../../../data/core.service";
 
 interface PortionNode {
   expanded: boolean;
@@ -30,7 +30,7 @@ type Part = {
 export class VocabularySelectorComponent {
   portionNodes: PortionNode[] = [];
 
-  constructor(private data: DataService) {
+  constructor(private data: CoreService) {
     this.data.getPortions().subscribe((portions: Portion[]) => {
       portions.forEach(portion => {
         let blocks: BlockNode[] = portion.vocabularyBlocks.map(block => {

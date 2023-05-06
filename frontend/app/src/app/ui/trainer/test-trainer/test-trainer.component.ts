@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Direction, TestTrainerService} from "../../../data/sessions.service";
-import {DataService} from "../../../data/data.service";
+import {CoreService} from "../../../data/core.service";
 
 @Component({
   selector: 'app-test-trainer',

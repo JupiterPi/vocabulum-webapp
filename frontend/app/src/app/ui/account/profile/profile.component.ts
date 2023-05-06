@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {SessionService} from "../../../session.service";
 import {Router} from "@angular/router";
 import {UsersService} from "../../../data/users.service";
-import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-profile',
@@ -10,8 +9,8 @@ import {DomSanitizer} from "@angular/platform-browser";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  constructor(public session: SessionService, private router: Router, private users: UsersService, public sanitizer: DomSanitizer) {
-    this.session.getLoggedIn().subscribe(loggedIn => {
+  constructor(public session: SessionService, private router: Router, private users: UsersService) {
+    this.session.loggedIn$.subscribe(loggedIn => {
       if (!loggedIn) {
         this.router.navigate(["login"]);
       }
@@ -56,24 +55,7 @@ export class ProfileComponent {
   }
 
   changePassword() {
-    const password = prompt("Gib dein aktuelles Passwort ein:");
-    const newPassword = prompt("Gib jetzt ein neues Passwort ein:");
-
-    if (prompt("Wiederhole das neue Passwort:") != newPassword) {
-      alert("Stimmt nicht überein!");
-      return;
-    }
-
-    if (password == null || newPassword == null) return;
-
-    if (this.session.user == null) return;
-    this.users.verifyCredentials(this.session.user?.email, password).subscribe(verification => {
-      if (verification.valid) {
-        this.users.changePassword(newPassword).subscribe();
-      } else {
-        alert("Falsches Passwort!");
-      }
-    });
+    alert("Passwortänderungen sind derzeit in Arbeit... Bitte kontaktiere uns unter support@vocabulum.de");
   }
 
   changeDiscordUsername() {

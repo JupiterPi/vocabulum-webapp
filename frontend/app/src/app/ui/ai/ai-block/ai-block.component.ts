@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {DataService} from "../../../data/data.service";
+import {CoreService} from "../../../data/core.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'ai-block',
@@ -15,11 +16,11 @@ export class AiBlockComponent {
   resultAvailable = false;
   result = "";
 
-  constructor(private dataService: DataService, private http: HttpClient) {}
+  constructor(private dataService: CoreService, private http: HttpClient) {}
 
   sendPrompt() {
     this.resultPending = true;
-    this.http.post(this.dataService.backendRoot + "/api/ai/completion", {
+    this.http.post(environment.apiRoot + "/api/ai/completion", {
       prompt: this.prompt
     }, {responseType: "text"}).subscribe(result => {
       this.resultPending = false;

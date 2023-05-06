@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {SessionService} from "../../../session.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {DataService} from "../../../data/data.service";
+import {CoreService} from "../../../data/core.service";
+import {environment} from "../../../../environments/environment";
 
 class Interface {
   constructor(private handler: (done: () => void, setValue: (value: string) => void) => void) {}
@@ -29,7 +30,7 @@ export class AdminOverviewComponent {
     private session: SessionService,
     private router: Router,
     private http: HttpClient,
-    private data: DataService
+    private data: CoreService
   ) {
     this.session.getLoggedIn().subscribe(loggedIn => {
       if (!loggedIn) this.router.navigate(["login"]);
@@ -49,7 +50,7 @@ export class AdminOverviewComponent {
   authHeaders: any | null = null;
 
   pendingRegistrations = new Interface((done, setValue) => {
-    this.http.get<string[]>(this.data.backendRoot + "/admin/pendingRegistrations", {
+    this.http.get<string[]>(environment.apiRoot + "/admin/pendingRegistrations", {
       observe: "response",
       headers: this.authHeaders.headers,
     }).subscribe(pendingRegistrations => {
@@ -59,19 +60,19 @@ export class AdminOverviewComponent {
   });
 
   reloadUsers = new Interface((done) => {
-    this.http.post(this.data.backendRoot + "/admin/reloadUsers", null, this.authHeaders).subscribe(() => {
+    this.http.post(environment.apiRoot + "/admin/reloadUsers", null, this.authHeaders).subscribe(() => {
       done();
     });
   });
 
   reloadHistories = new Interface((done) => {
-    this.http.post(this.data.backendRoot + "/admin/reloadHistories", null, this.authHeaders).subscribe(() => {
+    this.http.post(environment.apiRoot + "/admin/reloadHistories", null, this.authHeaders).subscribe(() => {
       done();
     });
   });
 
   vouchers = new Interface((done, setValue) => {
-    this.http.get<string[]>(this.data.backendRoot + "/admin/vouchers", {
+    this.http.get<string[]>(environment.apiRoot + "/admin/vouchers", {
       observe: "response",
       headers: this.authHeaders.headers,
     }).subscribe(vouchers => {
@@ -85,7 +86,7 @@ export class AdminOverviewComponent {
   newVoucherAmount = 1;
   newVoucherNote = "";
   createNewVoucher = new Interface((done, setValue) => {
-    this.http.post<string[]>(this.data.backendRoot + "/admin/vouchers", {
+    this.http.post<string[]>(environment.apiRoot + "/admin/vouchers", {
       expiration: new Date(this.newVoucherExpirationDate + "T" + this.newVoucherExpirationTime).toJSON(),
       amount: this.newVoucherAmount,
       note: this.newVoucherNote
@@ -104,7 +105,7 @@ export class AdminOverviewComponent {
   });
 
   reloadVouchers = new Interface((done, setValue) => {
-    this.http.post(this.data.backendRoot + "/admin/reloadVouchers", null, this.authHeaders).subscribe(() => {
+    this.http.post(environment.apiRoot + "/admin/reloadVouchers", null, this.authHeaders).subscribe(() => {
       done();
     });
   });
