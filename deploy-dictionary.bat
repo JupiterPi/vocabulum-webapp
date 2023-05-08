@@ -1,0 +1,1 @@
+gsutil -m rsync -r -d dictionary gs://vocabulum-dictionary
