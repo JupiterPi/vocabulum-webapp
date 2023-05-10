@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 import jupiterpi.vocabulum.core.sessions.Session
 import jupiterpi.vocabulum.core.sessions.Session.Feedback
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary
-import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider
+import jupiterpi.vocabulum.webappserver.auth.Auth
 import jupiterpi.vocabulum.webappserver.sessions.*
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
@@ -18,8 +18,8 @@ class CardsSessionController {
     private fun getSession(id: String) = sessions.getSession(id) as CardsSession
 
     @PostMapping("/create")
-    fun createSession(principal: Principal, @RequestBody options: SessionConfiguration.SessionOptionsDTO): String {
-        val user = DbAuthenticationProvider.getUser(principal)
+    fun createSession(@RequestHeader("Authorization") authHeaders: String, @RequestBody options: SessionConfiguration.SessionOptionsDTO): String {
+        val user = Auth.getUser(authHeaders)
         val sessionConfiguration = SessionConfiguration(Mode.CARDS, options)
         return sessions.createSession(user, sessionConfiguration)
     }

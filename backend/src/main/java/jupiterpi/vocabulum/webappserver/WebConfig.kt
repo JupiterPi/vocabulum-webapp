@@ -1,6 +1,5 @@
 package jupiterpi.vocabulum.webappserver
 
-import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -36,7 +35,5 @@ class WebSecurityConfig {
     }
 
     @Autowired
-    fun configure(auth: AuthenticationManagerBuilder) {
-        auth.authenticationProvider(DbAuthenticationProvider())
-    }
+    fun configure(auth: AuthenticationManagerBuilder) {}
 }

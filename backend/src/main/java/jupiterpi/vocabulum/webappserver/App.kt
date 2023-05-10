@@ -1,10 +1,16 @@
 package jupiterpi.vocabulum.webappserver
 
+import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.datastore.Datastore
 import com.google.cloud.datastore.DatastoreOptions
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import com.google.firebase.auth.FirebaseAuth
 import jupiterpi.vocabulum.core.db.Database
 import jupiterpi.vocabulum.core.db.lectures.Lectures
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary
+import jupiterpi.vocabulum.webappserver.auth.Auth
+import jupiterpi.vocabulum.webappserver.auth.AuthController
 import jupiterpi.vocabulum.webappserver.db.Storage
 import org.bson.Document
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -16,6 +22,15 @@ import java.util.*
 fun main(args: Array<String>) {
     println("++++++++++ Vocabulum App (Server) ++++++++++")
     println("With CoreService: $CoreService")
+
+    FirebaseApp.initializeApp(FirebaseOptions.builder()
+        .setCredentials(GoogleCredentials.getApplicationDefault())
+        .setProjectId("vocabulum-de")
+        .build()
+    )
+
+    //Auth.makeAdmin("nccB4STDrxcMGXWmfdcarkXMB5J2", true)
+
     runApplication<App>(*args)
 }
 

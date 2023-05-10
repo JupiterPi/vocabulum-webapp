@@ -34,12 +34,12 @@
 .block-toggle {
   display: flex;
   justify-content: center;
-  padding-top: (40px - 16px) / 2 - 2px;
+  padding-top: calc((40px - 16px) / 2 - 2px);
 }
 
 .block-vocabularies {
   @include rounded-container($border-radius: 10px);
-  padding: (40px - 16px) / 2 - 2px;
+  padding: calc((40px - 16px) / 2 - 2px);
 
   display: flex;
   flex-direction: column;

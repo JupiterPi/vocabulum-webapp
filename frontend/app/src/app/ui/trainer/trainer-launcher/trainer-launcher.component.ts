@@ -49,6 +49,6 @@ export class TrainerLauncherComponent {
   }
 
   userDetails() {
-    return JSON.stringify(this.session.user);
+    return JSON.stringify(this.session.userDetails);
   }
 }

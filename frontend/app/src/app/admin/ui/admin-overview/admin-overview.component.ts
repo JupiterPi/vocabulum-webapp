@@ -29,18 +29,17 @@ export class AdminOverviewComponent {
   constructor(
     private session: SessionService,
     private router: Router,
-    private http: HttpClient,
-    private data: CoreService
+    private http: HttpClient
   ) {
     this.session.getLoggedIn().subscribe(loggedIn => {
       if (!loggedIn) this.router.navigate(["login"]);
       else {
-        setTimeout(() => {
-          if (!this.session.user?.isAdmin) {
+        this.session.isAdmin().subscribe(isAdmin => {
+          if (!isAdmin) {
             alert("You are not an administrator.");
             this.router.navigate([""]);
           }
-        }, this.session.user ? 5000 : 0);
+        });
       }
     });
 

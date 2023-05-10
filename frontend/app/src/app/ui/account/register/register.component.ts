@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UsersService} from "../../../data/users.service";
+import {SessionService} from "../../../session.service";
 
 @Component({
   selector: 'app-register',
@@ -14,7 +14,7 @@ export class RegisterComponent {
 
   success = false;
 
-  constructor(private users: UsersService) {}
+  constructor(private session: SessionService) {}
 
   passwordRepeatedCorrectly() {
     return this.password == this.passwordRepeat;
@@ -25,10 +25,9 @@ export class RegisterComponent {
   }
 
   register() {
-    alert("Registrierungen sind derzeit in Arbeit... Bitte kontaktiere uns unter support@vocabulum.de");
-    /*if (this.success) return;
-    this.users.registerNewUser(this.username, this.email, this.password).subscribe(() => {
+    if (this.success) return;
+    this.session.createAccountAndLogin(this.username, this.email, this.password).subscribe(() => {
       this.success = true;
-    });*/
+    });
   }
 }

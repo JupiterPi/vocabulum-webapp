@@ -8,7 +8,7 @@ abstract class EntitySerializable {
     abstract fun toMap(): Map<String, Any?>
 
     open fun toEntity(): FullEntity<IncompleteKey>
-    = Entity.newBuilder(datastore.newKeyFactory().newKey())
+    = Entity.newBuilder(datastore.newKeyFactory().setKind("embedded").newKey())
         .also { writeMapToEntityBuilder(it, toMap()) }
         .build()
 
@@ -23,6 +23,7 @@ abstract class EntitySerializable {
                 is Timestamp -> it.set(key, value)
                 is FullEntity<*> -> it.set(key, value)
                 is EntitySerializable -> it.set(key, value.toEntity())
+                null -> it.setNull(key)
                 else -> throw Exception("Can't set this Entity property value: $value")
             }
         }
@@ -60,6 +61,10 @@ abstract class Collection<T: EntityModel>(
 
     fun findById(id: Long): T {
         val entity = datastore.get(datastore.newKeyFactory().setKind(kind).newKey(id))
+        return constructEntity(entity)
+    }
+    fun findById(name: String): T {
+        val entity = datastore.get(datastore.newKeyFactory().setKind(kind).newKey(name))
         return constructEntity(entity)
     }
 

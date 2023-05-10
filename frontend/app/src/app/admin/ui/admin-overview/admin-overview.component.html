@@ -1,33 +1,7 @@
 <div id="container">
 
-  <h2>Pending Registrations</h2>
-
-  <button (click)="pendingRegistrations.run()">
-    Load
-    <span *ngIf="pendingRegistrations.working">...</span>
-  </button>
-  <textarea rows="15" cols="80" [value]="pendingRegistrations.value" readonly></textarea>
-
-
-  <h2>Reload Users & Histories</h2>
-
-  <button (click)="reloadUsers.run()">
-    Reload Users
-    <span *ngIf="reloadUsers.working">...</span>
-  </button>
-
-  <button (click)="reloadHistories.run()">
-    Reload Histories
-    <span *ngIf="reloadHistories.working">...</span>
-  </button>
-
-
   <h2>Vouchers</h2>
 
-  <button (click)="reloadVouchers.run()">
-    Reload Vouchers
-    <span *ngIf="reloadVouchers.working">...</span>
-  </button>
   <button (click)="vouchers.run()">
     Load
     <span *ngIf="vouchers.working">...</span>

@@ -17,6 +17,8 @@ export class ProfileComponent {
     });
   }
 
+  isAdmin = this.session.isAdmin()
+
   obfuscateEmail(email?: string) {
     if (email == null) return "";
     const atIndex = email.lastIndexOf("@");
@@ -44,14 +46,12 @@ export class ProfileComponent {
   }
 
   showDiscordUsername() {
-    alert("Dein Discord-Benutzername lautet: " + this.session.user?.discordUsername);
+    alert("Dein Discord-Benutzername lautet: " + this.session.userDetails?.discordUsername);
   }
 
   changeUsername() {
     const newUsername = prompt("Gib einen neuen Nutzernamen ein:");
-    if (newUsername != null) this.users.changeUsername(newUsername).subscribe(userDetails => {
-      this.session.user = userDetails;
-    });
+    if (newUsername != null) this.users.changeUsername(newUsername).subscribe(userDetails => this.session.setUserDetails(userDetails));
   }
 
   changePassword() {
@@ -64,9 +64,7 @@ export class ProfileComponent {
       if (newUsername.match(/^.{3,32}#[0-9]{4}$/g) == null) {
         alert("Bitte gib einen korrekten Discord-Benutzernamen wie \"MeinName#1234\" ein.");
       } else {
-        this.users.changeDiscordUsername(newUsername).subscribe(userDetails => {
-          this.session.user = userDetails;
-        });
+        this.users.changeDiscordUsername(newUsername).subscribe(userDetails => this.session.setUserDetails(userDetails));
       }
     }
   }

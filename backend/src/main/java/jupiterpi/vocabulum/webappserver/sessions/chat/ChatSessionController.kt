@@ -1,6 +1,6 @@
 package jupiterpi.vocabulum.webappserver.sessions.chat
 
-import jupiterpi.vocabulum.webappserver.auth.DbAuthenticationProvider
+import jupiterpi.vocabulum.webappserver.auth.Auth
 import jupiterpi.vocabulum.webappserver.sessions.Mode
 import jupiterpi.vocabulum.webappserver.sessions.SessionConfiguration
 import jupiterpi.vocabulum.webappserver.sessions.SessionService
@@ -15,9 +15,9 @@ class ChatSessionController {
     private fun getSession(id: String) = sessions.getSession(id) as ChatSession
 
     @PostMapping("/create")
-    fun createSession(principal: Principal, @RequestBody options: SessionConfiguration.SessionOptionsDTO): String {
+    fun createSession(@RequestHeader("Authorization") authHeaders: String, @RequestBody options: SessionConfiguration.SessionOptionsDTO): String {
         val sessionConfiguration = SessionConfiguration(Mode.CHAT, options)
-        return sessions.createSession(DbAuthenticationProvider.getUser(principal), sessionConfiguration)
+        return sessions.createSession(Auth.getUser(authHeaders), sessionConfiguration)
     }
 
     @PostMapping("/{sessionId}/start")

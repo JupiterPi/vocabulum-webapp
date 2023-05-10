@@ -18,7 +18,7 @@ export class VoucherComponent {
         alert("Melde dich zuerst an!");
         this.router.navigate(["login"]);
       } else {
-        if (this.session.user?.isProUser) {
+        if (this.session.userDetails?.isProUser) {
           alert("Du hast anscheinend schon Pro! Warte, bis dein Abo ausgelaufen ist und versuche es dann erneut.");
           this.router.navigate(["/"]);
         }

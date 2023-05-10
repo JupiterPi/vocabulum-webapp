@@ -5,7 +5,7 @@ export const environment = {
     appId: '1:635640434089:web:ad4df09ef058b10055c8b8',
     storageBucket: 'vocabulum-de.appspot.com',
     locationId: 'europe-west',
-    apiKey: 'AIzaSyDJJAwqa_KOLoij7K61nHO08quOHWWNejs',
+    apiKey: 'AIzaSyD67Uvx4b2jCmfos6nSmBSUcx0YiYQ2U1U',
     authDomain: 'vocabulum-de.firebaseapp.com',
     messagingSenderId: '635640434089',
   },

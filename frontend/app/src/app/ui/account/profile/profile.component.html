@@ -1,8 +1,8 @@
-<vk-page *ngIf="session.user">
+<vk-page *ngIf="session.userDetails">
 
   <vk-section>
 
-    <vk-section-header size="large">Hi, {{session.user.username}}!</vk-section-header>
+    <vk-section-header size="large">Hi, {{session.userDetails.username}}!</vk-section-header>
 
     <vk-meta-container>
 
@@ -14,7 +14,7 @@
       <vk-meta>
         <vk-meta-key>E-Mail</vk-meta-key>
         <vk-meta-value class="click-to-show" (click)="showEmail()">
-          {{obfuscateEmail(session.user.email)}}
+          {{obfuscateEmail(session.user?.email!!)}}
           <a>
             <!--<mat-icon>visibility</mat-icon>-->
             <fa-icon icon="eye" size="sm"></fa-icon>
@@ -50,13 +50,13 @@
       Trage hier deine Discord-Benutzernamen inkl. deinem Tag ein und tippe unten auf "In Discord verwenden", um zu starten.
     </p>
 
-    <ng-container *ngIf="session.user.discordUsername != ''">
+    <ng-container *ngIf="session.userDetails.discordUsername">
 
       <vk-meta-container>
         <vk-meta>
           <vk-meta-key>Discord-Benutzername</vk-meta-key>
           <vk-meta-value class="click-to-show" (click)="showDiscordUsername()">
-            {{obfuscateDiscordUsername(session.user.discordUsername)}}
+            {{obfuscateDiscordUsername(session.userDetails.discordUsername)}}
             <a>
               <fa-icon icon="eye" size="sm"></fa-icon>
             </a>
@@ -67,7 +67,7 @@
     </ng-container>
 
     <vk-button (click)="changeDiscordUsername()">
-      Discord-Benutzernamen {{session.user.discordUsername == "" ? "eintragen" : "ändern"}}
+      Discord-Benutzernamen {{session.userDetails.discordUsername == null ? "eintragen" : "ändern"}}
     </vk-button>
 
     <app-discord-banner></app-discord-banner>
@@ -116,6 +116,6 @@
 
   <vk-buttons id="bottom-actions-container">
     <vk-button color="red" (click)="logout()">Abmelden</vk-button>
-    <vk-button color="black" (click)="openAdminConsole()" *ngIf="session.user.isAdmin">Admin Console</vk-button>
+    <vk-button color="black" (click)="openAdminConsole()" *ngIf="isAdmin | async">Admin Console</vk-button>
   </vk-buttons>
 </vk-page>

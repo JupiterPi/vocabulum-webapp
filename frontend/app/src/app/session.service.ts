@@ -1,36 +1,52 @@
 import {Injectable} from '@angular/core';
-import {UserDetails} from "./data/users.service";
+import {UserDetails, UsersService} from "./data/users.service";
 import {BehaviorSubject, filter, first, Observable} from "rxjs";
-import {Auth, onAuthStateChanged, signInWithEmailAndPassword} from "@angular/fire/auth";
+import {Auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User} from "@angular/fire/auth";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  constructor(private auth: Auth) {
+  constructor(private auth: Auth, private http: HttpClient) {
     onAuthStateChanged(auth, user => {
-      this.loggedIn$.next(user != null);
       if (user) {
-        console.log(user);
-        this.user = {
-          username: user.displayName ?? user.email ?? "(username)",
-          email: user.email ?? "(email)",
+        this.user = user;
+        this.userDetails = {
+          username: user.displayName ?? user.email?.split("@")[0] ?? "...",
           isProUser: false,
-          discordUsername: "logged in",
-          isAdmin: false
+          discordUsername: undefined
         };
-        this.hasPro = true;
-        console.log(this.user);
+
+        user.getIdToken().then(token => {
+          const authHeaders = {
+            headers: {"Authorization": `Bearer ${token}`}
+          };
+          this.authHeaders$.next(authHeaders);
+          this.loadUserDetails(authHeaders);
+        });
+
+        this.loggedIn$.next(true);
       } else {
-        console.log("logged out");
         this.user = undefined;
+        this.userDetails = undefined;
         this.hasPro = false;
+        this.loggedIn$.next(false);
       }
     });
   }
 
-  user?: UserDetails;
+  user?: User;
+  userDetails?: UserDetails;
   hasPro = false;
+  loadUserDetails(authHeaders: {headers: any}) {
+    this.http.get<UserDetails>(environment.apiRoot + "/user", authHeaders).subscribe(userDetails => this.setUserDetails(userDetails));
+  }
+  setUserDetails(userDetails: UserDetails) {
+    this.userDetails = userDetails;
+    this.hasPro = userDetails.isProUser;
+  }
 
   loggedIn$ = new BehaviorSubject<boolean | null>(null);
   getLoggedIn(): Observable<boolean> {
@@ -42,8 +58,38 @@ export class SessionService {
     return this.authHeaders$.pipe(filter(isNonNull), first());
   }
 
+  isAdmin(): Observable<boolean> {
+    return new Observable<boolean>(subscriber => {
+      this.getLoggedIn().subscribe(loggedIn => {
+        if (loggedIn) {
+          this.user!!.getIdTokenResult().then(token => {
+            subscriber.next(token.claims["admin"] != null);
+          });
+        } else {
+          subscriber.next(false);
+        }
+      })
+    });
+  }
+
   login(email: string, password: string): Promise<any> {
     return signInWithEmailAndPassword(this.auth, email, password);
+  }
+
+  createAccountAndLogin(username: string, email: string, password: string) {
+    return new Observable<UserDetails>(subscriber => {
+      createUserWithEmailAndPassword(this.auth, email, password).then(credentials => {
+        credentials.user.getIdToken().then(token => {
+          const authHeaders = {
+            headers: {"Authorization": `Bearer ${token}`}
+          };
+          this.http.post<UserDetails>(environment.apiRoot + "/auth/register", { username }, authHeaders).subscribe(subscriber);
+          setTimeout(() => {
+            this.loadUserDetails(authHeaders)
+          }, 1000);
+        });
+      });
+    });
   }
 
   logout() {

@@ -3,14 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {CoreService} from "./core.service";
 import {Observable} from "rxjs";
 import {SessionService} from "../session.service";
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
 
 export type UserDetails = {
   username: string,
-  email: string,
   isProUser: boolean,
-  discordUsername: string,
-  isAdmin: boolean
+  discordUsername?: string,
 };
 
 export type HistoryItemDTO = {
@@ -33,15 +31,6 @@ export class UsersService {
   constructor(private http: HttpClient, private dataService: CoreService, private session: SessionService) {}
 
   /* user details */
-
-  // GET /
-  getUserDetails() {
-    return new Observable<UserDetails>(subscriber => {
-      this.session.getAuthHeaders().subscribe(authHeaders => {
-        this.http.get<UserDetails>(environment.apiRoot + "/user", authHeaders).subscribe(subscriber);
-      });
-    });
-  }
 
   // PUT /username
   changeUsername(newUsername: string) {

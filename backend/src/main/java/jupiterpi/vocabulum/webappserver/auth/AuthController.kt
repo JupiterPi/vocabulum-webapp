@@ -1,51 +1,44 @@
 package jupiterpi.vocabulum.webappserver.auth
 
 import jupiterpi.vocabulum.webappserver.db.models.User
-import jupiterpi.vocabulum.webappserver.db.models.Users
 import jupiterpi.vocabulum.webappserver.db.models.Vouchers
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
+import retrofit2.http.Path
 import java.security.Principal
 import java.util.*
 
 @RestController
 @RequestMapping("/auth")
 class AuthController {
-    var pendingRegistrations = PendingRegistrations()
-
     @PostMapping("/register")
-    fun register(@RequestBody dto: RegistrationDTO) = pendingRegistrations.addPendingRegistration(dto)
-
-    @PostMapping("/confirmRegistration/{id}")
-    fun confirmRegistration(@PathVariable id: String): String {
-        return pendingRegistrations.confirmRegistration(id)?.name ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Pending registration not found")
+    fun register(@RequestHeader("Authorization") authHeader: String, @RequestBody dto: RegistrationDTO): UserDetailsDTO {
+        val token = Auth.verifyAuthHeader(authHeader) ?: throw Exception("Invalid auth token")
+        return UserDetailsDTO(User(token.uid, dto.username).also { it.save() })
     }
-
-    @PostMapping("/verifyCredentials")
-    fun verifyCredentials(@RequestBody dto: CredentialsDTO): CredentialsVerificationDTO {
-        val userFound = Users.findByCredentials(dto.username, dto.password)
-        return if (userFound == null) {
-            CredentialsVerificationDTO(false, "")
-        } else {
-            CredentialsVerificationDTO(true, userFound.email)
-        }
-    }
-    data class CredentialsDTO(
+    data class RegistrationDTO(
         val username: String,
-        val password: String,
-    )
-    data class CredentialsVerificationDTO(
-        val valid: Boolean,
-        val email: String,
     )
 
-    @PostMapping("/login")
-    fun login(principal: Principal): UserDetailsDTO = UserDetailsDTO(DbAuthenticationProvider.getUser(principal))
+    @GetMapping("/isAdmin")
+    fun isAdmin(@RequestHeader("Authorization") authHeader: String) = IsAdminDTO(Auth.getToken(authHeader).claims["admin"] == true)
+    data class IsAdminDTO(
+        val isAdmin: Boolean,
+    )
+
+    @PostMapping("/makeAdmin/{uid}")
+    fun makeAdmin(@RequestHeader("Authorization") authHeader: String, @PathVariable("uid") targetUid: String) {
+        Auth.getToken(authHeader).assertAdmin()
+        Auth.makeAdmin(targetUid, true)
+    }
+    @PostMapping("/revokeAdmin/{uid}")
+    fun revokeAdmin(@RequestHeader("Authorization") authHeader: String, @PathVariable("uid") targetUid: String) {
+        Auth.getToken(authHeader).assertAdmin()
+        Auth.makeAdmin(targetUid, false)
+    }
 
     @PostMapping("/useVoucher/{code}")
-    fun useVoucher(principal: Principal, @PathVariable code: String): UserDetailsDTO {
-        val user = DbAuthenticationProvider.getUser(principal)
+    fun useVoucher(@RequestHeader("Authorization") authHeader: String, @PathVariable code: String): UserDetailsDTO {
+        val user = Auth.getUser(authHeader)
         val voucher = Vouchers.findByCode(code)
         if (voucher != null && !voucher.isExpired && !voucher.isUsed) {
             if (!user.isProUser) {
@@ -60,24 +53,14 @@ class AuthController {
     }
 }
 
-data class RegistrationDTO(
-    val username: String,
-    val email: String,
-    val password: String,
-)
-
 data class UserDetailsDTO(
     val username: String,
-    val email: String,
     val isProUser: Boolean,
     val discordUsername: String?,
-    val isAdmin: Boolean,
 ) {
     constructor(user: User) : this(
         user.name,
-        user.email,
         user.isProUser,
         user.discordUsername,
-        user.isAdmin,
     )
 }

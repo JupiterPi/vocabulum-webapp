@@ -17,11 +17,11 @@ class UserController {
     /* user details */
 
     @GetMapping("")
-    fun getUserDetails(principal: Principal): UserDetailsDTO = UserDetailsDTO(DbAuthenticationProvider.getUser(principal))
+    fun getUserDetails(@RequestHeader("Authorization") authHeader: String) = UserDetailsDTO(Auth.getUser(authHeader))
 
     @PutMapping("/username")
-    fun changeUsername(principal: Principal, @RequestBody dto: RegistrationDTO): UserDetailsDTO {
-        val user = DbAuthenticationProvider.getUser(principal)
+    fun changeUsername(@RequestHeader("Authorization") authHeader: String, @RequestBody dto: UsernameDTO): UserDetailsDTO {
+        val user = Auth.getUser(authHeader)
         if (user.name != dto.username) {
             val usernameTaken = Users.findByUsername(dto.username) != null
             if (!usernameTaken) {
@@ -31,25 +31,18 @@ class UserController {
         }
         return UserDetailsDTO(user)
     }
-
-    @PutMapping("/password")
-    fun changePassword(principal: Principal, @RequestBody dto: RegistrationDTO): UserDetailsDTO {
-        DbAuthenticationProvider.getUser(principal).let {
-            it.password = dto.password
-            it.save()
-            return UserDetailsDTO(it)
-        }
-    }
+    data class UsernameDTO(
+        val username: String,
+    )
 
     @PutMapping("/discordUsername")
-    fun changeDiscordUsername(principal: Principal, @RequestBody dto: DiscordUsernameDTO): UserDetailsDTO {
-        DbAuthenticationProvider.getUser(principal).let {
+    fun changeDiscordUsername(@RequestHeader("Authorization") authHeader: String, @RequestBody dto: DiscordUsernameDTO): UserDetailsDTO {
+        Auth.getUser(authHeader).let {
             it.discordUsername = dto.discordUsername
             it.save()
             return UserDetailsDTO(it)
         }
     }
-
     data class DiscordUsernameDTO(
         val discordUsername: String,
     )
@@ -57,8 +50,8 @@ class UserController {
     /* history */
 
     @GetMapping("/history")
-    fun getHistory(principal: Principal): List<HistoryItemDTO> {
-        val user = DbAuthenticationProvider.getUser(principal)
+    fun getHistory(@RequestHeader("Authorization") authHeader: String): List<HistoryItemDTO> {
+        val user = Auth.getUser(authHeader)
         return Histories.findByUser(user.completeKey)
             .map { HistoryItemDTO(it) }
     }
@@ -78,8 +71,8 @@ class UserController {
     }
 
     @DeleteMapping("/history")
-    fun clearHistory(principal: Principal): List<HistoryItemDTO> {
-        val user = DbAuthenticationProvider.getUser(principal)
+    fun clearHistory(@RequestHeader("Authorization") authHeader: String): List<HistoryItemDTO> {
+        val user = Auth.getUser(authHeader)
         Histories.deleteByUser(user.completeKey)
         return listOf()
     }
