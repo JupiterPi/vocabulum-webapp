@@ -1,7 +1,17 @@
 import {Injectable} from '@angular/core';
 import {UserDetails} from "./data/users.service";
 import {BehaviorSubject, filter, first, Observable} from "rxjs";
-import {Auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User} from "@angular/fire/auth";
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  getAdditionalUserInfo,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  User,
+  UserCredential
+} from "@angular/fire/auth";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
 
@@ -10,6 +20,8 @@ import {environment} from "../environments/environment";
 })
 export class SessionService {
   constructor(private auth: Auth, private http: HttpClient) {
+    auth.languageCode = "de";
+
     onAuthStateChanged(auth, user => {
       if (user) {
         this.user = user;
@@ -24,7 +36,7 @@ export class SessionService {
             headers: {"Authorization": `Bearer ${token}`}
           };
           this.authHeaders$.next(authHeaders);
-          this.loadUserDetails(authHeaders);
+          this.loadUserDetails(authHeaders).subscribe();
         });
 
         this.loggedIn$.next(true);
@@ -41,7 +53,12 @@ export class SessionService {
   userDetails?: UserDetails;
   hasPro = false;
   loadUserDetails(authHeaders: {headers: any}) {
-    this.http.get<UserDetails>(environment.apiRoot + "/user", authHeaders).subscribe(userDetails => this.setUserDetails(userDetails));
+    return new Observable<void>(subscriber => {
+      this.http.get<UserDetails>(environment.apiRoot + "/user", authHeaders).subscribe(userDetails => {
+        this.setUserDetails(userDetails);
+        subscriber.next();
+      });
+    });
   }
   setUserDetails(userDetails: UserDetails) {
     this.userDetails = userDetails;
@@ -72,22 +89,50 @@ export class SessionService {
     });
   }
 
+  getAvatarUrl() {
+    const effectiveUsername = this.userDetails?.username ?? this.user?.displayName ?? this.user?.email ?? "";
+    return this.user?.photoURL ?? "https://api.dicebear.com/6.x/initials/svg?backgroundType=gradientLinear&fontFamily=Times%20New%20Roman&chars=1&fontSize=70&backgroundColor=F14321,16708D&seed=" + effectiveUsername;
+  }
+
   login(email: string, password: string): Promise<any> {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
+  private googleProvider = new GoogleAuthProvider();
+  loginGoogle() {
+    return new Observable<void>(subscriber => {
+      signInWithPopup(this.auth, this.googleProvider).then(credentials => {
+        if (getAdditionalUserInfo(credentials)?.isNewUser) {
+          this.registerAccount(credentials, credentials.user.displayName ?? credentials.user.email ?? "Neuer Nutzer")
+            .subscribe(subscriber);
+        } else {
+          subscriber.next();
+        }
+      });
+    });
+  }
+
   createAccountAndLogin(username: string, email: string, password: string) {
-    return new Observable<UserDetails>(subscriber => {
+    return new Observable<void>(subscriber => {
       createUserWithEmailAndPassword(this.auth, email, password).then(credentials => {
-        credentials.user.getIdToken().then(token => {
-          const authHeaders = {
-            headers: {"Authorization": `Bearer ${token}`}
-          };
-          this.http.post<UserDetails>(environment.apiRoot + "/auth/register", { username }, authHeaders).subscribe(subscriber);
-          setTimeout(() => {
-            this.loadUserDetails(authHeaders)
-          }, 1000);
+        this.registerAccount(credentials, username).subscribe(subscriber);
+      });
+    });
+  }
+
+  private registerAccount(credentials: UserCredential, username: string) {
+    return new Observable<void>(subscriber => {
+      credentials.user.getIdToken().then(token => {
+        const authHeaders = {
+          headers: {"Authorization": `Bearer ${token}`}
+        };
+        let userDetails: UserDetails | undefined;
+        this.http.post<UserDetails>(environment.apiRoot + "/auth/register", { username }, authHeaders).subscribe(details => {
+          userDetails = details;
         });
+        setTimeout(() => {
+          this.loadUserDetails(authHeaders).subscribe(subscriber);
+        }, 1000);
       });
     });
   }

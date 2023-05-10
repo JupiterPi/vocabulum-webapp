@@ -19,7 +19,7 @@
 
     <div id="navbar-user" matRipple matRippleColor="rgba(140, 140, 140, 0.2)" (click)="authClicked()">
       <ng-container *ngIf="session.getLoggedIn() | async">
-        <img class="navbar-user-icon" [src]="'https://api.dicebear.com/6.x/initials/svg?backgroundType=gradientLinear&fontFamily=Times%20New%20Roman&chars=1&fontSize=70&backgroundColor=F14321,16708D&seed=' + getEffectiveUsername()">
+        <img class="navbar-user-icon" [src]="session.getAvatarUrl()">
         <div class="navbar-user-name">
           <div class="navbar-user-name-description">Eingeloggt als</div>
           <div class="navbar-user-name-name">{{session.userDetails?.username}}</div>

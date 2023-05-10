@@ -4,7 +4,7 @@ import {SessionService} from "../../../session.service";
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['../login_register.scss']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   username = "";

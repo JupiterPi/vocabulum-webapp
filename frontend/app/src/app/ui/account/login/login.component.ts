@@ -5,7 +5,7 @@ import {SessionService} from "../../../session.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../login_register.scss']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   username = "";
@@ -14,9 +14,12 @@ export class LoginComponent {
   errorMessage = "";
 
   constructor(private session: SessionService, private router: Router) {
-    this.session.loggedIn$.subscribe(loggedIn => {
-      if (loggedIn) this.router.navigate(["my"]);
+    this.session.getLoggedIn().subscribe(loggedIn => {
+      if (loggedIn) this.navigateProfile();
     });
+  }
+  private navigateProfile() {
+    this.router.navigate(["my"]);
   }
 
   ready() {
@@ -25,6 +28,11 @@ export class LoginComponent {
 
   login() {
     this.session.login(this.username, this.password)
-      .catch(_ => this.errorMessage = "Benutzername oder Passwort falsch");
+      .catch(() => this.errorMessage = "Benutzername oder Passwort falsch")
+      .then(() => this.navigateProfile());
+  }
+
+  signInWithGoogle() {
+    this.session.loginGoogle().subscribe(() => this.navigateProfile());
   }
 }

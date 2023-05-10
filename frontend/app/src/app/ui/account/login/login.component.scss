@@ -1,0 +1,22 @@
+@import "src/styles/variables";
+@import "src/styles/blocks";
+
+.footnote {
+  font-size: 70%;
+  color: $clr-muted-alt;
+}
+
+.footnote a {
+  text-decoration: underline;
+}
+
+#google-sign-in-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  #google-logo {
+    height: 20px;
+  }
+}

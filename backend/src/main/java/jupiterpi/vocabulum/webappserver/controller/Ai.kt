@@ -22,7 +22,6 @@ data class AiCompletionDTO(
 )
 
 class AiService {
-    /*private val openaiApiKey = TextFile.readFile("openai_api_key.txt").lines.first()*/
     private val openaiApiKey = Secrets.openaiApiKey
     private val openAiService: OpenAiService = OpenAiService(openaiApiKey)
 

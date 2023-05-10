@@ -8,6 +8,12 @@
     <input vk-input placeholder="Passwort" autocomplete="current-password" type="password" [(ngModel)]="password">
 
     <vk-button variant="primary" [disabled]="!ready()" (click)="login()">Anmelden</vk-button>
+    <vk-button variant="primary" (click)="signInWithGoogle()">
+      <div id="google-sign-in-button">
+        <img id="google-logo" src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Google-favicon-2015.png">
+        Google-Anmeldung
+      </div>
+    </vk-button>
 
     <div class="footnote" style="color: #ee2727">{{errorMessage}}</div>
 
