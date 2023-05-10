@@ -35,4 +35,12 @@ export class LoginComponent {
   signInWithGoogle() {
     this.session.loginGoogle().subscribe(() => this.navigateProfile());
   }
+
+  resetPassword() {
+    const email = this.username == "" ? prompt("Gib deine E-Mail-Adresse ein, um das Passwort zurückzusetzen:") : this.username;
+    if (email == null) return;
+    this.session.resetPassword(email).then(() => {
+      alert("Du findest eine E-Mail zum Zurücksetzen deines Passworts in deinem Postfach.");
+    });
+  }
 }

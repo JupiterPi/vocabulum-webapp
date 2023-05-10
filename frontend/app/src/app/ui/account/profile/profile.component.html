@@ -26,7 +26,7 @@
 
     <vk-buttons>
       <vk-button (click)="changeUsername()">Benutzernamen ändern</vk-button>
-      <vk-button (click)="changePassword()">Passwort ändern</vk-button>
+      <vk-button (click)="resetPassword()" *ngIf="showPasswordReset()">Passwort zurücksetzen</vk-button>
     </vk-buttons>
 
   </vk-section>

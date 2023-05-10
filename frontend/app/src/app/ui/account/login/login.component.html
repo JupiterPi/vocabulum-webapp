@@ -6,6 +6,7 @@
     <input vk-input placeholder="E-Mail" autocomplete="email" type="text" [(ngModel)]="username">
 
     <input vk-input placeholder="Passwort" autocomplete="current-password" type="password" [(ngModel)]="password">
+    <div class="footnote"><a style="cursor:pointer" (click)="resetPassword()">Passwort vergessen?</a></div>
 
     <vk-button variant="primary" [disabled]="!ready()" (click)="login()">Anmelden</vk-button>
     <vk-button variant="primary" (click)="signInWithGoogle()">

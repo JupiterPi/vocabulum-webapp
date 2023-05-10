@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
   getAdditionalUserInfo,
   GoogleAuthProvider,
-  onAuthStateChanged,
+  onAuthStateChanged, sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   User,
@@ -139,6 +139,10 @@ export class SessionService {
 
   logout() {
     this.auth.signOut();
+  }
+
+  resetPassword(email?: string) {
+    return sendPasswordResetEmail(this.auth, email ?? this.user!.email!);
   }
 }
 

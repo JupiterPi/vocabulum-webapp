@@ -54,8 +54,14 @@ export class ProfileComponent {
     if (newUsername != null) this.users.changeUsername(newUsername).subscribe(userDetails => this.session.setUserDetails(userDetails));
   }
 
-  changePassword() {
-    alert("Passwortänderungen sind derzeit in Arbeit... Bitte kontaktiere uns unter support@vocabulum.de");
+  showPasswordReset() {
+    return this.session.user?.displayName == null;
+    //TODO add proper logic (via provider type)
+  }
+  resetPassword() {
+    this.session.resetPassword().then(() => {
+      alert("Du findest eine E-Mail zum Zurücksetzen deines Passworts in deinem Postfach.");
+    });
   }
 
   changeDiscordUsername() {
