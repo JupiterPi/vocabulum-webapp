@@ -41,8 +41,9 @@ export class VoucherComponent {
   useCode() {
     if (this.codeValid()) {
       this.session.getAuthHeaders().subscribe(authHeaders => {
-        this.http.post<UserDetails>(environment.apiRoot + "/auth/useVoucher/" + this.code, null, authHeaders).subscribe(user => {
-          if (user.isProUser) this.success = true;
+        this.http.post<UserDetails>(environment.apiRoot + "/auth/useVoucher/" + this.code, null, authHeaders).subscribe(userDetails => {
+          this.session.setUserDetails(userDetails);
+          if (userDetails.isProUser) this.success = true;
           else this.failure = true;
         });
       });

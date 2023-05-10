@@ -1,10 +1,7 @@
-<!--<div id="fake-header"></div>-->
-
 <div [class.scrollbar]="scrollbarVisible" id="navbar-container">
   <div id="navbar">
     <div id="navbar-title" routerLink="">
       <img id="navbar-title-logo" src="/assets/logo/vocabulum_logo_circle.png">
-      <!--<img id="navbar-title-logo" src="/assets/logo/vkpro_logo_circle.png">-->
       <a id="navbar-title-link">Vocabulum</a>
     </div>
 
@@ -22,7 +19,7 @@
 
     <div id="navbar-user" matRipple matRippleColor="rgba(140, 140, 140, 0.2)" (click)="authClicked()">
       <ng-container *ngIf="session.getLoggedIn() | async">
-        <img class="navbar-user-icon" [src]="'https://api.dicebear.com/6.x/initials/svg?backgroundType=gradientLinear&fontFamily=Georgia&chars=1&fontSize=70&backgroundColor=F14321,16708D&seed=' + getEffectiveUsername()">
+        <img class="navbar-user-icon" [src]="'https://api.dicebear.com/6.x/initials/svg?backgroundType=gradientLinear&fontFamily=Times%20New%20Roman&chars=1&fontSize=70&backgroundColor=F14321,16708D&seed=' + getEffectiveUsername()">
         <div class="navbar-user-name">
           <div class="navbar-user-name-description">Eingeloggt als</div>
           <div class="navbar-user-name-name">{{session.userDetails?.username}}</div>

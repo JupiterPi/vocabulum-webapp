@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {UserDetails, UsersService} from "./data/users.service";
+import {UserDetails} from "./data/users.service";
 import {BehaviorSubject, filter, first, Observable} from "rxjs";
 import {Auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User} from "@angular/fire/auth";
 import {HttpClient} from "@angular/common/http";
