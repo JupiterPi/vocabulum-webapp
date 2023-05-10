@@ -19,6 +19,9 @@ export class AiBlockComponent {
   constructor(private dataService: CoreService, private http: HttpClient) {}
 
   sendPrompt() {
+    alert("Vocabulum AI funktioniert aktuell nicht. Der Fehler wird bald behoben sein.");
+    return;
+
     this.resultPending = true;
     this.http.post(environment.apiRoot + "/api/ai/completion", {
       prompt: this.prompt
