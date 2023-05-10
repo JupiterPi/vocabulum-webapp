@@ -175,14 +175,14 @@ $tab-button-border-radius: 15px;
   height: $navbar-content-height;
 }
 
-#navbar-user-icon {
+.navbar-user-icon {
   height: $navbar-content-height - 2*8px;
   margin-left: 8px;
   border-radius: 100%;
-  border: 1px #b2b2b2 solid;
+  /*border: 1px #b2b2b2 solid;*/
 }
 
-#navbar-user-name {
+.navbar-user-name {
   padding: 8px;
   margin-right: 8px;
 }
@@ -190,25 +190,25 @@ $tab-button-border-radius: 15px;
 $navbar-user-name-name-fontsize: 18px;
 $navbar-user-name-description-fontsize: 10px;
 
-#navbar-user-name-description {
+.navbar-user-name-description {
   color: $clr-text;
   font-size: $navbar-user-name-description-fontsize;
 }
 
-#navbar-user-name-name {
+.navbar-user-name-name {
   font-size: $navbar-user-name-name-fontsize;
   color: $clr-secondary;
 }
-#navbar-user-name-text {
+.navbar-user-name-text {
   font-size: $navbar-user-name-name-fontsize;
   color: $clr-text;
 }
 
 @media screen and (max-width: 700px) {
-  #navbar-user-name {
+  .navbar-user-name {
     display: none;
   }
-  #navbar-user-icon {
+  .navbar-user-icon {
     margin-right: 8px;
   }
 

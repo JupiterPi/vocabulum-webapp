@@ -36,6 +36,10 @@ export class AppComponent {
     });
   }
 
+  getEffectiveUsername() {
+    return this.session.userDetails?.username ?? this.session.user?.displayName ?? this.session.user?.email ?? "";
+  }
+
   authClicked() {
     this.session.getLoggedIn().subscribe(loggedIn => {
       if (loggedIn) {

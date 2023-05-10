@@ -21,16 +21,19 @@
     </div>
 
     <div id="navbar-user" matRipple matRippleColor="rgba(140, 140, 140, 0.2)" (click)="authClicked()">
-      <img id="navbar-user-icon" src="/assets/logo/vocabulum_logo_circle.png">
-      <div id="navbar-user-name">
-        <ng-container *ngIf="session.getLoggedIn() | async">
-          <div id="navbar-user-name-description">Eingeloggt als</div>
-          <div id="navbar-user-name-name">{{session.user?.username}}</div>
-        </ng-container>
-        <ng-container *ngIf="!(session.getLoggedIn() | async)">
-          <div id="navbar-user-name-text">Anmelden</div>
-        </ng-container>
-      </div>
+      <ng-container *ngIf="session.getLoggedIn() | async">
+        <img class="navbar-user-icon" [src]="'https://api.dicebear.com/6.x/initials/svg?backgroundType=gradientLinear&fontFamily=Georgia&chars=1&fontSize=70&backgroundColor=F14321,16708D&seed=' + getEffectiveUsername()">
+        <div class="navbar-user-name">
+          <div class="navbar-user-name-description">Eingeloggt als</div>
+          <div class="navbar-user-name-name">{{session.userDetails?.username}}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!(session.getLoggedIn() | async)">
+        <img class="navbar-user-icon" src="/assets/avatar.svg">
+        <div class="navbar-user-name">
+          <div class="navbar-user-name-text">Anmelden</div>
+        </div>
+      </ng-container>
     </div>
   </div>
 
