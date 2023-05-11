@@ -48,27 +48,31 @@ export class AdminOverviewComponent {
 
   authHeaders: any | null = null;
 
-  pendingRegistrations = new Interface((done, setValue) => {
-    this.http.get<string[]>(environment.apiRoot + "/admin/pendingRegistrations", {
+  terminalName = "";
+  terminalExpirationDate = "";
+  terminalExpirationTime = "00:00";
+  setTerminalExpiration(interval?: number) {
+    if (!interval) interval = parseInt(prompt("Interval:") ?? "0");
+    let date = new Date();
+    date.setDate(date.getDate() + interval);
+    this.terminalExpirationDate = date.toISOString().slice(0, 10);
+    this.terminalExpirationTime = "23:59";
+  }
+  openTerminal() {
+    this.http.post<string[]>(environment.apiRoot + "/admin/vouchers", {
+      expiration: new Date(this.terminalExpirationDate + "T" + this.terminalExpirationTime).toJSON(),
+      amount: 1,
+      note: "via Terminal: " + this.terminalName
+    }, {
       observe: "response",
-      headers: this.authHeaders.headers,
-    }).subscribe(pendingRegistrations => {
-      setValue((pendingRegistrations.body ?? []).join("\n"));
-      done();
+      headers: this.authHeaders.headers
+    }).subscribe(ids => {
+      const id = (ids.body as string[])[0];
+      this.router.navigate(["admin", "terminal"], { queryParams: {
+        code: id
+      }});
     });
-  });
-
-  reloadUsers = new Interface((done) => {
-    this.http.post(environment.apiRoot + "/admin/reloadUsers", null, this.authHeaders).subscribe(() => {
-      done();
-    });
-  });
-
-  reloadHistories = new Interface((done) => {
-    this.http.post(environment.apiRoot + "/admin/reloadHistories", null, this.authHeaders).subscribe(() => {
-      done();
-    });
-  });
+  }
 
   vouchers = new Interface((done, setValue) => {
     this.http.get<string[]>(environment.apiRoot + "/admin/vouchers", {
@@ -99,12 +103,6 @@ export class AdminOverviewComponent {
       this.newVoucherExpirationTime = "00:00";
       this.newVoucherAmount = 1;
       this.newVoucherNote = "";
-      done();
-    });
-  });
-
-  reloadVouchers = new Interface((done, setValue) => {
-    this.http.post(environment.apiRoot + "/admin/reloadVouchers", null, this.authHeaders).subscribe(() => {
       done();
     });
   });

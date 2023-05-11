@@ -1,0 +1,11 @@
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 80vh;
+
+  img {
+    width: min(300px, 80vw);
+  }
+}

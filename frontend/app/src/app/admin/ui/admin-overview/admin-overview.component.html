@@ -1,5 +1,26 @@
 <div id="container">
 
+  <h2>Terminal</h2>
+
+  <div class="horizontal-container">
+    Name:
+    <input type="text" [(ngModel)]="terminalName">
+  </div>
+  <div class="horizontal-container">
+    Expiration:
+    <input type="date" [(ngModel)]="terminalExpirationDate">
+    <input type="time" [(ngModel)]="terminalExpirationTime">
+  </div>
+  <div class="horizontal-container">
+    <button (click)="setTerminalExpiration()">Intervall eingeben</button>
+    <button (click)="setTerminalExpiration(7)">1 Woche</button>
+    <button (click)="setTerminalExpiration(7*2)">2 Wochen</button>
+    <button (click)="setTerminalExpiration(30)">1 Monat</button>
+    <button (click)="setTerminalExpiration(30*3)">3 Monate</button>
+    <button (click)="setTerminalExpiration(365)">1 Jahr</button>
+  </div>
+  <button (click)="openTerminal()">Open Terminal</button>
+
   <h2>Vouchers</h2>
 
   <button (click)="vouchers.run()">

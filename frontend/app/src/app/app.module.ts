@@ -61,6 +61,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { AiBlockComponent } from './ui/ai/ai-block/ai-block.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
+import { VoucherTerminalComponent } from './admin/ui/voucher-terminal/voucher-terminal.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
     VkMetaValueComponent,
     VkInput,
     AiBlockComponent,
+    VoucherTerminalComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,7 +121,8 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
       {path: "translationAssistance", component: TranslationAssistanceComponent},
 
       {path: "admin", component: AdminOverviewComponent},
-      {path: "admin/printVouchers", component: VouchersPrintableComponent}
+      {path: "admin/printVouchers", component: VouchersPrintableComponent},
+      {path: "admin/terminal", component: VoucherTerminalComponent},
     ]),
     HttpClientModule,
     BrowserAnimationsModule,
