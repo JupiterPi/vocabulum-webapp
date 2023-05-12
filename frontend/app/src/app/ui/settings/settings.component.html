@@ -1,0 +1,38 @@
+<vk-page>
+  <vk-section>
+    <vk-section-header>Einstellungen</vk-section-header>
+
+    <ng-container *ngFor="let s of settings">
+      <ng-container *ngIf="isTextElement(s)" [ngSwitch]="text(s).level">
+
+        <h1 *ngSwitchCase="'h1'">{{text(s).text}}</h1>
+        <h2 *ngSwitchCase="'h2'">{{text(s).text}}</h2>
+        <div *ngSwitchCase="'text'">{{text(s).text}}</div>
+
+      </ng-container>
+      <ng-container *ngIf="!isTextElement(s)">
+
+        <div class="setting-container" [class.wrap]="setting(s).type == 'options'">
+          <div class="setting-title-container">
+            <div class="setting-title">{{setting(s).title}}</div>
+            <div class="setting-description" *ngIf="setting(s).description">{{setting(s).description}}</div>
+          </div>
+          <div [ngSwitch]="setting(s).type" class="setting-value-container">
+
+            <ng-container *ngSwitchCase="'toggle'">
+              <mat-slide-toggle></mat-slide-toggle>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'options'">
+              <select>
+                <option *ngFor="let option of setting(s).options" [value]="option[1]">{{option[0]}}</option>
+              </select>
+            </ng-container>
+
+          </div>
+        </div>
+
+      </ng-container>
+    </ng-container>
+  </vk-section>
+</vk-page>

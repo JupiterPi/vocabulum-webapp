@@ -1,0 +1,47 @@
+@import "src/styles/variables";
+@import "src/styles/fonts";
+
+.setting-container {
+  border: 1px solid #dcdcdc;
+  border-radius: 15px;
+  padding: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+
+  &.wrap {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .setting-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+
+    .setting-description {
+      font-size: 80%;
+      color: $clr-muted;
+    }
+  }
+
+  .setting-value-container {
+    display: flex;
+    align-items: center;
+  }
+}
+
+h1, h2 {
+  margin: 10px 0 0;
+}
+
+select {
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  padding: 10px 15px;
+  appearance: none;
+  @include font-def();
+}

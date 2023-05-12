@@ -62,6 +62,10 @@ import { AiBlockComponent } from './ui/ai/ai-block/ai-block.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { VoucherTerminalComponent } from './admin/ui/voucher-terminal/voucher-terminal.component';
+import { SettingsComponent } from './ui/settings/settings.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -97,6 +101,7 @@ import { VoucherTerminalComponent } from './admin/ui/voucher-terminal/voucher-te
     VkInput,
     AiBlockComponent,
     VoucherTerminalComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +113,8 @@ import { VoucherTerminalComponent } from './admin/ui/voucher-terminal/voucher-te
       {path: "my", component: ProfileComponent},
       {path: "pro", redirectTo: "/my", pathMatch: "full"},
       {path: "voucher", component: VoucherComponent},
+
+      {path: "settings", component: SettingsComponent},
 
       {path: "dictionary", component: PortionsOverviewComponent},
       {path: "dictionary/:vocabulary", component: VocabularyViewComponent},
@@ -145,6 +152,9 @@ import { VoucherTerminalComponent } from './admin/ui/voucher-terminal/voucher-te
     MatTooltipModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    MatButtonToggleModule,
+    MatSlideToggleModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
