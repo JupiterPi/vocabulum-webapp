@@ -87,14 +87,14 @@ vk-section:has(.vkpro-required-container) {
   }
 }
 
-/* bottom actions */
+/* button action containers */
 
-#bottom-actions-container {
+.actions-container {
   width: 800px;
 }
 
 @media screen and (max-width: 900px) {
-  #bottom-actions-container {
+  .actions-container {
     width: auto;
   }
 }

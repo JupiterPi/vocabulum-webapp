@@ -31,6 +31,10 @@
 
   </vk-section>
 
+  <vk-buttons class="actions-container">
+    <vk-button routerLink="/settings">Einstellungen</vk-button>
+  </vk-buttons>
+
   <div class="vk-section vk-section-clr-discord" id="discord-banner">
 
     <vk-section-header>Vocabulum auf Discord</vk-section-header>
@@ -114,7 +118,7 @@
     </div>
   </vk-section>
 
-  <vk-buttons id="bottom-actions-container">
+  <vk-buttons class="actions-container">
     <vk-button color="red" (click)="logout()">Abmelden</vk-button>
     <vk-button color="black" (click)="openAdminConsole()" *ngIf="isAdmin | async">Admin Console</vk-button>
   </vk-buttons>
