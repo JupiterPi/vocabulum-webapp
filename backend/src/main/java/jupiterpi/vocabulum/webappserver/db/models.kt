@@ -30,7 +30,14 @@ abstract class EntitySerializable {
     }
 }
 
-abstract class EntityModel : EntitySerializable() {
+fun Map<String, Any?>.toEntity(): FullEntity<IncompleteKey> {
+    return object : EntitySerializable() {
+        override fun toMap() = this@toEntity
+    }.toEntity()
+}
+fun FullEntity<Key>.toMap(): Map<String, Any?> = properties.mapValues { it.value.get() }
+
+abstract class EntityModel() : EntitySerializable() {
     fun save(): Key = datastore.put(toEntity()).key
     fun delete() = datastore.delete(completeKey)
 
@@ -53,6 +60,20 @@ fun Datastore.newKey(kind: String, customName: String? = null, ancestors: List<P
 fun Key.toPathElement(): PathElement =
     if (hasId()) PathElement.of(kind, id)
     else PathElement.of(kind, name)
+
+class MigrationStack(
+    private val migrations: List<(Entity, Entity.Builder) -> Unit> = listOf()
+) {
+    constructor(vararg migrations: (Entity, Entity.Builder) -> Unit) : this(migrations.toList())
+
+    fun apply(entity: Entity): Entity {
+        val version = if (entity.properties.containsKey("version")) entity.getLong("version").toInt() else 0
+        val builder = Entity.newBuilder(entity)
+        migrations.slice(version until migrations.size).forEach { it.invoke(builder.build(), builder) }
+        builder.set("version", migrations.size.toLong())
+        return builder.build()
+    }
+}
 
 abstract class Collection<T: EntityModel>(
     private val kind: String,

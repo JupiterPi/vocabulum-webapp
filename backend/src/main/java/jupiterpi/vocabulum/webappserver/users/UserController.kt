@@ -1,13 +1,14 @@
-package jupiterpi.vocabulum.webappserver.auth
+package jupiterpi.vocabulum.webappserver.users
 
 import jupiterpi.vocabulum.core.sessions.selection.VocabularySelections
+import jupiterpi.vocabulum.webappserver.auth.Auth
+import jupiterpi.vocabulum.webappserver.auth.UserDetailsDTO
 import jupiterpi.vocabulum.webappserver.db.models.Histories
 import jupiterpi.vocabulum.webappserver.db.models.History
 import jupiterpi.vocabulum.webappserver.db.models.Users
 import jupiterpi.vocabulum.webappserver.sessions.Direction
 import jupiterpi.vocabulum.webappserver.sessions.Mode
 import org.springframework.web.bind.annotation.*
-import java.security.Principal
 import java.util.*
 
 @RestController
