@@ -1,0 +1,15 @@
+<vk-page>
+  <vk-section>
+    <div id="container">
+      Bitte warte einen kurzen Moment, die Seite lädt.
+      <div id="video-container">
+        <video autoplay preload *ngIf="!showLoop" width="100">
+          <source src="/assets/loader/loader_start.mp4">
+        </video>
+        <video autoplay preload loop *ngIf="showLoop" width="100">
+          <source src="/assets/loader/loader_loop.mp4">
+        </video>
+      </div>
+    </div>
+  </vk-section>
+</vk-page>

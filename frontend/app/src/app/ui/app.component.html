@@ -42,6 +42,10 @@
 
 <div id="navbar-spacing-placeholder"></div>
 
-<div id="router-outlet">
+<div *ngIf="backendReady">
   <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="!backendReady">
+  <app-loader></app-loader>
 </div>

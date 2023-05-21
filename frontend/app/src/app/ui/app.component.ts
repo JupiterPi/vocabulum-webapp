@@ -51,4 +51,8 @@ export class AppComponent {
     const body = document.getElementsByTagName("body")[0];
     this.scrollbarVisible = body.scrollHeight > body.clientHeight;
   }
+
+  // wait for backend
+
+  backendReady = true;
 }

@@ -66,6 +66,7 @@ import { SettingsComponent } from './ui/settings/settings.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSelectModule} from "@angular/material/select";
+import { LoaderComponent } from './ui/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import {MatSelectModule} from "@angular/material/select";
     AiBlockComponent,
     VoucherTerminalComponent,
     SettingsComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
