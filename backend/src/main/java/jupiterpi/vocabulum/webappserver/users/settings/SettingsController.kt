@@ -20,4 +20,12 @@ class SettingsController {
         user.save()
         return settings.toFullMap()
     }
+
+    @DeleteMapping
+    fun resetSettings(@RequestHeader("Authorization") authHeader: String): Map<String, Any?> {
+        val user = Auth.getUser(authHeader)
+        user.settings = Settings.defaultSettings
+        user.save()
+        return user.settings.toFullMap()
+    }
 }

@@ -88,6 +88,13 @@ export class SettingsComponent {
     });
   }
 
+  resetSettings() {
+    this.session.getAuthHeaders().subscribe(authHeaders => {
+      this.http.delete<any>(environment.apiRoot + "/settings", authHeaders)
+        .subscribe(settings => this.values = settings);
+    });
+  }
+
   text(e: Text | Setting) {
     return e as Text;
   }
