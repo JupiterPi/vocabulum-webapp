@@ -2,6 +2,8 @@
   <vk-section>
     <div id="container">
       Bitte warte einen kurzen Moment, die Seite lädt.
+      <div class="footnote" *ngIf="failedConnects <= 7">Falls es sehr lange dauert, lade die Seite neu.</div>
+      <div class="footnote" *ngIf="failedConnects > 7">Lade die Seite neu.</div>
       <div id="video-container">
         <video autoplay preload *ngIf="!showLoop" width="100">
           <source src="/assets/loader/loader_start.mp4">

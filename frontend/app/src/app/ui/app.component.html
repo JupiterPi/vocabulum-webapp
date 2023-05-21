@@ -47,5 +47,5 @@
 </div>
 
 <div *ngIf="!backendReady">
-  <app-loader></app-loader>
+  <app-loader (ready)="setBackendReady()"></app-loader>
 </div>

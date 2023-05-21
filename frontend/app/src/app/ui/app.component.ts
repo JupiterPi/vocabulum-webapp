@@ -9,9 +9,14 @@ import {SessionService} from "../session.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  backendReady = false;
+  setBackendReady() {
+    this.backendReady = true;
+  }
+
   currentSection = "";
 
-  constructor(private router: Router, private user: UsersService, public session: SessionService) {
+  constructor(private router: Router, public session: SessionService) {
     // navigation
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -51,8 +56,4 @@ export class AppComponent {
     const body = document.getElementsByTagName("body")[0];
     this.scrollbarVisible = body.scrollHeight > body.clientHeight;
   }
-
-  // wait for backend
-
-  backendReady = true;
 }

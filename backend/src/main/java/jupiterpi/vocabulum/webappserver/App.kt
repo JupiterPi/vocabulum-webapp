@@ -5,12 +5,9 @@ import com.google.cloud.datastore.Datastore
 import com.google.cloud.datastore.DatastoreOptions
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
-import com.google.firebase.auth.FirebaseAuth
 import jupiterpi.vocabulum.core.db.Database
 import jupiterpi.vocabulum.core.db.lectures.Lectures
 import jupiterpi.vocabulum.core.vocabularies.Vocabulary
-import jupiterpi.vocabulum.webappserver.auth.Auth
-import jupiterpi.vocabulum.webappserver.auth.AuthController
 import jupiterpi.vocabulum.webappserver.db.Storage
 import org.bson.Document
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -41,7 +38,7 @@ val datastore: Datastore = DatastoreOptions.getDefaultInstance().service
 
 @RestController
 class Controller {
-    @GetMapping("/")
+    @GetMapping(value = ["/", "/ping"])
     fun root() = "Vocabulum Webapp server working!\n<br>\n${Date()}"
 }
 
