@@ -1,4 +1,7 @@
 import {Component} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {SessionService} from "../../session.service";
+import {environment} from "../../../environments/environment";
 
 interface Text {
   text: string;
@@ -19,7 +22,14 @@ interface Setting {
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-  values: Map<string, string | number | boolean> = new Map();
+  constructor(private session: SessionService, private http: HttpClient) {
+    this.session.getAuthHeaders().subscribe(authHeaders => {
+      this.http.get<any>(environment.apiRoot + "/settings", authHeaders)
+        .subscribe(settings => this.values = settings);
+    });
+  }
+
+  values: any = {};
 
   settings: (Text | Setting)[] = [
     {
@@ -44,7 +54,7 @@ export class SettingsComponent {
     {
       title: "Artikel erzwingen",
       description: "macht bspw. \"Haus\" falsch",
-      key: "chat.enforce_capitalization",
+      key: "chat.enforce_article",
       type: "toggle"
     },
     {
@@ -59,10 +69,10 @@ export class SettingsComponent {
       key: "chat.difficulty_lg",
       type: "options",
       options: [
-        ["min. die Hälfte der Übersetzungen", "half"],
-        ["min. 1 wichtige Übersetzung", "primary"],
-        ["alle wichtigen Übersetzungen", "important"],
-        ["alle Übersetzungen", "all"]
+        ["min. Hälfte der Übersetzungen", "HALF"],
+        ["min. 1 wichtige Übersetzung", "PRIMARY"],
+        ["alle wichtigen Übersetzungen", "IMPORTANT"],
+        ["alle Übersetzungen", "ALL"]
       ]
     }
   ];
@@ -71,10 +81,19 @@ export class SettingsComponent {
     return (e as Text).text != undefined;
   }
 
+  updateValue(key: string, value: string | boolean) {
+    this.session.getAuthHeaders().subscribe(authHeaders => {
+      this.http.put<any>(environment.apiRoot + "/settings", { [key]: value }, authHeaders)
+        .subscribe(settings => this.values = settings);
+    });
+  }
+
   text(e: Text | Setting) {
     return e as Text;
   }
   setting(e: Text | Setting) {
     return e as Setting;
   }
+
+  protected readonly Object = Object;
 }

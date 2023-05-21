@@ -18,6 +18,6 @@ class SettingsController {
         }
         user.settings = settings
         user.save()
-        return settings.toCustomSettingsMap()
+        return settings.toFullMap()
     }
 }

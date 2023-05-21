@@ -17,14 +17,20 @@
             <div class="setting-title">{{setting(s).title}}</div>
             <div class="setting-description" *ngIf="setting(s).description">{{setting(s).description}}</div>
           </div>
-          <div [ngSwitch]="setting(s).type" class="setting-value-container">
+          <div [ngSwitch]="setting(s).type" class="setting-value-container" *ngIf="Object.keys(values).length > 0">
 
             <ng-container *ngSwitchCase="'toggle'">
-              <mat-slide-toggle></mat-slide-toggle>
+              <mat-slide-toggle
+                [ngModel]="values[setting(s).key]"
+                (ngModelChange)="updateValue(setting(s).key, $event)"
+              ></mat-slide-toggle>
             </ng-container>
 
             <ng-container *ngSwitchCase="'options'">
-              <select>
+              <select
+                [ngModel]="values[setting(s).key]"
+                (ngModelChange)="updateValue(setting(s).key, $event)"
+              >
                 <option *ngFor="let option of setting(s).options" [value]="option[1]">{{option[0]}}</option>
               </select>
             </ng-container>

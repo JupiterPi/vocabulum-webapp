@@ -5,24 +5,38 @@ import kotlin.reflect.KProperty
 class Settings(
     var customSettings: MutableMap<String, Any?> = mutableMapOf()
 ) {
-    val sessionRepeatPassed get() = (customSettings["session.repeat_passed"] ?: false) as Boolean
+    val sessionRepeatPassed: Boolean
+        get() = (getCustomSettingValue(::sessionRepeatPassed) ?: false) as Boolean
 
-    val chatEnforceCapitalization get() = (customSettings["chat.enforceCapitalization"] ?: false) as Boolean
-    val chatEnforceArticle get() = (customSettings["chat.enforce_article"] ?: false) as Boolean
-    val chatEnforceOrder get() = (customSettings["chat.enforce_order"] ?: false) as Boolean
-    val chatDifficultyLg get() = (customSettings["chat.difficulty_lg"] ?: DifficultyLg.HALF) as DifficultyLg
+    val chatEnforceCapitalization: Boolean
+        get() = (getCustomSettingValue(::chatEnforceCapitalization) ?: false) as Boolean
+    val chatEnforceArticle: Boolean
+        get() = (getCustomSettingValue(::chatEnforceArticle) ?: false) as Boolean
+    val chatEnforceOrder: Boolean
+        get() = (getCustomSettingValue(::chatEnforceOrder) ?: false) as Boolean
+    val chatDifficultyLg: DifficultyLg
+        get() = DifficultyLg.valueOf(getCustomSettingValue(::chatDifficultyLg) as String? ?: DifficultyLg.HALF.name)
+
+    ///
 
     val fields = mapOf<String, KProperty<Any?>>(
         "session.repeat_passed" to ::sessionRepeatPassed,
-        "chat.enforceCapitalization" to ::chatEnforceCapitalization,
+        "chat.enforce_capitalization" to ::chatEnforceCapitalization,
         "chat.enforce_article" to ::chatEnforceArticle,
         "chat.enforce_order" to ::chatEnforceOrder,
         "chat.difficulty_lg" to ::chatDifficultyLg,
     )
 
+    private fun getCustomSettingValue(property: KProperty<Any?>) = customSettings[fields.entries.single { it.value == property }.key]
+
     ///
 
-    fun toFullMap() = fields.mapValues { it.value.getter.call() }
+    fun toFullMap() = fields.mapValues { it.value.getter.call().let { value ->
+        when (value) {
+            is String, is Boolean -> { value }
+            else -> { value.toString() }
+        }
+    } }
 
     fun toCustomSettingsMap(): Map<String, Any?> {
         val default = defaultSettings.toFullMap()
