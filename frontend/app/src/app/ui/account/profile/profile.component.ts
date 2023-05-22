@@ -19,6 +19,15 @@ export class ProfileComponent {
 
   isAdmin = this.session.isAdmin()
 
+  get greeting() {
+    const hours = new Date().getHours();
+    if (hours < 6) return "Gute Nacht";
+    else if (hours < 12) return "Guten Morgen";
+    else if (hours < 16) return "Guten Mittag";
+    else if (hours < 20) return "Guten Nachmittag";
+    else return "Guten Abend";
+  }
+
   obfuscateEmail(email?: string) {
     if (email == null) return "";
     const atIndex = email.lastIndexOf("@");

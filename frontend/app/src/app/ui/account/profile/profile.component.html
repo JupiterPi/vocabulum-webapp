@@ -2,14 +2,10 @@
 
   <vk-section>
 
-    <vk-section-header size="large">Hi, {{session.userDetails.username}}!</vk-section-header>
+    <div id="above-header">{{greeting}},</div>
+    <vk-section-header size="large">{{session.userDetails.username}}</vk-section-header>
 
     <vk-meta-container>
-
-      <vk-meta>
-        <vk-meta-key>Benutzer seit</vk-meta-key>
-        <vk-meta-value>2020</vk-meta-value>
-      </vk-meta>
 
       <vk-meta>
         <vk-meta-key>E-Mail</vk-meta-key>
