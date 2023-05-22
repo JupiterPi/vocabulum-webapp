@@ -14,6 +14,7 @@ import {
 } from "@angular/fire/auth";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
+import {isNonNull} from "../util";
 
 @Injectable({
   providedIn: 'root'
@@ -144,8 +145,4 @@ export class SessionService {
   resetPassword(email?: string) {
     return sendPasswordResetEmail(this.auth, email ?? this.user!.email!);
   }
-}
-
-export function isNonNull<T>(value: T): value is NonNullable<T> {
-  return value != null;
 }

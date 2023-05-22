@@ -22,14 +22,14 @@
             <ng-container *ngSwitchCase="'toggle'">
               <mat-slide-toggle
                 [ngModel]="values[setting(s).key]"
-                (ngModelChange)="updateValue(setting(s).key, $event)"
+                (ngModelChange)="service.updateValue(setting(s).key, $event)"
               ></mat-slide-toggle>
             </ng-container>
 
             <ng-container *ngSwitchCase="'options'">
               <select
                 [ngModel]="values[setting(s).key]"
-                (ngModelChange)="updateValue(setting(s).key, $event)"
+                (ngModelChange)="service.updateValue(setting(s).key, $event)"
               >
                 <option *ngFor="let option of setting(s).options" [value]="option[1]">{{option[0]}}</option>
               </select>
@@ -42,7 +42,7 @@
     </ng-container>
 
     <vk-buttons id="reset-button-container">
-      <vk-button (click)="resetSettings()">Einstellungen zurücksetzen</vk-button>
+      <vk-button (click)="service.resetSettings()">Einstellungen zurücksetzen</vk-button>
     </vk-buttons>
 
   </vk-section>

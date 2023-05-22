@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {SessionService} from "../../session.service";
-import {environment} from "../../../environments/environment";
+import {SettingsService} from "../../settings.service";
+import {filter} from "rxjs";
+import {isNonNull} from "../../../util";
 
 interface Text {
   text: string;
@@ -22,14 +22,11 @@ interface Setting {
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-  constructor(private session: SessionService, private http: HttpClient) {
-    this.session.getAuthHeaders().subscribe(authHeaders => {
-      this.http.get<any>(environment.apiRoot + "/settings", authHeaders)
-        .subscribe(settings => this.values = settings);
-    });
+  constructor(public service: SettingsService) {
+    this.service.settings$.pipe(filter(isNonNull))
+      .subscribe(settings => this.values = settings);
   }
-
-  values: any = {};
+  values: any;
 
   settings: (Text | Setting)[] = [
     {
@@ -79,20 +76,6 @@ export class SettingsComponent {
 
   isTextElement(e: Text | Setting) {
     return (e as Text).text != undefined;
-  }
-
-  updateValue(key: string, value: string | boolean) {
-    this.session.getAuthHeaders().subscribe(authHeaders => {
-      this.http.put<any>(environment.apiRoot + "/settings", { [key]: value }, authHeaders)
-        .subscribe(settings => this.values = settings);
-    });
-  }
-
-  resetSettings() {
-    this.session.getAuthHeaders().subscribe(authHeaders => {
-      this.http.delete<any>(environment.apiRoot + "/settings", authHeaders)
-        .subscribe(settings => this.values = settings);
-    });
   }
 
   text(e: Text | Setting) {
