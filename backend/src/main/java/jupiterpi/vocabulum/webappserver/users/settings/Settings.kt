@@ -17,6 +17,9 @@ class Settings(
     val chatDifficultyLg: DifficultyLg
         get() = DifficultyLg.valueOf(getCustomSettingValue(::chatDifficultyLg) as String? ?: DifficultyLg.HALF.name)
 
+    val dashboardMinimizeBanners: Boolean
+        get() = (getCustomSettingValue(::dashboardMinimizeBanners) ?: false) as Boolean
+
     ///
 
     val fields = mapOf<String, KProperty<Any?>>(
@@ -25,6 +28,7 @@ class Settings(
         "chat.enforce_article" to ::chatEnforceArticle,
         "chat.enforce_order" to ::chatEnforceOrder,
         "chat.difficulty_lg" to ::chatDifficultyLg,
+        "dashboard.minimize_banners" to ::dashboardMinimizeBanners,
     )
 
     private fun getCustomSettingValue(property: KProperty<Any?>) = customSettings[fields.entries.single { it.value == property }.key]

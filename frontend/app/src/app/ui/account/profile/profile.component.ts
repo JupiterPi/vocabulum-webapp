@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {SessionService} from "../../../session.service";
 import {Router} from "@angular/router";
 import {UsersService} from "../../../data/users.service";
+import {SettingsService} from "../../../settings.service";
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +10,12 @@ import {UsersService} from "../../../data/users.service";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  constructor(public session: SessionService, private router: Router, private users: UsersService) {
+  constructor(
+    public session: SessionService,
+    private router: Router,
+    private users: UsersService,
+    public settings: SettingsService,
+  ) {
     this.session.loggedIn$.subscribe(loggedIn => {
       if (!loggedIn) {
         this.router.navigate(["login"]);
@@ -17,7 +23,7 @@ export class ProfileComponent {
     });
   }
 
-  isAdmin = this.session.isAdmin()
+  isAdmin = this.session.isAdmin();
 
   get greeting() {
     const hours = new Date().getHours();
@@ -93,6 +99,11 @@ export class ProfileComponent {
   logout() {
     this.session.logout();
     this.router.navigate(["login"]);
+  }
+
+  bannersMinimized = this.settings.getSetting("dashboard.minimize_banners");
+  setBannersMinimized(minimize: boolean) {
+    this.settings.updateValue("dashboard.minimize_banners", minimize);
   }
 
   openAdminConsole() {
