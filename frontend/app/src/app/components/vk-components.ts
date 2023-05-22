@@ -1,4 +1,4 @@
-import {Component, Directive, HostBinding, Input} from '@angular/core';
+import {Component, Directive, EventEmitter, HostBinding, Input, Output} from '@angular/core';
 
 
 @Component({
@@ -39,12 +39,13 @@ export class VkPageComponent {
 export class VkSectionComponent {
   @Input() color: "none" | "pro" | "discord" | "ai" = "none";
   @Input() minimizable = false;
+  @Input() minimized = false;
+  @Output() minimize = new EventEmitter<boolean>();
   @Input("section-title") sectionTitle = "";
 
-  minimized = false;
-  setMinimized(minimized: boolean, event: MouseEvent) {
+  setMinimized(minimize: boolean, event: MouseEvent) {
     event.stopPropagation();
-    this.minimized = minimized;
+    this.minimize.emit(minimize);
   }
 }
 
