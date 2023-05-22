@@ -27,7 +27,7 @@ export class VkPageComponent {
         (click)="setMinimized(false, $event)"
     >
       <div class="vk-section-minimize-bar" *ngIf="minimizable && !minimized">
-        <button class="vk-section-minimize" (click)="setMinimized(true, $event)">ausblenden</button>
+        <button class="vk-section-minimize" (click)="setMinimized(true, $event)"><mat-icon>expand_more</mat-icon></button>
       </div>
       <div class="vk-section-minimized-title" *ngIf="minimized">{{sectionTitle}}</div>
       <div class="vk-section-body" *ngIf="!minimized">
