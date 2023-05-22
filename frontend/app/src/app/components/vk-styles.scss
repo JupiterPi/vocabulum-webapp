@@ -10,6 +10,13 @@
   @include rounded-container;
   @include container-in-outer-container;
 
+  gap: 0;
+  .vk-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   &.vk-section-clr-pro {
     border-color: $clr-vkpro;
   }
@@ -24,6 +31,26 @@
 
   &.vk-section-clr-pro , &.vk-section-clr-discord , &.vk-section-clr-ai {
     border-width: 2px;
+  }
+
+  &.minimized {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    cursor: pointer;
+  }
+
+  .vk-section-minimize-bar {
+    height: 0;
+    display: flex;
+    justify-content: flex-end;
+
+    button.vk-section-minimize {
+      background: none;
+      border: none;
+      color: $clr-muted-alt;
+      cursor: pointer;
+      position: relative;
+    }
   }
 }
 

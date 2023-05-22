@@ -31,7 +31,7 @@
     <vk-button routerLink="/settings">Einstellungen</vk-button>
   </vk-buttons>
 
-  <div class="vk-section vk-section-clr-discord" id="discord-banner">
+  <vk-section color="discord" [minimizable]="true" section-title="Vocabulum auf Discord">
 
     <vk-section-header>Vocabulum auf Discord</vk-section-header>
 
@@ -72,7 +72,7 @@
 
     <app-discord-banner></app-discord-banner>
 
-  </div>
+  </vk-section>
 
   <vk-section color="pro" *ngIf="!session.hasPro">
     <vk-section-header>Vocabulum Pro</vk-section-header>
@@ -80,7 +80,7 @@
     <a routerLink="/voucher" id="voucher-link">Code einlösen</a>
   </vk-section>
 
-  <vk-section color="ai">
+  <vk-section color="ai" [minimizable]="true" section-title="Vocabulum AI">
     <vk-section-header>Vocabulum AI</vk-section-header>
     <p>
       Überall in Vocabulum findest du hin und wieder lilafarbene Banner, über die du auf Vocabulum AI zugreifen kannst.

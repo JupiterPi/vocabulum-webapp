@@ -23,13 +23,29 @@ export class VkPageComponent {
         [class.vk-section-clr-pro]="color == 'pro'"
         [class.vk-section-clr-discord]="color == 'discord'"
         [class.vk-section-clr-ai]="color == 'ai'"
+        [class.minimized]="minimized"
+        (click)="setMinimized(false, $event)"
     >
-      <ng-content></ng-content>
+      <div class="vk-section-minimize-bar" *ngIf="minimizable && !minimized">
+        <button class="vk-section-minimize" (click)="setMinimized(true, $event)">ausblenden</button>
+      </div>
+      <div class="vk-section-minimized-title" *ngIf="minimized">{{sectionTitle}}</div>
+      <div class="vk-section-body" *ngIf="!minimized">
+        <ng-content></ng-content>
+      </div>
     </div>
   `
 })
 export class VkSectionComponent {
   @Input() color: "none" | "pro" | "discord" | "ai" = "none";
+  @Input() minimizable = false;
+  @Input("section-title") sectionTitle = "";
+
+  minimized = false;
+  setMinimized(minimized: boolean, event: MouseEvent) {
+    event.stopPropagation();
+    this.minimized = minimized;
+  }
 }
 
 
