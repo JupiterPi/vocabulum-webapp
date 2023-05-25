@@ -29,6 +29,8 @@ export type Vocabulary = {
     name: string,
     value: string
   }[],
+  absolutePrevalence: number,
+  relativePrevalence: number,
   exampleSentences: {
     line: string,
     matchStart: number,

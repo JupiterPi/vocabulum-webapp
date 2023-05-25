@@ -15,6 +15,7 @@ import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
+import kotlin.math.ceil
 
 fun main(args: Array<String>) {
     println("++++++++++ Vocabulum App (Server) ++++++++++")
@@ -46,8 +47,16 @@ object CoreService {
     private val exampleLines: Map<String, List<Lectures.ExampleLine>> by lazy {
         Database.get().lectures.allExampleLines
     }
+    private val prevalence: Map<String, Int> by lazy {
+        exampleLines.mapValues { it.value.count() }
+    }
+
     fun getExampleLines(vocabulary: Vocabulary)
-            = exampleLines.entries.firstOrNull { it.key == vocabulary.baseForm }?.value ?: listOf()
+    = exampleLines.entries.firstOrNull { it.key == vocabulary.baseForm }?.value ?: listOf()
+    fun getAbsolutePrevalence(vocabulary: Vocabulary)
+    = prevalence.entries.firstOrNull { it.key == vocabulary.baseForm }?.value ?: 0
+    fun getRelativePrevalence(vocabulary: Vocabulary)
+    = ceil( (getAbsolutePrevalence(vocabulary) / prevalence.values.max().toFloat()) * 3 ).toInt()
 
     private const val BUCKET = "vocabulum-dictionary"
     init {

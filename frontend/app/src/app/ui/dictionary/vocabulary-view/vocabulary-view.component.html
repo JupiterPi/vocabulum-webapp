@@ -28,6 +28,18 @@
   </vk-section>
 
   <vk-section>
+    <vk-section-header size="small">Häufigkeit</vk-section-header>
+    <div>
+      Die Vokabel <b>{{vocabulary.base_form}}</b> kommt im Schulbuch insgesamt <b>{{vocabulary.absolutePrevalence}}</b> mal vor.
+    </div>
+    <div>
+      <mat-icon [color]="vocabulary.relativePrevalence >= 1 ? 'accent' : ''">star_rate</mat-icon>
+      <mat-icon [color]="vocabulary.relativePrevalence >= 2 ? 'accent' : ''">star_rate</mat-icon>
+      <mat-icon [color]="vocabulary.relativePrevalence >= 3 ? 'accent' : ''">star_rate</mat-icon>
+    </div>
+  </vk-section>
+
+  <vk-section>
 
     <vk-section-header>Beispielsätze</vk-section-header>
 

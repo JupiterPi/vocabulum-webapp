@@ -60,6 +60,8 @@ data class DetailedVocabularyDTO(
     val base_form: String,
     val definition: String,
     val meta: List<MetaItem>,
+    val absolutePrevalence: Int,
+    val relativePrevalence: Int,
     val exampleSentences: List<ExampleSentenceDTO>,
 ) {
     constructor(vocabulary: Vocabulary) : this(
@@ -69,6 +71,8 @@ data class DetailedVocabularyDTO(
         vocabulary.baseForm,
         vocabulary.definition,
         generateMeta(vocabulary),
+        CoreService.getAbsolutePrevalence(vocabulary),
+        CoreService.getRelativePrevalence(vocabulary),
         CoreService.getExampleLines(vocabulary).map { ExampleSentenceDTO(it) }
     )
 
