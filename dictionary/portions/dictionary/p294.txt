@@ -1,0 +1,43 @@
+aut ... aut -- *entweder ... oder* :21
+autem (nachgestellt) -- *aber*, *(je)doch* :11
+auxilium, auxilii n. -- *die Hilfe* :6
+avaritia, avaritiae f. -- *die Gier*, die Habsucht, *der Geiz* :27
+ave! -- *sei gegrüßt!* :4
+avis, avis f.; Gen. Pl. avium -- *der Vogel* :24
+avus, avi m. -- *der Großvater* :4
+
+// ----- b -----
+
+barba, barbae f. *der Bart* :I8
+barbarus, barbara, barbarum -- *barbarisch*, wild, *Subst. der Barbar*, der Nichtrömer, der Nichtgrieche :10
+beatus, beata, beatum -- *glücklich*, *reich* :35
+bellum, belli n. -- *der Krieg* :17
+bellus, bella, bellum -- *hübsch*, schön :8
+bene (Adv.) -- *gut* :9
+beneficium, beneficii n. -- *die Wohltat* :33
+bibere, bibo, bibi, - -- *trinken* :20
+bis -- *zweimal* :36
+blandus, blanda, blandum -- *schmeichlerisch*, zärtlich :22
+bonus, bona, bonum -- *gut*, *tüchtig* :9
+bracchium, bracchii n. -- *der Arm* :I8
+brevis, brevis, breve; Gen. brevis -- *kurz* :15
+brevitas, brevitatis f. -- *die Kürze* :I10
+
+// ----- c -----
+
+cadere, cado, cecidi, - -- *fallen*, sinken :14
+caedere, caedo, cecidi, caesum -- *niederschlagen*, *töten* :30
+caelum, cali n. -- *der Himmel*, das Klima :14
+calamitas, calamitatis f. *as Unglück*, *der Verlust*, die Niederlage :30
+campus, campi m. -- das freie Gelände, *das Feld* :40
+canere, cano, cecini, cantatum -- *(be)singen* :31
+canis, canis m. -- *der Hund* :1
+capere, capio, cepi, captum -- *(ein)nehmen*, *erobern*, *(er)fassen* :20
+capilli, capillorum m. (Pl.) -- *die Haare* :I8
+caput, capitis n. -- *der Kopf*, die Hauptstadt :12
+carere, careo, carui, - (m. Abl.) -- *frei sein (von etw.)*, *(etw.) nicht haben* :10
+caritas, caritatis f. -- *die Liebe* :I10
+carmen, carminis n. -- *das Gedicht*, *das Lied* :33
+carus, cara, carum -- *lieb*, *teuer* :36
+
+// second half missing still

@@ -21,24 +21,24 @@ fs.readdirSync("./dictionary/").forEach(file => {
 
 // create folder
 
-if (fs.existsSync("./portions")) {
-    fs.rmSync("./portions", {recursive: true})
+if (fs.existsSync("./out/portions")) {
+    fs.rmSync("./out/portions", {recursive: true})
 }
-fs.mkdirSync("./portions")
+fs.mkdirSync("./out/portions")
 
 // output to files
 
-const allPortions = []
 portions.forEach( (vocabularies, portion) => {
+  fs.writeFileSync("./out/portions/" + portion + ".txt", vocabularies.join("\n"))
+})
+
+const allPortions = [];
+portions.forEach( (vocabulary, portion) => {
   allPortions.push({
     name: portion,
-    i18n: "de",
-    vocabularies: vocabularies
+    file: portion + ".txt"
   })
 })
-
-allPortions.forEach(portion => {
-  fs.writeFileSync("./portions/" + portion.name + ".json", JSON.stringify(portion, null, 2))
-})
-
-fs.writeFileSync("./portions.json", JSON.stringify(allPortions, null, 2))
+fs.writeFileSync("./out/portions.json", JSON.stringify({
+  portions: allPortions
+}, null, 2))

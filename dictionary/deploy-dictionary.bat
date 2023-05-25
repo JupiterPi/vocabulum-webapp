@@ -1,0 +1,1 @@
+gsutil -m rsync -r -d portions/out gs://vocabulum-dictionary/portions && gsutil -m rsync -r -d lectures gs://vocabulum-dictionary/lectures

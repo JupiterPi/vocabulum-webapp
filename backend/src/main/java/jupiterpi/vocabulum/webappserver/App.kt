@@ -52,18 +52,18 @@ object CoreService {
     private const val BUCKET = "vocabulum-dictionary"
     init {
         val portions = mutableMapOf<String, List<List<String>>>()
-        val portionsDocument = Storage.readJsonStorageFile(BUCKET, "portions.json")
+        val portionsDocument = Storage.readJsonStorageFile(BUCKET, "portions/portions.json")
         portionsDocument.getList("portions", Document::class.java).forEach {
             val name = it.getString("name")
-            val file = Storage.readStorageFile(BUCKET, "portions/${it.getString("file")}").file
+            val file = Storage.readStorageFile(BUCKET, "portions/portions/${it.getString("file")}").file
             portions[name] = file.split("\n\n").map { it.lines() }
         }
 
         val lectures = mutableMapOf<String, List<String>>()
-        val lecturesDocument = Storage.readJsonStorageFile(BUCKET, "lectures.json")
+        val lecturesDocument = Storage.readJsonStorageFile(BUCKET, "lectures/lectures.json")
         lecturesDocument.getList("lectures", Document::class.java).forEach {
             val name = it.getString("name")
-            val file = Storage.readStorageFile(BUCKET, "lectures/${it.getString("file")}")
+            val file = Storage.readStorageFile(BUCKET, "lectures/lectures/${it.getString("file")}")
             lectures[name] = file.lines
         }
 
