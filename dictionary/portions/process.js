@@ -8,12 +8,14 @@ fs.readdirSync("./dictionary/").forEach(file => {
     fs.readFileSync("./dictionary/" + file).toString().replaceAll("\r\n", "\n").split("\n").forEach(line => {
         if (!(!line || line.startsWith("#") || line.startsWith("//"))) {
 
-            const portion = line.split(":")[line.split(":").length - 1]
-            const vocabulary = line.substring(0, line.length - (portion.length+1)).trim()
+          line = line.split("//")[0].trim()
 
-            const vocabularies = portions.get(portion) ?? []
-            vocabularies.push(vocabulary)
-            portions.set(portion, vocabularies)
+          const portion = line.split(":")[line.split(":").length - 1]
+          const vocabulary = line.substring(0, line.length - (portion.length+1)).trim()
+
+          const vocabularies = portions.get(portion) ?? []
+          vocabularies.push(vocabulary)
+          portions.set(portion, vocabularies)
             
         }
     })
