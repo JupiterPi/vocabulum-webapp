@@ -1,5 +1,5 @@
 # vocabulum-webapp
-PWA client for [Vocabulum](http://www.vocabulum.de)
+PWA client for Vocabulum
 
 See also: 
 * [vocabulum-core](https://github.com/JupiterPi/vocabulum-core)
